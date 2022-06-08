@@ -6,7 +6,7 @@
 [sub_resource type="Animation" id=6]
 resource_name = "FlipToE"
 tracks/0/type = "value"
-tracks/0/path = NodePath("Y/Sprite:translation")
+tracks/0/path = NodePath("Spatial/Y/Sprite:translation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -18,7 +18,7 @@ tracks/0/keys = {
 "values": [ Vector3( -1, 0, 0 ), Vector3( 0, 0, 0 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Y/Sprite:rotation_degrees")
+tracks/1/path = NodePath("Spatial/Y/Sprite:rotation_degrees")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -30,7 +30,7 @@ tracks/1/keys = {
 "values": [ Vector3( 0, 0, 180 ), Vector3( 0, 0, 0 ) ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("Y:translation")
+tracks/2/path = NodePath("Spatial/Y:translation")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -45,7 +45,7 @@ tracks/2/keys = {
 [sub_resource type="Animation" id=1]
 resource_name = "FlipToN"
 tracks/0/type = "value"
-tracks/0/path = NodePath("Y/Sprite:translation")
+tracks/0/path = NodePath("Spatial/Y/Sprite:translation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -57,7 +57,7 @@ tracks/0/keys = {
 "values": [ Vector3( 0, 0, 1 ), Vector3( 0, 0, 0 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Y/Sprite:rotation_degrees")
+tracks/1/path = NodePath("Spatial/Y/Sprite:rotation_degrees")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -69,7 +69,7 @@ tracks/1/keys = {
 "values": [ Vector3( 180, 0, 0 ), Vector3( 0, 0, 0 ) ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("Y:translation")
+tracks/2/path = NodePath("Spatial/Y:translation")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -84,7 +84,7 @@ tracks/2/keys = {
 [sub_resource type="Animation" id=3]
 resource_name = "FlipToS"
 tracks/0/type = "value"
-tracks/0/path = NodePath("Y/Sprite:translation")
+tracks/0/path = NodePath("Spatial/Y/Sprite:translation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -96,7 +96,7 @@ tracks/0/keys = {
 "values": [ Vector3( 0, 0, -1 ), Vector3( 0, 0, 0 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Y/Sprite:rotation_degrees")
+tracks/1/path = NodePath("Spatial/Y/Sprite:rotation_degrees")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -108,7 +108,7 @@ tracks/1/keys = {
 "values": [ Vector3( -180, 0, 0 ), Vector3( 0, 0, 0 ) ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("Y:translation")
+tracks/2/path = NodePath("Spatial/Y:translation")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -123,7 +123,7 @@ tracks/2/keys = {
 [sub_resource type="Animation" id=7]
 resource_name = "FlipToW"
 tracks/0/type = "value"
-tracks/0/path = NodePath("Y/Sprite:translation")
+tracks/0/path = NodePath("Spatial/Y/Sprite:translation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -135,7 +135,7 @@ tracks/0/keys = {
 "values": [ Vector3( 1, 0, 0 ), Vector3( 0, 0, 0 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Y/Sprite:rotation_degrees")
+tracks/1/path = NodePath("Spatial/Y/Sprite:rotation_degrees")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -147,7 +147,7 @@ tracks/1/keys = {
 "values": [ Vector3( 0, 0, -180 ), Vector3( 0, 0, 0 ) ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("Y:translation")
+tracks/2/path = NodePath("Spatial/Y:translation")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -162,7 +162,7 @@ tracks/2/keys = {
 [sub_resource type="Animation" id=2]
 length = 0.001
 tracks/0/type = "value"
-tracks/0/path = NodePath("Y/Sprite:translation")
+tracks/0/path = NodePath("Spatial/Y/Sprite:translation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -174,7 +174,7 @@ tracks/0/keys = {
 "values": [ Vector3( 0, 0, 0 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Y/Sprite:rotation_degrees")
+tracks/1/path = NodePath("Spatial/Y/Sprite:rotation_degrees")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -186,7 +186,7 @@ tracks/1/keys = {
 "values": [ Vector3( 0, 0, 0 ) ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("Y:translation")
+tracks/2/path = NodePath("Spatial/Y:translation")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -201,7 +201,7 @@ tracks/2/keys = {
 [sub_resource type="Animation" id=4]
 resource_name = "Enter"
 tracks/0/type = "value"
-tracks/0/path = NodePath("Y/Sprite:modulate")
+tracks/0/path = NodePath("Spatial/Y/Sprite:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -216,7 +216,7 @@ tracks/0/keys = {
 [sub_resource type="Animation" id=9]
 resource_name = "Exit"
 tracks/0/type = "value"
-tracks/0/path = NodePath("Y/Sprite:modulate")
+tracks/0/path = NodePath("Spatial/Y/Sprite:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -231,7 +231,7 @@ tracks/0/keys = {
 [sub_resource type="Animation" id=5]
 length = 0.001
 tracks/0/type = "value"
-tracks/0/path = NodePath("Y/Sprite:modulate")
+tracks/0/path = NodePath("Spatial/Y/Sprite:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -243,14 +243,11 @@ tracks/0/keys = {
 "values": [ Color( 1, 1, 1, 0 ) ]
 }
 
-[sub_resource type="BoxShape" id=8]
-extents = Vector3( 0.5, 0.1, 0.5 )
-
 [sub_resource type="Animation" id=10]
 resource_name = "Hover"
 length = 0.001
 tracks/0/type = "value"
-tracks/0/path = NodePath("Y/Sprite:frame")
+tracks/0/path = NodePath("Spatial/Y/Sprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -265,7 +262,7 @@ tracks/0/keys = {
 [sub_resource type="Animation" id=11]
 length = 0.001
 tracks/0/type = "value"
-tracks/0/path = NodePath("Y/Sprite:frame")
+tracks/0/path = NodePath("Spatial/Y/Sprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -281,7 +278,7 @@ tracks/0/keys = {
 resource_name = "Regular"
 length = 0.001
 tracks/0/type = "value"
-tracks/0/path = NodePath("Y/Sprite:frame")
+tracks/0/path = NodePath("Spatial/Y/Sprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -297,7 +294,7 @@ tracks/0/keys = {
 resource_name = "Selected"
 length = 0.001
 tracks/0/type = "value"
-tracks/0/path = NodePath("Y/Sprite:frame")
+tracks/0/path = NodePath("Spatial/Y/Sprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -323,6 +320,9 @@ tracks/1/keys = {
 } ]
 }
 
+[sub_resource type="BoxShape" id=8]
+extents = Vector3( 0.5, 0.1, 0.5 )
+
 [node name="Panel" type="Spatial"]
 script = ExtResource( 2 )
 
@@ -334,15 +334,6 @@ anims/FlipToS = SubResource( 3 )
 anims/FlipToW = SubResource( 7 )
 anims/RESET = SubResource( 2 )
 
-[node name="Y" type="Spatial" parent="."]
-
-[node name="Sprite" type="Sprite3D" parent="Y"]
-modulate = Color( 1, 1, 1, 0 )
-pixel_size = 0.0625
-axis = 1
-texture = ExtResource( 1 )
-hframes = 3
-
 [node name="Fade" type="AnimationPlayer" parent="."]
 autoplay = "Enter"
 playback_speed = 4.0
@@ -350,17 +341,30 @@ anims/Enter = SubResource( 4 )
 anims/Exit = SubResource( 9 )
 anims/RESET = SubResource( 5 )
 
-[node name="Area" type="Area" parent="."]
-
-[node name="CollisionShape" type="CollisionShape" parent="Area"]
-shape = SubResource( 8 )
-
 [node name="Color" type="AnimationPlayer" parent="."]
 anims/Hover = SubResource( 10 )
 anims/RESET = SubResource( 11 )
 anims/Regular = SubResource( 12 )
 anims/Selected = SubResource( 13 )
 
-[connection signal="input_event" from="Area" to="." method="_on_mouse_input"]
-[connection signal="mouse_entered" from="Area" to="Color" method="play" binds= [ "Hover" ]]
-[connection signal="mouse_exited" from="Area" to="Color" method="play" binds= [ "Regular" ]]
+[node name="Spatial" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0 )
+
+[node name="Y" type="Spatial" parent="Spatial"]
+
+[node name="Sprite" type="Sprite3D" parent="Spatial/Y"]
+modulate = Color( 1, 1, 1, 0 )
+pixel_size = 0.0625
+axis = 1
+texture = ExtResource( 1 )
+hframes = 3
+
+[node name="Area" type="Area" parent="Spatial"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Spatial/Area"]
+shape = SubResource( 8 )
+
+[connection signal="input_event" from="Spatial/Area" to="." method="_on_mouse_input"]
+[connection signal="mouse_entered" from="Spatial/Area" to="Color" method="play" binds= [ "Hover" ]]
+[connection signal="mouse_exited" from="Spatial/Area" to="Color" method="play" binds= [ "Regular" ]]
