@@ -1,0 +1,175 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Vaguely Legendary Sword.png" type="Texture" id=1]
+[ext_resource path="res://Damage.gd" type="Script" id=2]
+
+[sub_resource type="Animation" id=1]
+resource_name = "Float"
+length = 2.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:translation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 1, 1.5, 2 ),
+"transitions": PoolRealArray( 0.5, 2, 0.5, 2, 0.5 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ), Vector3( 0, -0.25, 0 ), Vector3( 0, 0, 0 ), Vector3( 0, 0.25, 0 ), Vector3( 0, 0, 0 ) ]
+}
+
+[sub_resource type="Animation" id=2]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:translation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite:offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( -24, -24 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Sprite:rotation_degrees")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Sprite/Area/Poly:translation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Sprite/Area:translation")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ) ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Sprite/Area:monitorable")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ false ]
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "Slash"
+length = 1.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:offset")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3, 0.7, 1.2 ),
+"transitions": PoolRealArray( 0.5, 1, 0.5, 0.5 ),
+"update": 0,
+"values": [ Vector2( -24, -24 ), Vector2( 0, 0 ), Vector2( 0, 0 ), Vector2( -24, -24 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.3, 0.5, 0.7, 1.2 ),
+"transitions": PoolRealArray( 0.5, -2, 1, 0.5, 0.5 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ), Vector3( -90, 60, -45 ), Vector3( -90, -60, -45 ), Vector3( -90, -60, -45 ), Vector3( 0, 0, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Sprite/Area:translation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.3, 0.7, 1.2 ),
+"transitions": PoolRealArray( 0.5, 1, 0.5, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ), Vector3( 1.5, 1.5, 0 ), Vector3( 1.5, 1.5, 0 ), Vector3( 0, 0, 0 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Sprite/Area:monitorable")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.3, 0.7 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+
+[node name="VaguelyLegendarySword" type="Spatial" groups=["Actor"]]
+script = ExtResource( 2 )
+damage = 20
+
+[node name="Sprite" type="Sprite3D" parent="."]
+centered = false
+offset = Vector2( -24, -24 )
+pixel_size = 0.0625
+alpha_cut = 1
+texture = ExtResource( 1 )
+
+[node name="Area" type="Area" parent="Sprite" groups=["Damage"]]
+monitoring = false
+monitorable = false
+
+[node name="Poly" type="CollisionPolygon" parent="Sprite/Area"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+depth = 0.1
+polygon = PoolVector2Array( -0.996649, 0.0619272, -0.753535, 0.186019, -0.435383, 0.30453, -0.251964, 0.500559, -0.0700786, 0.500812, -0.0698832, 0.627476, 0.118346, 0.810652, 0.302522, 0.812948, 0.309318, 0.939987, 0.498487, 1.12636, 0.75382, 1.18067, 1.17973, 1.17847, 1.17723, 0.753866, 1.12618, 0.434336, 0.994417, 0.307588, 0.80685, 0.312139, 0.811294, 0.0609844, 0.672963, -0.0628541, 0.499659, -0.0743489, 0.506064, -0.288255, 0.370408, -0.446533, 0.171111, -0.431064, 0.199424, -0.769629, 0.0621004, -0.993219, -0.203266, -1.00158, -1.0063, -0.246206 )
+
+[node name="Anim" type="AnimationPlayer" parent="."]
+playback_speed = 0.5
+anims/Float = SubResource( 1 )
+anims/RESET = SubResource( 2 )
+anims/Slash = SubResource( 4 )
+next/Float = "Float"
