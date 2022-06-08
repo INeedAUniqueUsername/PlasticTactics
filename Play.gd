@@ -1,0 +1,126 @@
+extends Spatial
+
+var panels = {}
+var directionToPos = {}
+var chars = []
+func _ready():
+	for c in get_children():
+		if c.is_in_group("CharHolder"):
+			chars.append(c)
+			c.subject.connect("clicked", self, "select_char")
+
+const PANEL = preload("res://Panel.tscn")
+func clear_panels():
+	directionToPos.clear()
+	for pos in panels.keys():
+		panels[pos].queue_free()
+	panels.clear()
+	
+var selectedChar
+var freeMove = false
+func select_char(subject):
+	if walking:
+		return
+	clear_panels()
+	selectedChar = get_holder(subject)
+	var tr = selectedChar.get_global_transform()
+	var start = tr.origin
+	var p = PANEL.instance()
+	call_deferred("add_child", p)
+	p.set_global_transform(tr)
+	p.connect("clicked", self, "on_panel_clicked")
+	panels[tr.origin] = p
+	var placed = []
+	placed.append(p)
+	yield(p.get_node("Fade"), "animation_finished")
+	var i = 0
+	
+	while i < len(placed):
+		if walking:
+			break
+		var next = []
+		while i < len(placed):
+			var adjacent = get_surrounding_squares(placed[i].get_global_transform().origin)
+			for direction in adjacent.keys():
+				var dest = adjacent[direction]
+				if (dest - start).length() < 5 and !panels.keys().has(dest):
+					directionToPos[dest] = direction
+					var p2 = PANEL.instance()
+					tr.origin = dest
+					p2.set_global_transform(tr)
+					p2.get_node("Anim").play("FlipTo" + direction)
+					panels[dest] = p2
+					
+					p2.connect("clicked", self, "on_panel_clicked")
+					
+					next.append(p2)
+					call_deferred("add_child", p2)
+			i += 1
+		for panel in next:
+			placed.append(panel)
+			yield(panel.get_node("Anim"), "animation_finished")
+func on_panel_clicked(panel):
+	if !selectedChar:
+		return
+	var steps = []
+	var walked = []
+	var pos = panel.get_global_transform().origin
+	while directionToPos.keys().has(pos):
+		steps.append(directionToPos[pos])
+		walked.append(pos)
+		pos -= directions[directionToPos[pos]]
+	walked.append(pos)
+	for p in panels.keys():
+		panels[p].disconnect("clicked", self, "on_panel_clicked")
+		if p in walked:
+			continue
+		panels[p].get_node("Fade").play("Exit")
+		panels.erase(p)
+	steps.invert()
+	walking = true
+	for s in steps:
+		var an = selectedChar.get_node("Anim")
+		an.play("Move" + s)
+		yield(an, "animation_finished")
+	walking = false
+	for p in panels.keys():
+		panels[p].get_node("Fade").play("Exit")
+		panels.erase(p)
+	
+var walking = false
+const directions = {
+	'N': Vector3(0, 0, -1),
+	'E': Vector3(1, 0, 0),
+	'S': Vector3(0, 0, 1),
+	'W': Vector3(-1, 0, 0),
+}
+func get_surrounding_squares(origin):
+	var result = directions.duplicate(true)
+	for key in result.keys():
+		result[key] += origin
+	return result
+func _process(delta):
+	var keyDirections = {
+		KEY_UP: 'N',
+		KEY_RIGHT: 'E',
+		KEY_DOWN: 'S',
+		KEY_LEFT: 'W'
+	}
+	
+	if selectedChar:
+		var pos = selectedChar.get_global_transform().origin
+		for k in keyDirections.keys():
+			var dir = keyDirections[k]
+			if Input.is_key_pressed(k):
+				var dest = pos + directions[dir]
+				if panels.keys().has(dest):
+					selectedChar.get_node("Anim").play("Move" + dir)
+		
+	if Input.is_key_pressed(KEY_A):
+		$CameraPivot.rotate_y(PI * delta)
+	if Input.is_key_pressed(KEY_D):
+		$CameraPivot.rotate_y(-PI * delta)
+func get_holder(subject):
+	while subject and !subject.is_in_group("CharHolder"):
+		subject = subject.get_parent()
+	return subject

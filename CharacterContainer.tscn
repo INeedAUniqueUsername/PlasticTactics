@@ -1,0 +1,100 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://Sunset Soldier.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Holder.gd" type="Script" id=2]
+
+[sub_resource type="Animation" id=3]
+resource_name = "MoveE"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Char:translation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( -2, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ), Vector3( 1, 0, 0 ) ]
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "MoveN"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Char:translation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( -2, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ), Vector3( 0, 0, -1 ) ]
+}
+
+[sub_resource type="Animation" id=1]
+resource_name = "MoveS"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Char:translation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( -2, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ), Vector3( 0, 0, 1 ) ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "MoveW"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Char:translation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( -2, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ), Vector3( -1, 0, 0 ) ]
+}
+
+[sub_resource type="Animation" id=2]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Char:translation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ) ]
+}
+
+[node name="Holder" type="Spatial" groups=["CharHolder"]]
+script = ExtResource( 2 )
+subject = NodePath("Char/SunsetSoldier")
+
+[node name="Anim" type="AnimationPlayer" parent="."]
+playback_speed = 3.0
+anims/MoveE = SubResource( 3 )
+anims/MoveN = SubResource( 4 )
+anims/MoveS = SubResource( 1 )
+anims/MoveW = SubResource( 5 )
+anims/RESET = SubResource( 2 )
+
+[node name="Char" type="Spatial" parent="."]
+
+[node name="SunsetSoldier" parent="Char" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+
+[connection signal="animation_finished" from="Anim" to="." method="_on_animation_finished"]
+
+[editable path="Char/SunsetSoldier"]
