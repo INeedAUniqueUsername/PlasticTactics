@@ -24,7 +24,7 @@ func play_move():
 	var forward = tr.basis.x
 	tr.origin += forward
 	var mirrors = []
-	for i in range(5):
+	for i in range(8):
 		tr.origin += forward
 		var m = Mirror.instance()
 		get_parent().call_deferred("add_child", m)
@@ -53,6 +53,14 @@ func _on_area_entered(area):
 	if actor and area.is_in_group("Damage"):
 		hp = max(0, hp - actor.damage)
 		emit_signal("damaged")
+		
+		var t = $Tween
+		var tr = get_global_transform()
+		var origin = tr.origin
+		var back = -tr.basis.x
+		t.interpolate_property(self, "global_transform:origin", origin, origin + back, 0.3, Tween.TRANS_LINEAR, Tween.EASE_OUT)
+		t.start()
+		
 		$Hurt.play("Hurt")
 		if hp == 0:
 			queue_free()
