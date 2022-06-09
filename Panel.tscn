@@ -362,7 +362,7 @@ anims/Regular = SubResource( 12 )
 anims/Selected = SubResource( 13 )
 
 [node name="Spatial" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0 )
 
 [node name="Y" type="Spatial" parent="Spatial"]
 
@@ -370,6 +370,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0 )
 modulate = Color( 1, 1, 1, 0 )
 pixel_size = 0.0625
 axis = 1
+alpha_cut = 2
 texture = ExtResource( 1 )
 hframes = 3
 

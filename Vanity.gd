@@ -32,7 +32,7 @@ func play_move():
 		mirrors.append(m)
 		
 		var t = Timer.new()
-		t.wait_time = 0.5
+		t.wait_time = 0.25
 		add_child(t)
 		t.start()
 		yield(t, "timeout")

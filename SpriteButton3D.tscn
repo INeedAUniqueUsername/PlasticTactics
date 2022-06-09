@@ -1,0 +1,78 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Clickable.gd" type="Script" id=1]
+[ext_resource path="res://ShieldSymbol.png" type="Texture" id=2]
+
+[sub_resource type="BoxShape" id=6]
+extents = Vector3( 0.25, 0.25, 0.05 )
+
+[sub_resource type="Animation" id=7]
+resource_name = "Hover"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 1 ]
+}
+
+[sub_resource type="Animation" id=8]
+resource_name = "Idle"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
+
+[sub_resource type="Animation" id=9]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0 ]
+}
+
+[node name="Shield" type="Sprite3D"]
+pixel_size = 0.0313
+alpha_cut = 2
+texture = ExtResource( 2 )
+hframes = 2
+script = ExtResource( 1 )
+
+[node name="Area" type="Area" parent="."]
+collision_mask = 0
+monitoring = false
+monitorable = false
+
+[node name="Shape" type="CollisionShape" parent="Area"]
+shape = SubResource( 6 )
+
+[node name="Anim" type="AnimationPlayer" parent="."]
+anims/Hover = SubResource( 7 )
+anims/Idle = SubResource( 8 )
+anims/RESET = SubResource( 9 )
+
+[connection signal="input_event" from="Area" to="." method="_on_mouse_input"]
+[connection signal="mouse_entered" from="Area" to="Anim" method="play" binds= [ "Hover" ]]
+[connection signal="mouse_exited" from="Area" to="Anim" method="play" binds= [ "Idle" ]]

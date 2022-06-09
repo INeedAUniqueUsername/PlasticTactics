@@ -8,7 +8,7 @@ func _ready():
 		if !c.is_in_group("Char"):
 			continue
 		print(c.name)
-		c.connect("clicked", self, "select_char")
+		c.connect("clicked", self, "select_char", [c])
 		chars.append(c)
 		if c.is_in_group("Player"):
 			call_deferred("select_char", c)
@@ -61,6 +61,7 @@ func select_char(subject):
 	if selectedChar and selectedChar.walking:
 		return
 	selectedChar = subject
+	selectedChar.selected()
 	clear_panels()
 	if enemyMove:
 		place_panels_quick()
@@ -73,7 +74,7 @@ func place_panels_slow():
 	p.set_global_transform(tr)
 	panels[start] = p
 	call_deferred("add_child", p)
-	p.connect("clicked", self, "on_panel_clicked")
+	p.connect("clicked", self, "on_panel_clicked", [p])
 	var placed = [p]
 	yield(p.get_node("Fade"), "animation_finished")
 	var i = 0
@@ -94,7 +95,7 @@ func place_panels_slow():
 					panels[dest] = p2
 					next.append(p2)
 					call_deferred("add_child", p2)
-					p2.connect("clicked", self, "on_panel_clicked")
+					p2.connect("clicked", self, "on_panel_clicked", [p2])
 			i += 1
 		for panel in next:
 			placed.append(panel)
@@ -106,7 +107,7 @@ func place_panels_quick():
 	p.set_global_transform(tr)
 	panels[start] = p
 	call_deferred("add_child", p)
-	p.connect("clicked", self, "on_panel_clicked")
+	p.connect("clicked", self, "on_panel_clicked", [p])
 	
 	yield(p, "tree_entered")
 	
@@ -127,7 +128,7 @@ func place_panels_quick():
 					panels[dest] = p2
 					next.append(p2)
 					call_deferred("add_child", p2)
-					p2.connect("clicked", self, "on_panel_clicked")
+					p2.connect("clicked", self, "on_panel_clicked", [p2])
 			i += 1
 		for panel in next:
 			placed.append(panel)
@@ -194,8 +195,9 @@ func _process(delta):
 				var dest = pos + directions[dir]
 				if panels.keys().has(dest) and selectedChar.movePoints >= 1.0:
 					var t = $Tween
-					t.interpolate_property(selectedChar, "walking", true, false, 0.5, Tween.TRANS_LINEAR)
-					t.interpolate_property(selectedChar, "global_transform:origin", pos, dest, 0.5, Tween.TRANS_LINEAR)
+					var dur = 0.3
+					t.interpolate_property(selectedChar, "walking", true, false, dur, Tween.TRANS_LINEAR)
+					t.interpolate_property(selectedChar, "global_transform:origin", pos, dest, dur, Tween.TRANS_LINEAR)
 					t.start()
 					selectedChar.movePoints -= 1
 					
@@ -206,9 +208,7 @@ func _process(delta):
 		if Input.is_key_pressed(KEY_Z):
 			selectedChar.jump()
 		if Input.is_key_pressed(KEY_X):
-			if selectedChar.attackPoints > 0:
-				selectedChar.attackPoints -= 1
-				selectedChar.attack()
+			selectedChar.attack("Stab")
 		if Input.is_key_pressed(KEY_ENTER):
 			play_enemy_turn()
 	if Input.is_key_pressed(KEY_A):
