@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Sunset Soldier.png" type="Texture" id=1]
 [ext_resource path="res://Player.gd" type="Script" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://HPBar.tscn" type="PackedScene" id=4]
 [ext_resource path="res://StabSymbol.png" type="Texture" id=5]
 [ext_resource path="res://SlashSymbol.png" type="Texture" id=6]
+[ext_resource path="res://SmashSymbol.png" type="Texture" id=7]
 [ext_resource path="res://SpriteButton3D.tscn" type="PackedScene" id=8]
 
 [sub_resource type="BoxShape" id=1]
@@ -101,12 +102,16 @@ anims/Hurt = SubResource( 4 )
 anims/RESET = SubResource( 5 )
 
 [node name="Slash" parent="." instance=ExtResource( 8 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.25, 1.5, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.25, 2, 0 )
 texture = ExtResource( 6 )
 
 [node name="Stab" parent="." instance=ExtResource( 8 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.25, 1, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.25, 1.5, 0 )
 texture = ExtResource( 5 )
+
+[node name="Smash" parent="." instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.25, 1, 0 )
+texture = ExtResource( 7 )
 
 [node name="Shield" parent="." instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.25, 0.5, 0 )

@@ -11,35 +11,63 @@ func _ready():
 		c.connect("clicked", self, "select_char", [c])
 		chars.append(c)
 		if c.is_in_group("Player"):
-			call_deferred("select_char", c)
+			selectedChar = c
+	play_player_turn()
 
 var enemyMove = false
+func get_player_chars():
+	var r = []
+	for c in chars:
+		if c.is_in_group("Player"):
+			r.append(c)
+	return r
+func get_enemy_chars():
+	var r = []
+	for c in chars:
+		if !c.is_in_group("Player"):
+			r.append(c)
+	return r
+func play_player_turn():
+	
+	var an = $CameraPivot/Camera/Control/Anim
+	an.play("Player")
+	yield(an, "animation_finished")
+	
+	for c in get_player_chars():
+		c.start_turn()
+	if selectedChar:
+		selectedChar.selected()
+		if !selectedChar.walking:
+			clear_panels()
+			place_panels_slow()
 func play_enemy_turn():
 	if enemyMove:
 		return
+		
+	
+	for c in get_player_chars():
+		c.end_turn()
+		
 	var an = $CameraPivot/Camera/Control/Anim
 	an.play("Enemy")
 	yield(an, "animation_finished")
+	
+	
 	
 	if !selectedChar.walking:
 		clear_panels()
 		place_panels_quick()
 	enemyMove=true
-	for c in chars:
-		if c.is_in_group("Player"):
-			continue
-		c.play_move()
-		yield(c, "moved")
+	for c in get_enemy_chars():
+		c.start_turn()
+	for c in get_enemy_chars():
+		yield(c.play_move(), "completed")
+	for c in get_enemy_chars():
+		c.end_turn()
 	enemyMove=false
-	an.play("Player")
-	for c in chars:
-		if !c.is_in_group("Player"):
-			continue
-		c.refresh_move()
-	yield(an, "animation_finished")
-	if !selectedChar.walking:
-		clear_panels()
-		place_panels_quick()
+	
+	
+	play_player_turn()
 
 const PANEL = preload("res://Panel.tscn")
 func clear_panels():
@@ -86,16 +114,22 @@ func place_panels_slow():
 			var adjacent = get_surrounding_squares(placed[i].get_global_transform().origin)
 			for direction in adjacent.keys():
 				var dest = adjacent[direction]
-				if (dest - start).length() < selectedChar.movePoints and !panels.keys().has(dest):
-					directionToPos[dest] = direction
-					var p2 = PANEL.instance()
-					tr.origin = dest
-					p2.set_global_transform(tr)
-					p2.get_node("Anim").play("FlipTo" + direction)
-					panels[dest] = p2
-					next.append(p2)
-					call_deferred("add_child", p2)
-					p2.connect("clicked", self, "on_panel_clicked", [p2])
+				if panels.keys().has(dest):
+					continue
+				if (dest - start).length() > selectedChar.movePoints:
+					continue
+				if !has_ground(dest):
+					continue
+					
+				directionToPos[dest] = direction
+				var p2 = PANEL.instance()
+				tr.origin = dest
+				p2.set_global_transform(tr)
+				p2.get_node("Anim").play("FlipTo" + direction)
+				panels[dest] = p2
+				next.append(p2)
+				call_deferred("add_child", p2)
+				p2.connect("clicked", self, "on_panel_clicked", [p2])
 			i += 1
 		for panel in next:
 			placed.append(panel)
@@ -119,16 +153,21 @@ func place_panels_quick():
 			var adjacent = get_surrounding_squares(placed[i].get_global_transform().origin)
 			for direction in adjacent.keys():
 				var dest = adjacent[direction]
-				if (dest - start).length() < selectedChar.movePoints and !panels.keys().has(dest):
-					directionToPos[dest] = direction
-					var p2 = PANEL.instance()
-					tr.origin = dest
-					p2.set_global_transform(tr)
-					#p2.get_node("Anim").play("FlipTo" + direction)
-					panels[dest] = p2
-					next.append(p2)
-					call_deferred("add_child", p2)
-					p2.connect("clicked", self, "on_panel_clicked", [p2])
+				if panels.keys().has(dest):
+					continue
+				if (dest - start).length() > selectedChar.movePoints:
+					continue
+				if !has_ground(dest):
+					continue
+				directionToPos[dest] = direction
+				var p2 = PANEL.instance()
+				tr.origin = dest
+				p2.set_global_transform(tr)
+				#p2.get_node("Anim").play("FlipTo" + direction)
+				panels[dest] = p2
+				next.append(p2)
+				call_deferred("add_child", p2)
+				p2.connect("clicked", self, "on_panel_clicked", [p2])
 			i += 1
 		for panel in next:
 			placed.append(panel)
@@ -155,14 +194,10 @@ func on_panel_clicked(panel):
 	steps.invert()
 	selectedChar.walking = true
 	
-	var prevPos = selectedChar.get_global_transform().origin
+	var p = selectedChar.get_global_transform().origin
 	for s in steps:
-		var nextPos = prevPos + directions[s]
-		var t = $Tween
-		t.interpolate_property(selectedChar, "global_transform:origin", prevPos, nextPos, 0.5, Tween.TRANS_LINEAR)
-		prevPos = nextPos
-		t.start()
-		yield(t, "tween_completed")
+		yield(Helper.tween_move(selectedChar, directions[s], 0.3, Tween.TRANS_QUAD, Tween.EASE_OUT), "completed")
+		p += directions[s]
 	selectedChar.walking = false
 	refresh_panels()
 func refresh_panels():
@@ -219,3 +254,6 @@ func get_holder(subject):
 	while subject and !subject.is_in_group("CharHolder"):
 		subject = subject.get_parent()
 	return subject
+func has_ground(pos: Vector3):
+	var d = get_world().get_direct_space_state().intersect_point(pos + Vector3(0, -0.1, 0), 32, [], 2147483647, false, true)                                                                   
+	return d.size() > 0

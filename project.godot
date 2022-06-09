@@ -14,6 +14,10 @@ config/name="Plastic Tactics"
 run/main_scene="res://Title.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+Helper="*res://Helper.tscn"
+
 [importer_defaults]
 
 texture={

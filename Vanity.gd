@@ -1,6 +1,10 @@
 extends Spatial
 signal moved()
 const Mirror = preload("res://VanitySpikeAttack.tscn")
+func start_turn():
+	pass
+func end_turn():
+	pass
 func play_move():
 	var target = null
 	for c in get_parent().get_children():
@@ -8,17 +12,30 @@ func play_move():
 			target = c
 	if !target:
 		return
-		
+			
+	var movePoints = 8
+			
 	var off = (target.get_global_transform().origin - get_global_transform().origin)
-	var angle = atan2(-off.z, off.x)
-	var deltaAngle = angle - rotation.y
+	for i in range(min(abs(off.z), abs(movePoints))):
+		var dp = Vector3(0, 0, sign(off.z))
+		if !get_parent().has_ground(get_global_transform().origin + dp):
+			continue
+		yield(Helper.tween_move(self, dp, 0.3, Tween.TRANS_QUAD, Tween.EASE_OUT), "completed")	
+		movePoints -= 1
+	for i in range(min(abs(off.x), abs(movePoints))):
+		var dp = Vector3(-sign(off.x), 0, 0)
+		if !get_parent().has_ground(get_global_transform().origin + dp):
+			continue
+		yield(Helper.tween_move(self, dp, 0.3, Tween.TRANS_QUAD, Tween.EASE_OUT), "completed")	
+		movePoints -= 1
+	off = (target.get_global_transform().origin - get_global_transform().origin)
+	var deltaAngle = atan2(-off.z, off.x) - rotation.y
 	deltaAngle = atan2(sin(deltaAngle), cos(deltaAngle))
-	$Tween.interpolate_property(self, "rotation:y", rotation.y, rotation.y + deltaAngle, 0.5,Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-	$Tween.start()
-	yield($Tween, "tween_all_completed")
-		
+	yield(Helper.tween_rotate(self, Vector3(0, deltaAngle, 0), 0.3, Tween.TRANS_QUAD, Tween.EASE_OUT), "completed")
+	
 	$Anim.play("Shake")
 	yield($Anim, "animation_finished")
+	
 	var tr = get_global_transform()
 	
 	var forward = tr.basis.x
@@ -27,16 +44,11 @@ func play_move():
 	for i in range(8):
 		tr.origin += forward
 		var m = Mirror.instance()
-		get_parent().call_deferred("add_child", m)
+		get_parent().add_child(m)
 		m.set_global_transform(tr)
 		mirrors.append(m)
 		
-		var t = Timer.new()
-		t.wait_time = 0.25
-		add_child(t)
-		t.start()
-		yield(t, "timeout")
-		t.queue_free()
+		yield(get_tree().create_timer(0.25), "timeout")
 	for m in mirrors:
 		yield(m, "tree_exited")
 	emit_signal("moved")
@@ -54,12 +66,9 @@ func _on_area_entered(area):
 		hp = max(0, hp - actor.damage)
 		emit_signal("damaged")
 		
-		var t = $Tween
-		var tr = get_global_transform()
-		var origin = tr.origin
-		var back = -tr.basis.x
-		t.interpolate_property(self, "global_transform:origin", origin, origin + back, 0.3, Tween.TRANS_LINEAR, Tween.EASE_OUT)
-		t.start()
+		var back = actor.get_global_transform().basis.x
+		if get_parent().has_ground(get_global_transform().origin + back):
+			Helper.tween_move(self, back, 0.3, Tween.TRANS_QUAD, Tween.EASE_OUT)
 		
 		$Hurt.play("Hurt")
 		if hp == 0:

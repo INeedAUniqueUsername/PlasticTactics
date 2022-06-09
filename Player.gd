@@ -2,17 +2,20 @@ extends "res://Clickable.gd"
 var walking = false
 var movePoints = 5
 var attackPoints = 1
-onready var swordButtons = [$Slash, $Stab, $Shield]
+onready var swordButtons = [$Slash, $Stab, $Smash, $Shield]
 func _ready():
-	deselected()
 	$Slash.connect("clicked", self, "attack", ["Slash"])
 	$Stab.connect("clicked", self, "attack", ["Stab"])
 	$Shield.connect("clicked", self, "attack", ["Shield"])
-var selected = true
+	$Smash.connect("clicked", self, "attack", ["Smash"])
+	updateButtons()
+var selected = false
 func selected():
 	selected = true
+	updateButtons()
 func deselected():
 	selected = false
+	updateButtons()
 func updateButtons():
 	if selected:
 		if attackPoints > 0:
@@ -27,7 +30,11 @@ func updateButtons():
 		for b in swordButtons:
 			b.modulate.a = 0
 			b.get_node("Area").input_ray_pickable = false
-	
+func start_turn():
+	refresh_move()
+	$Sprite/VaguelyLegendarySword.damage *= 2.0
+func end_turn():
+	$Sprite/VaguelyLegendarySword.damage /= 2.0
 func refresh_move():
 	movePoints = 5
 	attackPoints = 1
