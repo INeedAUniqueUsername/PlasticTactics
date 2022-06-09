@@ -2,12 +2,13 @@ extends "res://Clickable.gd"
 var walking = false
 var movePoints = 5
 var attackPoints = 1
-onready var swordButtons = [$Slash, $Stab, $Smash, $Shield]
+onready var swordButtons = [$Slash, $Stab, $Smash]
 func _ready():
 	$Slash.connect("clicked", self, "attack", ["Slash"])
 	$Stab.connect("clicked", self, "attack", ["Stab"])
 	$Shield.connect("clicked", self, "attack", ["Shield"])
 	$Smash.connect("clicked", self, "attack", ["Smash"])
+	$Jump.connect("clicked", self, "jump")
 	updateButtons()
 var selected = false
 func selected():
@@ -16,34 +17,55 @@ func selected():
 func deselected():
 	selected = false
 	updateButtons()
-func updateButtons():
-	if selected:
-		if attackPoints > 0:
-			for b in swordButtons:
-				b.modulate.a = 1.0
-				b.get_node("Area").input_ray_pickable = true
-		else:
-			for b in swordButtons:
-				b.modulate.a = 0.5
-				b.get_node("Area").input_ray_pickable = false
+func setButton(b, enabled):
+	if !selected:
+		b.modulate.a = 0
+		b.get_node("Area").input_ray_pickable = false
+	if enabled:
+		b.modulate.a = 1.0
+		b.get_node("Area").input_ray_pickable = true
 	else:
-		for b in swordButtons:
-			b.modulate.a = 0
-			b.get_node("Area").input_ray_pickable = false
+		b.modulate.a = 0.5
+		b.get_node("Area").input_ray_pickable = false
+func updateButtons():
+		
+	for b in swordButtons:
+		setButton(b, attackPoints > 0)
+	setButton($Shield, attackPoints > 0 and !shielding)
+	setButton($Jump, true)
+onready var sword = $Sprite/SwordHolder.get_child(0)
 func start_turn():
 	refresh_move()
-	$Sprite/VaguelyLegendarySword.damage *= 2.0
+	sword.damage *= 1.5
 func end_turn():
-	$Sprite/VaguelyLegendarySword.damage /= 2.0
+	sword.damage /= 1.5
 func refresh_move():
 	movePoints = 5
 	attackPoints = 1
 	
 	updateButtons()
+	
+func walk(steps):
+	walking = true
+	for s in steps:
+		yield(Helper.tween_move(self, Helper.directions[s], 0.3, Tween.TRANS_QUAD, Tween.EASE_OUT), "completed")
+	walking = false
+	
+var shielding = false
 func attack(move):
 	if attackPoints > 0:
+		var an = sword.get_node("Anim")
+		if move == "Shield":
+			if shielding:
+				return
+			shielding = true
+		else:
+			if shielding:
+				shielding = false
+				an.play("Unshield")
+				yield(an, "animation_finished")
 		attackPoints -= 1
-		$Sprite/VaguelyLegendarySword/Anim.play(move)
+		an.play(move)
 	updateButtons()
 func jump():
 	$Anim.play("Jump")
@@ -59,7 +81,8 @@ func _on_area_entered(area):
 	if !area.is_in_group("Damage"):
 		return
 	var actor = get_actor(area)
-	if actor.get_parent() == $Sprite:
+	
+	if actor == sword:
 		return
 	hp = max(0, hp - actor.damage)
 	emit_signal("damaged")

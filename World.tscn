@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Sunset Soldier.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Play.gd" type="Script" id=2]
@@ -8,34 +8,6 @@
 [ext_resource path="res://EndTurn.png" type="Texture" id=6]
 [ext_resource path="res://VanityFloor.png" type="Texture" id=7]
 [ext_resource path="res://Cutter.tscn" type="PackedScene" id=8]
-
-[sub_resource type="Animation" id=7]
-resource_name = "Unguard"
-length = 0.4
-tracks/0/type = "value"
-tracks/0/path = NodePath("Sprite:translation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.2, 0.4 ),
-"transitions": PoolRealArray( 0.5, 0.5, 0.5 ),
-"update": 0,
-"values": [ Vector3( 1, 0, 0 ), Vector3( 1, 0, 0 ), Vector3( 0, 0, 0 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("Sprite:rotation_degrees")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.2, 0.4 ),
-"transitions": PoolRealArray( 0.5, 0.5, 0.5 ),
-"update": 0,
-"values": [ Vector3( 0, -90, 45 ), Vector3( 0, 0, 45 ), Vector3( 0, 0, 0 ) ]
-}
 
 [sub_resource type="Animation" id=6]
 resource_name = "Enemy"
@@ -228,20 +200,11 @@ tracks/1/keys = {
 "values": [ Vector3( 0, 0, 0 ) ]
 }
 
-[node name="World" type="Spatial"]
+[node name="World" type="Spatial" groups=["World"]]
 script = ExtResource( 2 )
 
 [node name="SunsetSoldier" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 3 )
-
-[node name="Anim" parent="SunsetSoldier/Sprite/VaguelyLegendarySword" index="0"]
-anims/Unguard = SubResource( 7 )
-
-[node name="Pivot" parent="SunsetSoldier/Sprite/VaguelyLegendarySword" index="1"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-
-[node name="Sprite" parent="SunsetSoldier/Sprite/VaguelyLegendarySword/Pivot" index="0"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 
 [node name="Vanity" parent="." instance=ExtResource( 4 )]
 transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 2, 0, -3 )
@@ -252,7 +215,7 @@ transform = Transform( 1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0
 [node name="Camera" type="Camera" parent="CameraPivot"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10 )
 projection = 1
-size = 16.0
+size = 12.0
 far = 400.0
 
 [node name="Control" type="Control" parent="CameraPivot/Camera"]
@@ -353,4 +316,4 @@ region_rect = Rect2( 0, 56, 32, 8 )
 [connection signal="pressed" from="CameraPivot/Camera/Control/TextureButton" to="." method="play_enemy_turn"]
 
 [editable path="SunsetSoldier"]
-[editable path="SunsetSoldier/Sprite/VaguelyLegendarySword"]
+[editable path="SunsetSoldier/Sprite/SwordHolder/SunsetSword"]

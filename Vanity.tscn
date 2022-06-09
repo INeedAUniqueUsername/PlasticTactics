@@ -19,7 +19,19 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector3( 0, 1, 0 ) ]
+"values": [ Vector3( 0, 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
 }
 
 [sub_resource type="Animation" id=3]
@@ -35,7 +47,19 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector3( 0, 1, 0 ), Vector3( 0, 0.8, 0 ), Vector3( 0, 1, 0 ), Vector3( 0, 0.8, 0 ), Vector3( 0, 1, 0 ), Vector3( 0, 0.8, 0 ), Vector3( 0, 1, 0 ), Vector3( 0, 0.8, 0 ), Vector3( 0, 1, 0 ), Vector3( 0, 0.8, 0 ), Vector3( 0, 1, 0 ), Vector3( 0, 0.8, 0 ), Vector3( 0, 1, 0 ), Vector3( 0, 0.8, 0 ), Vector3( 0, 1, 0 ), Vector3( 0, 0.8, 0 ), Vector3( 0, 1, 0 ), Vector3( 0, 0.8, 0 ), Vector3( 0, 1, 0 ), Vector3( 0, 0.8, 0 ), Vector3( 0, 1, 0 ) ]
+"values": [ Vector3( 0, 0, 0 ), Vector3( 0, -0.2, 0 ), Vector3( 0, 0, 0 ), Vector3( 0, -0.2, 0 ), Vector3( 0, 0, 0 ), Vector3( 0, -0.2, 0 ), Vector3( 0, 0, 0 ), Vector3( 0, -0.2, 0 ), Vector3( 0, 0, 0 ), Vector3( 0, -0.2, 0 ), Vector3( 0, 0, 0 ), Vector3( 0, -0.2, 0 ), Vector3( 0, 0, 0 ), Vector3( 0, -0.2, 0 ), Vector3( 0, 0, 0 ), Vector3( 0, -0.2, 0 ), Vector3( 0, 0, 0 ), Vector3( 0, -0.2, 0 ), Vector3( 0, 0, 0 ), Vector3( 0, -0.2, 0 ), Vector3( 0, 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 1, 0 ]
 }
 
 [sub_resource type="Animation" id=4]
@@ -52,6 +76,18 @@ tracks/0/keys = {
 "update": 0,
 "values": [ 0.5, 1.0, 0.5, 1.0, 0.5, 1.0, 0.5, 1.0, 0.5, 1.0 ]
 }
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 2, 0 ]
+}
 
 [sub_resource type="Animation" id=5]
 length = 0.001
@@ -67,6 +103,18 @@ tracks/0/keys = {
 "update": 0,
 "values": [ 1.0 ]
 }
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0 ]
+}
 
 [sub_resource type="BoxShape" id=6]
 extents = Vector3( 1, 1, 0.5 )
@@ -75,13 +123,15 @@ extents = Vector3( 1, 1, 0.5 )
 script = ExtResource( 2 )
 
 [node name="HPBar" parent="." instance=ExtResource( 3 )]
-transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 1, 0, 2.5, 0 )
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 1, 0, 2.25, 0 )
 
 [node name="Sprite" type="Sprite3D" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+centered = false
+offset = Vector2( -24, 0 )
 pixel_size = 0.0625
 alpha_cut = 2
 texture = ExtResource( 1 )
+hframes = 5
 
 [node name="Area" type="Area" parent="."]
 visible = false

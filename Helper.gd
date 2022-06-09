@@ -17,8 +17,17 @@ func tween_rotate(obj: Spatial, inc: Vector3, dur: float, trans_type: int = 0, e
 	t.start()
 	yield(t, "tween_all_completed")
 	t.queue_free()
-
+func get_world(node):
+	while node and !node.is_in_group("World"):
+		node = node.get_parent()
+	return node
 func get_actor(node):
 	while node and !node.is_in_group("Actor"):
 		node = node.get_parent()
 	return node
+const directions = {
+	'N': Vector3(0, 0, -1),
+	'E': Vector3(1, 0, 0),
+	'S': Vector3(0, 0, 1),
+	'W': Vector3(-1, 0, 0),
+}

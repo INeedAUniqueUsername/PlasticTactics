@@ -10,10 +10,12 @@ func _ready():
 		print(c.name)
 		c.connect("clicked", self, "select_char", [c])
 		chars.append(c)
+		c.connect("tree_exited", self, "remove_char", [c])
 		if c.is_in_group("Player"):
 			selectedChar = c
 	play_player_turn()
-
+func remove_char(c):
+	chars.erase(c)
 var enemyMove = false
 func get_player_chars():
 	var r = []
@@ -95,7 +97,10 @@ func select_char(subject):
 		place_panels_quick()
 	else:
 		place_panels_slow()
+		
+var panelsReset = false
 func place_panels_slow():
+	panelsReset = true
 	var tr = selectedChar.get_global_transform()
 	var start = tr.origin
 	var p = PANEL.instance()
@@ -105,9 +110,10 @@ func place_panels_slow():
 	p.connect("clicked", self, "on_panel_clicked", [p])
 	var placed = [p]
 	yield(p.get_node("Fade"), "animation_finished")
+	panelsReset = false
 	var i = 0
 	while i < len(placed):
-		if selectedChar.walking:
+		if selectedChar.walking or panelsReset:
 			break
 		var next = []
 		while i < len(placed):
@@ -120,7 +126,8 @@ func place_panels_slow():
 					continue
 				if !has_ground(dest):
 					continue
-					
+				if !is_open(dest):
+					continue
 				directionToPos[dest] = direction
 				var p2 = PANEL.instance()
 				tr.origin = dest
@@ -159,6 +166,8 @@ func place_panels_quick():
 					continue
 				if !has_ground(dest):
 					continue
+				if !is_open(dest):
+					continue
 				directionToPos[dest] = direction
 				var p2 = PANEL.instance()
 				tr.origin = dest
@@ -192,13 +201,7 @@ func on_panel_clicked(panel):
 		panels[p].get_node("Fade").play("Exit")
 		panels.erase(p)
 	steps.invert()
-	selectedChar.walking = true
-	
-	var p = selectedChar.get_global_transform().origin
-	for s in steps:
-		yield(Helper.tween_move(selectedChar, directions[s], 0.3, Tween.TRANS_QUAD, Tween.EASE_OUT), "completed")
-		p += directions[s]
-	selectedChar.walking = false
+	yield(selectedChar.walk(steps), "completed")
 	refresh_panels()
 func refresh_panels():
 	clear_panels()
@@ -229,14 +232,9 @@ func _process(delta):
 			if Input.is_key_pressed(k):
 				var dest = pos + directions[dir]
 				if panels.keys().has(dest) and selectedChar.movePoints >= 1.0:
-					var t = $Tween
-					var dur = 0.3
-					t.interpolate_property(selectedChar, "walking", true, false, dur, Tween.TRANS_LINEAR)
-					t.interpolate_property(selectedChar, "global_transform:origin", pos, dest, dur, Tween.TRANS_LINEAR)
-					t.start()
-					selectedChar.movePoints -= 1
 					
-					yield(t, "tween_all_completed")
+					selectedChar.movePoints -= 1
+					yield(selectedChar.walk([dir]), "completed")
 					refresh_panels()
 					return
 	if selectedChar:
@@ -254,6 +252,13 @@ func get_holder(subject):
 	while subject and !subject.is_in_group("CharHolder"):
 		subject = subject.get_parent()
 	return subject
+func is_open(pos: Vector3):
+	var d = get_world().get_direct_space_state().intersect_point(pos + Vector3(0, 1.0, 0), 32, [], 2147483647, false, true)                                                                   
+	for other in d:
+		var col = other.collider
+		if col.is_in_group("NoMove"):
+			return false
+	return true
 func has_ground(pos: Vector3):
 	var d = get_world().get_direct_space_state().intersect_point(pos + Vector3(0, -0.1, 0), 32, [], 2147483647, false, true)                                                                   
 	return d.size() > 0

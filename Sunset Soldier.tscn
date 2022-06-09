@@ -1,20 +1,21 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Sunset Soldier.png" type="Texture" id=1]
 [ext_resource path="res://Player.gd" type="Script" id=2]
-[ext_resource path="res://VaguelyLegendarySword.tscn" type="PackedScene" id=3]
+[ext_resource path="res://SunsetSword.tscn" type="PackedScene" id=3]
 [ext_resource path="res://HPBar.tscn" type="PackedScene" id=4]
 [ext_resource path="res://StabSymbol.png" type="Texture" id=5]
 [ext_resource path="res://SlashSymbol.png" type="Texture" id=6]
 [ext_resource path="res://SmashSymbol.png" type="Texture" id=7]
 [ext_resource path="res://SpriteButton3D.tscn" type="PackedScene" id=8]
+[ext_resource path="res://JumpSymbol.png" type="Texture" id=9]
 
 [sub_resource type="BoxShape" id=1]
 extents = Vector3( 0.4, 1, 0.1 )
 
 [sub_resource type="Animation" id=2]
 resource_name = "Jump"
-length = 1.5
+length = 1.2
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:translation")
 tracks/0/interp = 1
@@ -22,7 +23,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.5, 1, 1.5 ),
+"times": PoolRealArray( 0, 0.3, 0.9, 1.2 ),
 "transitions": PoolRealArray( 0.5, 1, 2, 1 ),
 "update": 0,
 "values": [ Vector3( 0, 1, 0 ), Vector3( 0, 3, 0 ), Vector3( 0, 3, 0 ), Vector3( 0, 1, 0 ) ]
@@ -90,8 +91,10 @@ texture = ExtResource( 1 )
 [node name="Prism" type="CollisionShape" parent="Sprite/Area"]
 shape = SubResource( 1 )
 
-[node name="VaguelyLegendarySword" parent="Sprite" instance=ExtResource( 3 )]
+[node name="SwordHolder" type="Spatial" parent="Sprite"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.1 )
+
+[node name="SunsetSword" parent="Sprite/SwordHolder" instance=ExtResource( 3 )]
 
 [node name="Anim" type="AnimationPlayer" parent="."]
 anims/Jump = SubResource( 2 )
@@ -102,21 +105,25 @@ anims/Hurt = SubResource( 4 )
 anims/RESET = SubResource( 5 )
 
 [node name="Slash" parent="." instance=ExtResource( 8 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.25, 2, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 2, 0 )
 texture = ExtResource( 6 )
 
 [node name="Stab" parent="." instance=ExtResource( 8 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.25, 1.5, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1.5, 0 )
 texture = ExtResource( 5 )
 
 [node name="Smash" parent="." instance=ExtResource( 8 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.25, 1, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0 )
 texture = ExtResource( 7 )
 
 [node name="Shield" parent="." instance=ExtResource( 8 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.25, 0.5, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.5, 0 )
+
+[node name="Jump" parent="." instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0.5, 0 )
+texture = ExtResource( 9 )
 
 [connection signal="area_entered" from="Sprite/Area" to="." method="_on_area_entered"]
 [connection signal="input_event" from="Sprite/Area" to="." method="_on_mouse_input"]
 
-[editable path="Sprite/VaguelyLegendarySword"]
+[editable path="Sprite/SwordHolder/SunsetSword"]
