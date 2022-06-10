@@ -2,7 +2,7 @@ extends Spatial
 
 const Drop = preload("res://SunsetSwordSplashDrop.tscn")
 func _ready():
-	for i in range(16):
+	for i in range(32):
 		var d = Drop.instance()
 		get_parent().call_deferred("add_child", d)
 		d.set_global_transform(get_global_transform())

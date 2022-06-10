@@ -175,6 +175,20 @@ tracks/2/keys = {
 "update": 1,
 "values": [ true, false ]
 }
+tracks/3/type = "method"
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.2 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "make_wave"
+} ]
+}
 
 [sub_resource type="Animation" id=7]
 resource_name = "Smash"
@@ -378,10 +392,6 @@ monitoring = false
 transform = Transform( 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 0, 0, 1, 0, 0, 0 )
 shape = SubResource( 8 )
 
-[node name="Beam" type="Spatial" parent="Pivot/Sprite"]
+[node name="Tip" type="Spatial" parent="Pivot/Sprite"]
 transform = Transform( 0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0, 0, 1, 0.75, 0.75, 0 )
-script = ExtResource( 3 )
-
-[node name="Splash" type="Spatial" parent="Pivot/Sprite"]
-transform = Transform( 0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0, 0, 1, 0.66, 0.66, 0 )
 script = ExtResource( 3 )
