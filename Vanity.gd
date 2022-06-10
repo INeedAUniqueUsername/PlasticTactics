@@ -12,7 +12,11 @@ var attackPrepared = false
 func get_offset(target):
 	return target.get_global_transform().origin - get_global_transform().origin
 
+enum Attacks {
+	Spike, Stalagmite
+}
 
+var attackNum = 0
 func play_move():
 	var target = null
 	for c in get_parent().get_children():
@@ -64,33 +68,57 @@ func play_move():
 		
 	while target.walking:
 		yield(get_tree().create_timer(0.3), "timeout")
-	var off = (target.get_global_transform().origin - get_global_transform().origin)
-	var deltaAngle = atan2(-off.z, off.x) - rotation.y
-	deltaAngle = atan2(sin(deltaAngle), cos(deltaAngle))
-	yield(Helper.tween_rotate(self, Vector3(0, deltaAngle, 0), 0.3, Tween.TRANS_QUAD, Tween.EASE_OUT), "completed")
-	
-	attackInterrupted = false
-	attackCharging = true
-	$Anim.play("Shake")
-	yield($Anim, "animation_finished")
-	attackCharging = false
-	if randi()%4 == 0 and !attackInterrupted:
-		attackPrepared = true
-	else:
-		yield(spike_attack(), "completed")
-	emit_signal("moved")
-	
+		
+	var attackType = [Attacks.Spike, Attacks.Spike, Attacks.Stalagmite, Attacks.Stalagmite, Attacks.Spike]
+	attackType = attackType[attackNum%len(attackType)]
+	attackNum += 1
+	match attackType:
+		Attacks.Spike:
+			var off = (target.get_global_transform().origin - get_global_transform().origin)
+			var deltaAngle = atan2(-off.z, off.x) - rotation.y
+			deltaAngle = atan2(sin(deltaAngle), cos(deltaAngle))
+			yield(Helper.tween_rotate(self, Vector3(0, deltaAngle, 0), 0.3, Tween.TRANS_QUAD, Tween.EASE_OUT), "completed")
+			
+			attackInterrupted = false
+			attackCharging = true
+			$Anim.play("Shake")
+			yield($Anim, "animation_finished")
+			attackCharging = false
+			if randi()%4 == 0 and !attackInterrupted:
+				attackPrepared = true
+			else:
+				yield(spike_attack(), "completed")
+			emit_signal("moved")
+			
+			if attackPrepared:
+				yield(get_tree().create_timer(4.0), "timeout")
+				prepared_spike_attack()
+		Attacks.Stalagmite:
+			
+			var deltaAngle = (PI/2) * round(rotation.y / (PI / 2)) - rotation.y
+			deltaAngle = atan2(sin(deltaAngle), cos(deltaAngle))
+			yield(Helper.tween_rotate(self, Vector3(0, deltaAngle, 0), 0.3, Tween.TRANS_QUAD, Tween.EASE_OUT), "completed")
+			
+			
+			attackInterrupted = false
+			attackCharging = true
+			$Anim.play("Shake")
+			yield($Anim, "animation_finished")
+			attackCharging = false
+			yield(stalagmite_attack(), "completed")
+			emit_signal("moved")
+func prepared_spike_attack():
 	if attackPrepared:
-		yield(get_tree().create_timer(4.0), "timeout")
-		prepared_spike_attack()
-
+		$Anim.play("Shake")
+		spike_attack()
+		attackPrepared = false
 func spike_attack():
 	var tr = get_global_transform()
 	
 	var forward = tr.basis.x
 	var up = tr.basis.z
 	var p = tr.origin + forward
-	var mirrors = []
+	#var mirrors = []
 	
 	var count = 16
 	if attackInterrupted:
@@ -117,17 +145,29 @@ func spike_attack():
 		get_parent().add_child(m)
 		
 		m.set_global_transform(tr)
-		mirrors.append(m)
+		#mirrors.append(m)
 		
 		yield(get_tree().create_timer(0.125), "timeout")
 	
 	yield(get_tree().create_timer(1.0), "timeout")
-
-func prepared_spike_attack():
-	if attackPrepared:
-		$Anim.play("Shake")
-		spike_attack()
-		attackPrepared = false
+const Stalagmite = preload("res://VanityStalagmiteAttack.tscn") 
+func stalagmite_attack():
+	var placed = []
+	
+	var tr = get_global_transform()
+	var origin = tr.origin
+	for i in range(8):
+		var p = origin + Vector3(randi()%16 - 8, 0, randi()%16 - 8)
+		while placed.has(p) or !get_parent().has_ground(p):
+			p = origin + Vector3(randi()%16 - 8, 0, randi()%16 - 8)
+		placed.append(p)
+		
+		var s = Stalagmite.instance()
+		get_parent().add_child(s)
+		tr.origin = p
+		s.set_global_transform(tr)
+		yield(get_tree().create_timer(0.125), "timeout")
+	yield(get_tree().create_timer(1.0), "timeout")
 func get_actor(node):
 	while node and !node.is_in_group("Actor"):
 		node = node.get_parent()

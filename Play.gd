@@ -29,12 +29,24 @@ func get_enemy_chars():
 		if !c.is_in_group("Player"):
 			r.append(c)
 	return r
+func get_misc_actors():
+	var r = []
+	for c in get_children():
+		if !c.is_in_group("Actor"):
+			continue
+		if c.is_in_group("Char"):
+			continue
+		r.append(c)
+	return r
 func play_player_turn():
 	
 	var an = $CameraPivot/Camera/Control/Anim
 	an.play("Player")
 	yield(an, "animation_finished")
 	
+	for c in get_misc_actors():
+		if c.has_method("start_turn"):
+			c.start_turn()
 	for c in get_player_chars():
 		c.start_turn()
 	if selectedChar:
@@ -50,6 +62,11 @@ func play_enemy_turn():
 	for c in get_player_chars():
 		c.end_turn()
 		
+	for c in get_misc_actors():
+		if c.has_method("end_turn"):
+			c.end_turn()
+		
+		
 	var an = $CameraPivot/Camera/Control/Anim
 	an.play("Enemy")
 	yield(an, "animation_finished")
@@ -59,6 +76,11 @@ func play_enemy_turn():
 	if !selectedChar.walking:
 		clear_panels()
 		place_panels_quick()
+		
+	
+	for c in get_misc_actors():
+		if c.has_method("start_turn"):
+			c.start_turn()
 	enemyMove=true
 	for c in get_enemy_chars():
 		c.start_turn()
@@ -68,7 +90,9 @@ func play_enemy_turn():
 	for c in get_enemy_chars():
 		c.end_turn()
 	enemyMove=false
-	
+	for c in get_misc_actors():
+		if c.has_method("end_turn"):
+			c.end_turn()
 	
 	play_player_turn()
 
@@ -251,10 +275,6 @@ func _process(delta):
 		$CameraPivot.rotate_y(PI * delta)
 	if Input.is_key_pressed(KEY_D):
 		$CameraPivot.rotate_y(-PI * delta)
-func get_holder(subject):
-	while subject and !subject.is_in_group("CharHolder"):
-		subject = subject.get_parent()
-	return subject
 func is_open(pos: Vector3, ignore: Array = []):
 	var d = get_world().get_direct_space_state().intersect_point(pos + Vector3(0, 1.0, 0), 32, ignore, 2147483647, false, true)                                                                   
 	for other in d:
@@ -263,5 +283,5 @@ func is_open(pos: Vector3, ignore: Array = []):
 			return false
 	return true
 func has_ground(pos: Vector3, ignore: Array = []):
-	var d = get_world().get_direct_space_state().intersect_point(pos + Vector3(0, -0.1, 0), 32, ignore, 2147483647, false, true)                                                                   
+	var d = get_world().get_direct_space_state().intersect_point(pos + Vector3(0, -0.5, 0), 32, ignore, 2147483647, false, true)                                                                   
 	return d.size() > 0

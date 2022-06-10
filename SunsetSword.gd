@@ -14,11 +14,14 @@ func fire_beam():
 	b.queue_free()
 const Splash = preload("res://SunsetSwordSplash.tscn")
 func make_splash():
-	var s = Splash.instance()
 	var world = Helper.get_world(self)
+	var tr = $Pivot/Sprite/Tip.get_global_transform()
+	if !world.has_ground(tr.origin):
+		return
+	var s = Splash.instance()
 	world.call_deferred("add_child", s)
 	yield(s, "tree_entered")
-	s.set_global_transform($Pivot/Sprite/Tip.get_global_transform())
+	s.set_global_transform(tr)
 	#s.queue_free()
 const Spark = preload("res://SunsetSwordSpark.tscn")
 func make_wave():
