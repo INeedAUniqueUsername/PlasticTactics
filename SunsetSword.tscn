@@ -379,7 +379,7 @@ transform = Transform( 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 0, 0, 1, 0
 shape = SubResource( 8 )
 
 [node name="Beam" type="Spatial" parent="Pivot/Sprite"]
-transform = Transform( 0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0, 0, 1, 1, 1, 0 )
+transform = Transform( 0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0, 0, 1, 0.75, 0.75, 0 )
 script = ExtResource( 3 )
 
 [node name="Splash" type="Spatial" parent="Pivot/Sprite"]

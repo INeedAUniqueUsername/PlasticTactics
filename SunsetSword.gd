@@ -8,7 +8,8 @@ func fire_beam():
 	world.call_deferred("add_child", b)
 	yield(b, "tree_entered")
 	b.set_global_transform($Pivot/Sprite/Beam.get_global_transform())
-	yield(Helper.tween_move(b, get_global_transform().basis.x * 30, 1, Tween.TRANS_LINEAR), "completed")
+	#yield(Helper.tween_move(b, get_global_transform().basis.x * 30, 1, Tween.TRANS_LINEAR), "completed")
+	yield(b, "tree_exited")
 	b.queue_free()
 func make_splash():
 	var s = Splash.instance()
