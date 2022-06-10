@@ -1,5 +1,16 @@
 extends Node
 
+
+func tween_property(obj: Spatial, prop: String, start, end, dur: float, trans_type: int = 0, ease_type: int = 0):
+	var t = Tween.new()
+	
+	var origin = obj.get_global_transform().origin
+	t.interpolate_property(obj, prop, start, end, dur, trans_type, ease_type)
+	obj.add_child(t)
+	t.start()
+	yield(t, "tween_all_completed")
+	t.queue_free()
+
 func tween_move(obj: Spatial, inc: Vector3, dur: float, trans_type: int = 0, ease_type: int = 0):
 	var t = Tween.new()
 	
@@ -9,6 +20,8 @@ func tween_move(obj: Spatial, inc: Vector3, dur: float, trans_type: int = 0, eas
 	t.start()
 	yield(t, "tween_all_completed")
 	t.queue_free()
+	
+	
 func tween_rotate(obj: Spatial, inc: Vector3, dur: float, trans_type: int = 0, ease_type: int = 0):
 	var t = Tween.new()
 	var origin = obj.rotation

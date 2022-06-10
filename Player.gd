@@ -46,6 +46,8 @@ func refresh_move():
 	updateButtons()
 	
 func walk(steps):
+	if len(steps) == 0:
+		return
 	walking = true
 	for s in steps:
 		yield(Helper.tween_move(self, Helper.directions[s], 0.3, Tween.TRANS_QUAD, Tween.EASE_OUT), "completed")

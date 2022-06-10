@@ -63,7 +63,8 @@ func play_enemy_turn():
 	for c in get_enemy_chars():
 		c.start_turn()
 	for c in get_enemy_chars():
-		yield(c.play_move(), "completed")
+		c.play_move()
+		yield(c, "moved")
 	for c in get_enemy_chars():
 		c.end_turn()
 	enemyMove=false
@@ -194,6 +195,8 @@ func on_panel_clicked(panel):
 		walked.append(pos)
 		pos -= directions[directionToPos[pos]]
 	walked.append(pos)
+	if len(steps) == 0:
+		return
 	for p in panels.keys():
 		panels[p].disconnect("clicked", self, "on_panel_clicked")
 		if p in walked:
@@ -252,13 +255,13 @@ func get_holder(subject):
 	while subject and !subject.is_in_group("CharHolder"):
 		subject = subject.get_parent()
 	return subject
-func is_open(pos: Vector3):
-	var d = get_world().get_direct_space_state().intersect_point(pos + Vector3(0, 1.0, 0), 32, [], 2147483647, false, true)                                                                   
+func is_open(pos: Vector3, ignore: Array = []):
+	var d = get_world().get_direct_space_state().intersect_point(pos + Vector3(0, 1.0, 0), 32, ignore, 2147483647, false, true)                                                                   
 	for other in d:
 		var col = other.collider
 		if col.is_in_group("NoMove"):
 			return false
 	return true
-func has_ground(pos: Vector3):
-	var d = get_world().get_direct_space_state().intersect_point(pos + Vector3(0, -0.1, 0), 32, [], 2147483647, false, true)                                                                   
+func has_ground(pos: Vector3, ignore: Array = []):
+	var d = get_world().get_direct_space_state().intersect_point(pos + Vector3(0, -0.1, 0), 32, ignore, 2147483647, false, true)                                                                   
 	return d.size() > 0

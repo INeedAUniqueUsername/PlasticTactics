@@ -54,6 +54,7 @@ tracks/0/keys = {
 }
 
 [node name="Shield" type="Sprite3D"]
+cast_shadow = 0
 pixel_size = 0.0313
 alpha_cut = 2
 texture = ExtResource( 2 )

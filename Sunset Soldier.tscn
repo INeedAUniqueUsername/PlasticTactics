@@ -125,5 +125,3 @@ texture = ExtResource( 9 )
 
 [connection signal="area_entered" from="Sprite/Area" to="." method="_on_area_entered"]
 [connection signal="input_event" from="Sprite/Area" to="." method="_on_mouse_input"]
-
-[editable path="Sprite/SwordHolder/SunsetSword"]

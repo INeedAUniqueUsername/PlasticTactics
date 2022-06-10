@@ -367,6 +367,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0 )
 [node name="Y" type="Spatial" parent="Spatial"]
 
 [node name="Sprite" type="Sprite3D" parent="Spatial/Y"]
+cast_shadow = 0
 modulate = Color( 1, 1, 1, 0 )
 pixel_size = 0.0625
 axis = 1
