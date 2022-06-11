@@ -32,11 +32,32 @@ func make_wave():
 		create_spark()
 func create_spark():
 	var s = Spark.instance()
-	var world = Helper.get_world(self)
-	world.call_deferred("add_child", s)
-	yield(s, "tree_entered")
 	var tr = $Pivot/Sprite/Tip.get_global_transform()
+	Helper.get_world(self).call_deferred("add_child", s)
 	s.set_global_transform(tr)
+	yield(s, "tree_entered")
 	yield(Helper.tween_move(s, tr.basis.x * 6, 1.5, Tween.TRANS_QUAD, Tween.EASE_OUT), "completed")
 	yield(Helper.tween_property(s, "opacity", 1, 0, 0.5, Tween.TRANS_QUAD, Tween.EASE_IN), "completed")
 	s.queue_free()
+
+
+func _on_area_entered(area):
+	if !active:
+		return
+	if area.is_in_group("StopAttack"):
+		active = false
+		$Anim.stop()
+		
+		Helper.tween_rotate($Pivot, Vector3(0, 0, PI/4), 0.5, Tween.TRANS_QUAD, Tween.EASE_OUT)
+		yield(get_tree().create_timer(1), "timeout")
+		
+		var t = Tween.new()
+		t.interpolate_property($Pivot, "rotation", $Pivot.rotation, Vector3(0, 0, 0), 0.5, Tween.TRANS_QUAD, Tween.EASE_OUT)
+		t.interpolate_property($Pivot, "translation", $Pivot.translation, Vector3(0, 0, 0), 0.5, Tween.TRANS_QUAD, Tween.EASE_OUT)
+		t.interpolate_property($Pivot/Sprite, "rotation", $Pivot/Sprite.rotation, Vector3(0, 0, 0), 0.5, Tween.TRANS_QUAD, Tween.EASE_OUT)
+		t.interpolate_property($Pivot/Sprite, "translation", $Pivot/Sprite.translation, Vector3(0, 0, 0), 0.5, Tween.TRANS_QUAD, Tween.EASE_OUT)
+		add_child(t)
+		t.start()
+		yield(t, "tween_all_completed")
+		t.queue_free()
+	pass

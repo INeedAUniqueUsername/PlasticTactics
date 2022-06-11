@@ -47,7 +47,7 @@ tracks/2/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ "Enemy Time" ]
+"values": [ "Enemy Turn" ]
 }
 
 [sub_resource type="Animation" id=4]
@@ -87,7 +87,7 @@ tracks/2/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ "Player Time" ]
+"values": [ "Player Turn" ]
 }
 
 [sub_resource type="Animation" id=5]
@@ -205,7 +205,7 @@ tracks/1/keys = {
 script = ExtResource( 2 )
 
 [node name="VanityStalagmiteAttack" parent="." instance=ExtResource( 9 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -1 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -3 )
 
 [node name="SunsetSoldier" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, -3 )
@@ -318,7 +318,7 @@ region_rect = Rect2( 0, 56, 32, 8 )
 [node name="Tween" type="Tween" parent="."]
 
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
-transform = Transform( -0.965926, 0.25, -0.0669873, 0, 0.258819, 0.965926, 0.258819, 0.933013, -0.25, 0, 5, 0 )
+transform = Transform( -0.965926, 0.224144, -0.129409, 0, 0.5, 0.866026, 0.258819, 0.836517, -0.482963, 0, 5, 0 )
 light_energy = 0.5
 shadow_enabled = true
 

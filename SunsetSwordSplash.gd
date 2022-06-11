@@ -5,7 +5,12 @@ func _ready():
 	for i in range(32):
 		var d = Drop.instance()
 		get_parent().call_deferred("add_child", d)
-		d.set_global_transform(get_global_transform())
+		var tr = get_global_transform()
+		var azimuth = randf() * PI * 2
+		var elevation = randf() * PI / 2
+		var length = rand_range(0, 0.5)
+		tr.origin += Vector3(cos(elevation) * cos(azimuth) * length, sin(elevation) * length, cos(elevation) * cos(azimuth) * length)
+		d.set_global_transform(tr)
 	var tile = $Tile
 	
 	var tr = tile.get_global_transform()

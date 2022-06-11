@@ -132,7 +132,7 @@ func place_panels_slow():
 	p.set_global_transform(tr)
 	panels[start] = p
 	call_deferred("add_child", p)
-	p.connect("clicked", self, "on_panel_clicked", [p])
+	p.connect("clicked", self, "on_panel_clicked", [p, selectedChar])
 	var placed = [p]
 	yield(p.get_node("Fade"), "animation_finished")
 	panelsReset = false
@@ -161,7 +161,7 @@ func place_panels_slow():
 				panels[dest] = p2
 				next.append(p2)
 				call_deferred("add_child", p2)
-				p2.connect("clicked", self, "on_panel_clicked", [p2])
+				p2.connect("clicked", self, "on_panel_clicked", [p2, selectedChar])
 			i += 1
 		for panel in next:
 			placed.append(panel)
@@ -173,7 +173,7 @@ func place_panels_quick():
 	p.set_global_transform(tr)
 	panels[start] = p
 	call_deferred("add_child", p)
-	p.connect("clicked", self, "on_panel_clicked", [p])
+	p.connect("clicked", self, "on_panel_clicked", [p, selectedChar])
 	
 	yield(p, "tree_entered")
 	
@@ -201,19 +201,17 @@ func place_panels_quick():
 				panels[dest] = p2
 				next.append(p2)
 				call_deferred("add_child", p2)
-				p2.connect("clicked", self, "on_panel_clicked", [p2])
+				p2.connect("clicked", self, "on_panel_clicked", [p2, selectedChar])
 			i += 1
 		for panel in next:
 			placed.append(panel)
 			#need to wait for this to enter the tree so that transform origins work properly
 			yield(panel, "tree_entered")
-func on_panel_clicked(panel):
-	if !selectedChar:
-		return
+func on_panel_clicked(panel, ownerChar):
 	var steps = []
 	var walked = []
 	var pos = panel.get_global_transform().origin
-	selectedChar.movePoints -= (pos - selectedChar.get_global_transform().origin).length()
+	ownerChar.movePoints -= (pos - ownerChar.get_global_transform().origin).length()
 	while directionToPos.keys().has(pos):
 		steps.append(directionToPos[pos])
 		walked.append(pos)
@@ -228,7 +226,7 @@ func on_panel_clicked(panel):
 		panels[p].get_node("Fade").play("Exit")
 		panels.erase(p)
 	steps.invert()
-	yield(selectedChar.walk(steps), "completed")
+	yield(ownerChar.walk(steps), "completed")
 	refresh_panels()
 func refresh_panels():
 	clear_panels()
@@ -272,9 +270,20 @@ func _process(delta):
 		if Input.is_key_pressed(KEY_ENTER):
 			play_enemy_turn()
 	if Input.is_key_pressed(KEY_A):
-		$CameraPivot.rotate_y(PI * delta)
+		if turning:
+			return
+		turning = true
+		yield(Helper.tween_rotate($CameraPivot, Vector3(0, -PI/6, 0), 0.3, Tween.TRANS_QUAD, Tween.EASE_OUT), "completed")
+		turning = false
+		return
 	if Input.is_key_pressed(KEY_D):
-		$CameraPivot.rotate_y(-PI * delta)
+		if turning:
+			return
+		turning = true
+		yield(Helper.tween_rotate($CameraPivot, Vector3(0, PI/6, 0), 0.3, Tween.TRANS_QUAD, Tween.EASE_OUT), "completed")
+		turning = false
+		return
+var turning = false
 func is_open(pos: Vector3, ignore: Array = []):
 	var d = get_world().get_direct_space_state().intersect_point(pos + Vector3(0, 1.0, 0), 32, ignore, 2147483647, false, true)                                                                   
 	for other in d:

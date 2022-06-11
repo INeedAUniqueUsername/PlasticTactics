@@ -1,5 +1,5 @@
 extends Sprite3D
-var damage = 5
+var damage = 4
 
 var vel = Vector3(0, 0, 0)
 func _ready():
