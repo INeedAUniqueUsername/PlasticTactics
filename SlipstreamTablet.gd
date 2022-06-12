@@ -14,7 +14,7 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
-const a = preload("res://SunsetSwordSpark.tscn")
+const a = preload("res://SlipstreamWind.tscn")
 func cast_wind():
 	
 	var wind = a.instance()
@@ -25,10 +25,14 @@ func cast_wind():
 	var tr = $Pages.get_global_transform()
 	wind.set_global_transform(tr)
 	var origin = tr.origin
-	var offset = tr.basis.x.rotated(tr.basis.y, rand_range(-PI/3, PI/3)) * 8
+	var angle = rand_range(-PI/3, PI/3)
+	wind.rotate_y(angle)
+	var offset = tr.basis.x.rotated(tr.basis.y, angle) * 8
 	t.interpolate_property(wind, "global_transform:origin", origin, origin + offset, 1.0, Tween.TRANS_QUAD, Tween.EASE_OUT)
+	t.interpolate_property(wind, "opacity", 1, 0, 1.0, Tween.TRANS_QUAD, Tween.EASE_IN)
 	world.add_child(t)
 	t.start()
 	yield(t, "tween_all_completed")
 	t.queue_free()
+	wind.queue_free()
 	
