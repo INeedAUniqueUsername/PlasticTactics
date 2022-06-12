@@ -284,6 +284,22 @@ func _process(delta):
 		turning = false
 		return
 var turning = false
+
+func get_areas(pos: Vector3, ignore: Array = []):
+	var d = get_world().get_direct_space_state().intersect_point(pos + Vector3(0, 1.0, 0), 32, ignore, 2147483647, false, true)                                                                   
+	var result = []
+	for other in d:
+		var col = other.collider
+		result.append(col)
+	return result
+func get_heal(pos: Vector3, ignore: Array = []):
+	var d = get_world().get_direct_space_state().intersect_point(pos + Vector3(0, 1.0, 0), 32, ignore, 2147483647, false, true)                                                                   
+	var result = []
+	for other in d:
+		var col = other.collider
+		if col.is_in_group("Heal"):
+			result.append(col)
+	return result
 func is_open(pos: Vector3, ignore: Array = []):
 	var d = get_world().get_direct_space_state().intersect_point(pos + Vector3(0, 1.0, 0), 32, ignore, 2147483647, false, true)                                                                   
 	for other in d:
@@ -291,6 +307,7 @@ func is_open(pos: Vector3, ignore: Array = []):
 		if col.is_in_group("NoMove"):
 			return false
 	return true
+	
 func has_ground(pos: Vector3, ignore: Array = []):
 	var d = get_world().get_direct_space_state().intersect_point(pos + Vector3(0, -0.5, 0), 32, ignore, 2147483647, false, true)                                                                   
 	return d.size() > 0

@@ -2,18 +2,33 @@ extends "res://Clickable.gd"
 var walking = false
 var movePoints = 5
 var attackPoints = 1
-onready var swordButtons = [$Slash, $Stab, $Smash]
+
+var actButtons = {
+	"Cast": null,
+	"Slash": null,
+	"Stab": null,
+	"Smash": null,
+	"Shield": null
+}
+var boostButtons = {}
+var sword
 func _ready():
-	$Slash.connect("clicked", self, "attack", ["Slash"])
-	$Stab.connect("clicked", self, "attack", ["Stab"])
-	$Shield.connect("clicked", self, "attack", ["Shield"])
-	$Smash.connect("clicked", self, "attack", ["Smash"])
+	sword = $Sprite/WeaponEquip.get_child(0)
+	sword.connect("boost_started", self, "set_boost_button")
+	for act in actButtons.keys():
+		var button = $AttackButtons.get_node(act)
+		button.connect("clicked", self, "attack", [act])
+		actButtons[act] = button
+	for act in actButtons.keys():
+		var button = actButtons[act].get_node("Boost")
+		button.set_appearance(false, false)
+		button.connect("clicked", button, "set_appearance", [false, false])
+		button.connect("clicked", sword, "set_boost")
+		
+		sword.connect("boost_ended", button, "set_appearance", [false, false])
+		boostButtons[act] = button
 	$Jump.connect("clicked", self, "jump")
 	updateButtons()
-	
-	for b in [$Stab/Boost, $Slash/Boost, $Smash/Boost]:
-		b.set_appearance(false, false)
-		b.connect("clicked", b, "set_appearance", [false, false])
 var selected = false
 func selected():
 	selected = true
@@ -21,16 +36,20 @@ func selected():
 func deselected():
 	selected = false
 	updateButtons()
-func setButton(b, enabled):
-	b.set_appearance(selected, enabled)
 func updateButtons():
-		
-	for b in swordButtons:
-		setButton(b, attackPoints > 0)
-	setButton($Shield, attackPoints > 0 and !shielding)
-	setButton($Jump, true)
-onready var sword = $Sprite/WeaponEquip.get_child(0)
-
+	var y = 0
+	for action in actButtons.keys():
+		var vis = selected and action in sword.actions
+		var enabled = attackPoints > 0
+		var b = actButtons[action]
+		b.set_appearance(vis, enabled)
+		if vis:
+			b.transform.origin = Vector3(0, y, 0)
+			y += 0.5
+	actButtons["Shield"].set_appearance(selected and "Shield" in sword.actions, attackPoints > 0 and !shielding)
+	$Jump.set_appearance(true, true)
+func set_boost_button():
+	boostButtons[sword.current_attack].set_appearance(true)
 var inTurn = false
 func start_turn():
 	refresh_move()
@@ -40,17 +59,18 @@ func end_turn():
 func refresh_move():
 	movePoints = 5
 	attackPoints = 1
-	
 	updateButtons()
-	
 func walk(steps):
 	if len(steps) == 0:
 		return
 	walking = true
 	for s in steps:
 		yield(Helper.tween_move(self, Helper.directions[s], 0.3, Tween.TRANS_QUAD, Tween.EASE_OUT), "completed")
+		var heal = Helper.get_world(self).get_heal(get_global_transform().origin)
+		if !heal.empty():
+			hp = min(100, hp + 10)
+			emit_signal("damaged")
 	walking = false
-	
 var shielding = false
 func attack(move):
 	if attackPoints > 0:
@@ -62,17 +82,6 @@ func attack(move):
 			if shielding:
 				shielding = false
 				yield(sword.do("Unshield"), "completed")
-				
-			var boostButtons = {
-				"Slash": $Slash/Boost,
-				"Stab": $Stab/Boost,
-				"Smash": $Smash/Boost
-			}
-			var b = boostButtons[move]
-			b.set_appearance(true, true)
-			b.connect("clicked", sword, "set_boost", [], CONNECT_ONESHOT)
-			sword.connect("boost_ended", b, "set_appearance", [false, false], CONNECT_ONESHOT)
-			
 		attackPoints -= 1
 		sword.do(move, inTurn)
 	updateButtons()

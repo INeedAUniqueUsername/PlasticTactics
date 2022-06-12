@@ -1,7 +1,7 @@
 extends "res://Clickable.gd"
 
 
-func set_appearance(vis, enabled):
+func set_appearance(vis, enabled = true):
 	if !vis:
 		self.opacity = 0
 		$Area.input_ray_pickable = false

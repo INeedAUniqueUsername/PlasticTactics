@@ -2,9 +2,14 @@ extends "res://Damage.gd"
 
 const Beam = preload("res://SunsetBeam.tscn")
 
+
+var actions = ["Slash", "Stab", "Smash", "Shield"]
 signal attack_ended()
+signal boost_started()
 signal boost_ended()
 var boost = 0
+
+var current_attack = null
 func do(action, boostable = false):
 	$Pivot/Copper/Boost.visible = boostable
 	if action in ["Shield", "Unshield"]:
@@ -13,9 +18,12 @@ func do(action, boostable = false):
 		return
 	
 	boost = 0
+	current_attack = action
 	$Anim.play(action)
 	yield($Anim, "animation_finished")
 	emit_signal("attack_ended")
+func start_boost():
+	emit_signal("boost_started")
 func set_boost():
 	boost = $Anim.current_animation_position
 func end_boost():
