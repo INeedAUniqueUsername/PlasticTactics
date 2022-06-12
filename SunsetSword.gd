@@ -2,6 +2,30 @@ extends "res://Damage.gd"
 
 const Beam = preload("res://SunsetBeam.tscn")
 
+signal attack_ended()
+signal boost_ended()
+var boost = 0
+func do(action):
+	if action in ["Shield", "Unshield"]:
+		$Anim.play(action)
+		yield($Anim, "animation_finished")
+		return
+	var baseDamage = damage
+	boost = 0
+	
+	connect("attack_ended", self, "set_damage", [baseDamage], CONNECT_ONESHOT)
+	$Anim.play(action)
+	yield($Anim, "animation_finished")
+	disconnect("attack_ended", self, "set_damage")
+	set_damage(baseDamage)
+func set_damage(dmg):
+	damage = dmg
+func set_boost():
+	boost = $Anim.current_animation_position
+func end_boost():
+	boost = 1.0 * boost / $Anim.current_animation_position
+	damage += damage * boost
+	emit_signal("boost_ended")
 #onready var world = Helper.get_world(self)
 func fire_beam():
 	var b = Beam.instance()
@@ -47,7 +71,8 @@ func _on_area_entered(area):
 	if area.is_in_group("StopAttack"):
 		active = false
 		$Anim.stop()
-		
+		emit_signal("boost_ended")
+		emit_signal("attack_ended")
 		Helper.tween_rotate($Pivot, Vector3(0, 0, PI/4), 0.5, Tween.TRANS_QUAD, Tween.EASE_OUT)
 		yield(get_tree().create_timer(1), "timeout")
 		

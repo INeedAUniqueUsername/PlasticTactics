@@ -189,6 +189,20 @@ tracks/3/keys = {
 "method": "make_wave"
 } ]
 }
+tracks/4/type = "method"
+tracks/4/path = NodePath(".")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0.2 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "end_boost"
+} ]
+}
 
 [sub_resource type="Animation" id=7]
 resource_name = "Smash"
@@ -267,6 +281,20 @@ tracks/5/keys = {
 "method": "make_splash"
 } ]
 }
+tracks/6/type = "method"
+tracks/6/path = NodePath(".")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0.2 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "end_boost"
+} ]
+}
 
 [sub_resource type="Animation" id=5]
 resource_name = "Stab"
@@ -321,6 +349,20 @@ tracks/3/keys = {
 "method": "fire_beam"
 } ]
 }
+tracks/4/type = "method"
+tracks/4/path = NodePath(".")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0.2 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "end_boost"
+} ]
+}
 
 [sub_resource type="Animation" id=9]
 resource_name = "Unshield"
@@ -355,6 +397,7 @@ extents = Vector3( 0.2, 1, 0.05 )
 
 [node name="SunsetSword" type="Spatial" groups=["Actor"]]
 script = ExtResource( 2 )
+damage = 10
 active = false
 
 [node name="Anim" type="AnimationPlayer" parent="."]

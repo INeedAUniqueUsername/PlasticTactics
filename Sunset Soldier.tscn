@@ -134,10 +134,10 @@ frame = 1
 [node name="Prism" type="CollisionShape" parent="Sprite/Area"]
 shape = SubResource( 1 )
 
-[node name="SwordHolder" type="Spatial" parent="Sprite"]
+[node name="WeaponEquip" type="Spatial" parent="Sprite"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.1 )
 
-[node name="SunsetSword" parent="Sprite/SwordHolder" instance=ExtResource( 3 )]
+[node name="SunsetSword" parent="Sprite/WeaponEquip" instance=ExtResource( 3 )]
 
 [node name="Anim" type="AnimationPlayer" parent="."]
 anims/Jump = SubResource( 2 )
@@ -150,14 +150,35 @@ anims/RESET = SubResource( 5 )
 [node name="Slash" parent="." instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 2, 0 )
 texture = ExtResource( 6 )
+hframes = 3
+
+[node name="Boost" parent="Slash" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.05 )
+texture = ExtResource( 6 )
+region_enabled = true
+region_rect = Rect2( 16, 0, 32, 16 )
 
 [node name="Stab" parent="." instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1.5, 0 )
 texture = ExtResource( 5 )
+hframes = 3
+
+[node name="Boost" parent="Stab" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.05 )
+texture = ExtResource( 5 )
+region_enabled = true
+region_rect = Rect2( 16, 0, 32, 16 )
 
 [node name="Smash" parent="." instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0 )
 texture = ExtResource( 7 )
+hframes = 3
+
+[node name="Boost" parent="Smash" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.05 )
+texture = ExtResource( 7 )
+region_enabled = true
+region_rect = Rect2( 16, 0, 32, 16 )
 
 [node name="Shield" parent="." instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.5, 0 )

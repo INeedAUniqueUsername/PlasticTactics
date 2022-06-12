@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://Sunset Soldier.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Play.gd" type="Script" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://VanityFloor.png" type="Texture" id=7]
 [ext_resource path="res://Cutter.tscn" type="PackedScene" id=8]
 [ext_resource path="res://VanityStalagmiteAttack.tscn" type="PackedScene" id=9]
+[ext_resource path="res://SlipstreamTablet.tscn" type="PackedScene" id=10]
 
 [sub_resource type="Animation" id=6]
 resource_name = "Enemy"
@@ -204,6 +205,9 @@ tracks/1/keys = {
 [node name="World" type="Spatial" groups=["World"]]
 script = ExtResource( 2 )
 
+[node name="SlipstreamTablet" parent="." instance=ExtResource( 10 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+
 [node name="VanityStalagmiteAttack" parent="." instance=ExtResource( 9 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -3 )
 
@@ -325,4 +329,3 @@ shadow_enabled = true
 [connection signal="pressed" from="CameraPivot/Camera/Control/TextureButton" to="." method="play_enemy_turn"]
 
 [editable path="SunsetSoldier"]
-[editable path="SunsetSoldier/Sprite/SwordHolder/SunsetSword"]

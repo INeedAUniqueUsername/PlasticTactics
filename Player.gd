@@ -10,6 +10,9 @@ func _ready():
 	$Smash.connect("clicked", self, "attack", ["Smash"])
 	$Jump.connect("clicked", self, "jump")
 	updateButtons()
+	
+	for b in [$Stab/Boost, $Slash/Boost, $Smash/Boost]:
+		b.set_appearance(false, false)
 var selected = false
 func selected():
 	selected = true
@@ -18,22 +21,14 @@ func deselected():
 	selected = false
 	updateButtons()
 func setButton(b, enabled):
-	if !selected:
-		b.modulate.a = 0
-		b.get_node("Area").input_ray_pickable = false
-	if enabled:
-		b.modulate.a = 1.0
-		b.get_node("Area").input_ray_pickable = true
-	else:
-		b.modulate.a = 0.5
-		b.get_node("Area").input_ray_pickable = false
+	b.set_appearance(selected, enabled)
 func updateButtons():
 		
 	for b in swordButtons:
 		setButton(b, attackPoints > 0)
 	setButton($Shield, attackPoints > 0 and !shielding)
 	setButton($Jump, true)
-onready var sword = $Sprite/SwordHolder.get_child(0)
+onready var sword = $Sprite/WeaponEquip.get_child(0)
 func start_turn():
 	refresh_move()
 	sword.damage *= 1.5
@@ -56,7 +51,6 @@ func walk(steps):
 var shielding = false
 func attack(move):
 	if attackPoints > 0:
-		var an = sword.get_node("Anim")
 		if move == "Shield":
 			if shielding:
 				return
@@ -64,10 +58,20 @@ func attack(move):
 		else:
 			if shielding:
 				shielding = false
-				an.play("Unshield")
-				yield(an, "animation_finished")
+				yield(sword.do("Unshield"), "completed")
+				
+			var boostButtons = {
+				"Slash": $Slash/Boost,
+				"Stab": $Stab/Boost,
+				"Smash": $Smash/Boost
+			}
+			var b = boostButtons[move]
+			b.set_appearance(true, true)
+			b.connect("clicked", sword, "set_boost")
+			sword.connect("boost_ended", b, "set_appearance", [false, false], CONNECT_ONESHOT)
+			
 		attackPoints -= 1
-		an.play(move)
+		sword.do(move)
 	updateButtons()
 func jump():
 	$Anim.play("Jump")
