@@ -13,6 +13,7 @@ func _ready():
 	
 	for b in [$Stab/Boost, $Slash/Boost, $Smash/Boost]:
 		b.set_appearance(false, false)
+		b.connect("clicked", b, "set_appearance", [false, false])
 var selected = false
 func selected():
 	selected = true
@@ -29,11 +30,13 @@ func updateButtons():
 	setButton($Shield, attackPoints > 0 and !shielding)
 	setButton($Jump, true)
 onready var sword = $Sprite/WeaponEquip.get_child(0)
+
+var inTurn = false
 func start_turn():
 	refresh_move()
-	sword.damage *= 1.5
+	inTurn = true
 func end_turn():
-	sword.damage /= 1.5
+	inTurn = false
 func refresh_move():
 	movePoints = 5
 	attackPoints = 1
@@ -67,11 +70,11 @@ func attack(move):
 			}
 			var b = boostButtons[move]
 			b.set_appearance(true, true)
-			b.connect("clicked", sword, "set_boost")
+			b.connect("clicked", sword, "set_boost", [], CONNECT_ONESHOT)
 			sword.connect("boost_ended", b, "set_appearance", [false, false], CONNECT_ONESHOT)
 			
 		attackPoints -= 1
-		sword.do(move)
+		sword.do(move, inTurn)
 	updateButtons()
 func jump():
 	$Anim.play("Jump")
