@@ -1,15 +1,18 @@
 extends Spatial
 
+var damageBonus = 0
+var particleCount = 32
 const Drop = preload("res://SunsetSwordSplashDrop.tscn")
 func _ready():
-	for i in range(32):
+	for i in range(particleCount):
 		var d = Drop.instance()
+		d.damage += d.damage * damageBonus
 		get_parent().call_deferred("add_child", d)
 		var tr = get_global_transform()
 		var azimuth = randf() * PI * 2
 		var elevation = randf() * PI / 2
 		var length = rand_range(0, 0.5)
-		tr.origin += Vector3(cos(elevation) * cos(azimuth) * length, sin(elevation) * length, cos(elevation) * cos(azimuth) * length)
+		tr.origin += Vector3(cos(elevation) * cos(azimuth) * length, 0.5 + sin(elevation) * length, cos(elevation) * cos(azimuth) * length)
 		d.set_global_transform(tr)
 	var tile = $Tile
 	

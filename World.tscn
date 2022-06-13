@@ -51,8 +51,7 @@ tracks/2/keys = {
 "values": [ "Enemy Turn" ]
 }
 
-[sub_resource type="Animation" id=4]
-resource_name = "Player"
+[sub_resource type="Animation" id=11]
 length = 1.6
 tracks/0/type = "value"
 tracks/0/path = NodePath("Turn:modulate")
@@ -91,7 +90,7 @@ tracks/2/keys = {
 "values": [ "Player Turn" ]
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=12]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/path = NodePath("Turn:modulate")
@@ -133,8 +132,7 @@ tracks/2/keys = {
 [sub_resource type="BoxShape" id=10]
 extents = Vector3( 8, 0.5, 4 )
 
-[sub_resource type="Animation" id=8]
-resource_name = "Cut"
+[sub_resource type="Animation" id=13]
 length = 2.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Cutters:translation")
@@ -214,6 +212,12 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -3 )
 [node name="SunsetSoldier" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, -3 )
 
+[node name="Pivot" parent="SunsetSoldier/Sprite/WeaponEquip/SunsetSword" index="1"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+
+[node name="Copper" parent="SunsetSoldier/Sprite/WeaponEquip/SunsetSword/Pivot" index="0"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+
 [node name="Vanity" parent="." instance=ExtResource( 4 )]
 transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 2, 0, -3 )
 
@@ -234,8 +238,8 @@ mouse_filter = 2
 [node name="Anim" type="AnimationPlayer" parent="CameraPivot/Camera/Control"]
 autoplay = "Player"
 anims/Enemy = SubResource( 6 )
-anims/Player = SubResource( 4 )
-anims/RESET = SubResource( 5 )
+anims/Player = SubResource( 11 )
+anims/RESET = SubResource( 12 )
 
 [node name="Turn" type="Label" parent="CameraPivot/Camera/Control"]
 modulate = Color( 1, 1, 1, 0 )
@@ -283,7 +287,7 @@ shape = SubResource( 10 )
 
 [node name="Anim" type="AnimationPlayer" parent="Spatial"]
 playback_speed = 0.5
-anims/Cut = SubResource( 8 )
+anims/Cut = SubResource( 13 )
 anims/RESET = SubResource( 9 )
 
 [node name="Cutters" type="Spatial" parent="Spatial"]
@@ -329,3 +333,4 @@ shadow_enabled = true
 [connection signal="pressed" from="CameraPivot/Camera/Control/TextureButton" to="." method="play_enemy_turn"]
 
 [editable path="SunsetSoldier"]
+[editable path="SunsetSoldier/Sprite/WeaponEquip/SunsetSword"]

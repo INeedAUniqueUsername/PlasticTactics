@@ -1,8 +1,18 @@
 extends Spatial
 var actions = ["Cast"]
 const a = preload("res://SlipstreamWind.tscn")
+
+signal attack_ended()
+var current_attack = null
+
+func _ready():
+	connect("attack_ended", self, "set", ["current_attack", null])
 func do(a, b):
-	$Anim.play("Cast")
+	a = "Cast"
+	current_attack = a
+	$Anim.play(a)
+	yield($Anim, "animation_finished")
+	emit_signal("attack_ended")
 func cast_wind():
 	for i in [-2, -1, 0, 1, 2]:
 		cast_wind_particle(i)
