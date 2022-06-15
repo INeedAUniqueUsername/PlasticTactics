@@ -1,8 +1,7 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://SunsetSoldier.png" type="Texture" id=1]
 [ext_resource path="res://Player.gd" type="Script" id=2]
-[ext_resource path="res://SunsetSword.tscn" type="PackedScene" id=3]
 [ext_resource path="res://HPBar.tscn" type="PackedScene" id=4]
 [ext_resource path="res://StabSymbol.png" type="Texture" id=5]
 [ext_resource path="res://SlashSymbol.png" type="Texture" id=6]
@@ -11,8 +10,6 @@
 [ext_resource path="res://JumpSymbol.png" type="Texture" id=9]
 [ext_resource path="res://LeaderSymbol.png" type="Texture" id=10]
 [ext_resource path="res://CastSymbol.png" type="Texture" id=11]
-[ext_resource path="res://SlipstreamTome.tscn" type="PackedScene" id=12]
-[ext_resource path="res://SunsetHammer.tscn" type="PackedScene" id=13]
 [ext_resource path="res://ItemSymbol.png" type="Texture" id=14]
 [ext_resource path="res://SwitchSymbol.png" type="Texture" id=15]
 [ext_resource path="res://ShieldSymbol.png" type="Texture" id=16]
@@ -143,14 +140,6 @@ shape = SubResource( 1 )
 [node name="WeaponEquip" type="Spatial" parent="Sprite"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.1 )
 
-[node name="SunsetHammer" parent="Sprite/WeaponEquip" instance=ExtResource( 13 )]
-
-[node name="SunsetSword" parent="Sprite/WeaponEquip" instance=ExtResource( 3 )]
-visible = false
-
-[node name="SlipstreamTablet" parent="Sprite/WeaponEquip" instance=ExtResource( 12 )]
-visible = false
-
 [node name="Anim" type="AnimationPlayer" parent="."]
 anims/Jump = SubResource( 2 )
 anims/RESET = SubResource( 3 )
@@ -230,5 +219,3 @@ region_rect = Rect2( 16, 0, 32, 16 )
 
 [connection signal="area_entered" from="Sprite/Area" to="." method="_on_area_entered"]
 [connection signal="input_event" from="Sprite/Area" to="." method="_on_mouse_input"]
-
-[editable path="Sprite/WeaponEquip/SunsetSword"]

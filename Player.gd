@@ -63,22 +63,26 @@ func set_boost_button():
 	b.set_appearance(true)
 	
 const healEffect = preload("res://HealEffect.tscn")
-func check_heal():
-	var heal = Helper.get_world(self).get_heal(get_global_transform().origin)
-	if !heal.empty():
-		hp = min(100, hp + 10)
-		emit_signal("damaged")
-		var he = healEffect.instance()
-		he.set_global_transform(get_global_transform())
-		Helper.get_world(self).add_child(he)
+func check_standing_areas():
+	for a in $Sprite/Area.get_overlapping_areas():
+		if a.is_in_group("Heal"):
+			hp = min(100, hp + 10)
+			emit_signal("damaged")
+			var he = healEffect.instance()
+			he.set_global_transform(get_global_transform())
+			Helper.get_world(self).add_child(he)
+		elif a.is_in_group("Burning"):
+			hp = max(0, hp - 10)
+			emit_signal("damaged")
+			$Hurt.play("Hurt")
 var inTurn = false
 func start_turn():
 	refresh_move()
 	inTurn = true
-	check_heal()
+	check_standing_areas()
 func end_turn():
 	inTurn = false
-	check_heal()
+	check_standing_areas()
 func refresh_move():
 	movePoints = 5
 	attackPoints = 1
@@ -89,7 +93,7 @@ func walk(steps):
 	walking = true
 	for s in steps:
 		yield(Helper.tween_move(self, Helper.directions[s], 0.3, Tween.TRANS_QUAD, Tween.EASE_OUT), "completed")
-		check_heal()
+		check_standing_areas()
 	walking = false
 var shielding = false
 func attack(move):

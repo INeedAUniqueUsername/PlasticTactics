@@ -14,6 +14,7 @@ func _ready():
 		if c.is_in_group("Player"):
 			selectedChar = c
 	play_player_turn()
+	$CameraPivot/Camera/Control/TextureButton.connect("pressed", self, "play_enemy_turn")
 func remove_char(c):
 	chars.erase(c)
 var enemyMove = false

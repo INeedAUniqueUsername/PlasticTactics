@@ -16,7 +16,10 @@ enum Attacks {
 var attackNum = 0
 
 func start_turn():
-	pass
+	check_standing_areas()
+func walk(dp):
+	yield(Helper.tween_move(self, dp, 0.3, Tween.TRANS_QUAD, Tween.EASE_OUT), "completed")
+	check_standing_areas()
 func play_move():
 	var target = null
 	
@@ -49,7 +52,7 @@ func play_move():
 				var dp = Vector3(0, 0, sign(off.z))
 				if !world.has_ground(get_global_transform().origin + dp):
 					break
-				yield(Helper.tween_move(self, dp, 0.3, Tween.TRANS_QUAD, Tween.EASE_OUT), "completed")	
+				yield(walk(dp), "completed")
 				movePoints -= 1
 				moved = true
 			for i in range(min(abs(off.x), abs(movePoints))):
@@ -61,7 +64,7 @@ func play_move():
 				var dp = Vector3(sign(off.x), 0, 0)
 				if !world.has_ground(get_global_transform().origin + dp):
 					break
-				yield(Helper.tween_move(self, dp, 0.3, Tween.TRANS_QUAD, Tween.EASE_OUT), "completed")	
+				yield(walk(dp), "completed")
 				movePoints -= 1
 				moved = true
 		if !moved:
@@ -97,6 +100,7 @@ func play_move():
 			yield(stalagmite_attack(), "completed")
 			emit_signal("moved")
 func end_turn():
+	check_standing_areas()
 	if attackPrepared:
 		yield(get_tree().create_timer(4.0), "timeout")
 		emit_signal("attack_released")
@@ -251,3 +255,16 @@ func _on_area_entered(area):
 	$Hurt.play("Hurt")
 	if hp == 0:
 		queue_free()
+const healEffect = preload("res://HealEffect.tscn")
+func check_standing_areas():
+	for a in $Area.get_overlapping_areas():
+		if a.is_in_group("Heal"):
+			hp = min(100, hp + 10)
+			emit_signal("damaged")
+			var he = healEffect.instance()
+			he.set_global_transform(get_global_transform())
+			Helper.get_world(self).add_child(he)
+		elif a.is_in_group("Burning"):
+			hp = max(0, hp - 10)
+			emit_signal("damaged")
+			$Hurt.play("Hurt")
