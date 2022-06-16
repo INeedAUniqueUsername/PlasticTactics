@@ -34,6 +34,10 @@ func get_world(node):
 	while node and !node.is_in_group("World"):
 		node = node.get_parent()
 	return node
+func add_to_world(node : Node, child : Node, tr = null):
+	get_world(node).add_child(child)
+	if tr:
+		child.set_global_transform(tr)
 func get_actor(node):
 	while node and !node.is_in_group("Actor"):
 		node = node.get_parent()

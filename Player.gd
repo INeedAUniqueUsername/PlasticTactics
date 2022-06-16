@@ -17,7 +17,11 @@ func set_weapon(w):
 	sword.connect("boost_started", self, "set_boost_button")
 	sword.connect("attack_ended", self, "updateButtons", [], CONNECT_DEFERRED)
 func _ready():
-	set_weapon($Sprite/WeaponEquip.get_child(0))
+	for c in $Sprite/WeaponEquip.get_children():
+		c.hide()
+	var w = $Sprite/WeaponEquip.get_child(0)
+	w.show()
+	set_weapon(w)
 	for act in actButtons.keys():
 		var button = $AttackButtons.get_node(act)
 		button.connect("clicked", self, "attack", [act])
@@ -26,9 +30,6 @@ func _ready():
 		var button = actButtons[act].get_node("Boost")
 		button.set_appearance(false, false)
 		button.connect("clicked", button, "set_appearance", [false, false])
-		button.connect("clicked", sword, "set_boost")
-		
-		sword.connect("boost_ended", button, "set_appearance", [false, false])
 		boostButtons[act] = button
 	$Jump.connect("clicked", self, "jump")
 	$Item.connect("clicked", self, "toggle_item_menu")
@@ -57,9 +58,12 @@ func updateButtons():
 	$Item.set_appearance(selected, !sword.current_attack)
 	$Switch.set_appearance(selected, !sword.current_attack)
 	$Jump.set_appearance(selected, true)
+	
+	toggle_item_menu(!itemButtons.keys().empty())
 func set_boost_button():
 	var b = boostButtons[sword.current_attack]
 	b.connect("clicked", sword, "set_boost")
+	sword.connect("boost_ended", b, "set_appearance", [false, false])
 	b.set_appearance(true)
 	
 const healEffect = preload("res://HealEffect.tscn")
@@ -92,7 +96,12 @@ func walk(steps):
 		return
 	walking = true
 	for s in steps:
-		yield(Helper.tween_move(self, Helper.directions[s], 0.3, Tween.TRANS_QUAD, Tween.EASE_OUT), "completed")
+		var g = Helper.get_world(self).get_ground(get_global_transform().origin)
+		var time = 0.3
+		#print(g.name)
+		if g.get_parent().is_in_group("River"):
+			time = 0.9
+		yield(Helper.tween_move(self, Helper.directions[s], time, Tween.TRANS_QUAD, Tween.EASE_OUT), "completed")
 		check_standing_areas()
 	walking = false
 var shielding = false
@@ -120,17 +129,11 @@ func switch_weapon():
 	updateButtons()
 	
 var inventory = [
-	{
-		"sprite": preload("res://Oasisphere.png")
-	},{
-		"sprite": preload("res://Oasisphere.png")
-	},{
-		"sprite": preload("res://Oasisphere.png")
-	},{
-		"sprite": preload("res://Oasisphere.png")
-	},{
-		"sprite": preload("res://Oasisphere.png")
-	},
+	ItemTypes.Oasisphere,
+	ItemTypes.Dynamite,
+	ItemTypes.Oasisphere,
+	ItemTypes.Oasisphere,
+	ItemTypes.Oasisphere,
 ]
 var itemButtons = {}
 const StdSprite = preload("res://StdSprite.tscn")
@@ -145,10 +148,10 @@ func toggle_item_menu(vis = null):
 		var i = 0
 		for item in inventory:
 			var b = SpriteButton.instance()
-			itemButtons[item] = b
+			itemButtons[i] = b
 			$Item.add_child(b)
 			b.transform.origin = Vector3(-0.5, i * 0.5, 0)
-			b.connect("clicked", self, "use_item", [item])
+			b.connect("clicked", self, "use_item", [i])
 			
 			b.set_appearance(selected, attackPoints > 0)
 			
@@ -159,13 +162,22 @@ func toggle_item_menu(vis = null):
 			s.transform.origin = Vector3(0, 0, 0.025)
 			i += 1
 const Oasisphere = preload("res://Oasisphere.tscn")
-func use_item(item):
-	var s = Oasisphere.instance()
-	s.set_global_transform(get_global_transform())
-	s.transform.origin += Vector3(0, 1, 0)
-	s.vel = Vector3(0, 9.8/2, 0)
-	Helper.get_world(self).add_child(s)
-	inventory.erase(item)
+func use_item(index):
+	var item = inventory[index]
+	match item:
+		ItemTypes.Oasisphere:
+			var s = Oasisphere.instance()
+			Helper.add_to_world(self, s, get_global_transform())
+			s.transform.origin += Vector3(0, 1, 0)
+			s.vel = Vector3(0, 9.8/2, 0)
+		ItemTypes.Dynamite:
+			
+			var s = preload("res://Dynamite.tscn").instance()
+			var tr = get_global_transform()
+			tr.origin += tr.basis.x
+			Helper.add_to_world(self, s, tr)
+			
+	inventory.remove(index)
 	toggle_item_menu(true)
 func get_actor(node):
 	while node and !node.is_in_group("Actor"):

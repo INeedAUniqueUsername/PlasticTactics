@@ -17,6 +17,7 @@ config/icon="res://icon.png"
 [autoload]
 
 Helper="*res://Helper.tscn"
+ItemTypes="*res://ItemTypes.tscn"
 
 [display]
 

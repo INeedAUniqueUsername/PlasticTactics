@@ -12,7 +12,7 @@ func _ready():
 	for v in [Vector3(0, 0, 1), Vector3(1, 0, 1), Vector3(1, 0, 0), Vector3(1, 0, -1), Vector3(0, 0, -1), Vector3(-1, 0, -1), Vector3(-1, 0, 0), Vector3(-1, 0, 1)]:
 		var t = tile.duplicate()
 		call_deferred("add_child", t)
-		t.transform.origin = tile.transform.origin + v
+		t.transform.origin += v
 		show_tile(t)
 		tiles.append(t)
 	#tile.queue_free()

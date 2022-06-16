@@ -201,39 +201,27 @@ tracks/2/keys = {
 [sub_resource type="Animation" id=4]
 resource_name = "Enter"
 tracks/0/type = "value"
-tracks/0/path = NodePath("Spatial/Y/Sprite:modulate")
+tracks/0/path = NodePath("Spatial/Y/Sprite:opacity")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
 "times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
+"transitions": PoolRealArray( -2, 1 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.4 ) ]
+"values": [ 0.0, 1.0 ]
 }
 
 [sub_resource type="Animation" id=9]
 resource_name = "Exit"
-tracks/0/type = "value"
-tracks/0/path = NodePath("Spatial/Y/Sprite:modulate")
+tracks/0/type = "method"
+tracks/0/path = NodePath(".")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 0.4 ), Color( 1, 1, 1, 0 ) ]
-}
-tracks/1/type = "method"
-tracks/1/path = NodePath(".")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
 "times": PoolRealArray( 1 ),
 "transitions": PoolRealArray( 1 ),
 "values": [ {
@@ -241,11 +229,23 @@ tracks/1/keys = {
 "method": "queue_free"
 } ]
 }
+tracks/1/type = "value"
+tracks/1/path = NodePath("Spatial/Y/Sprite:opacity")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( -2, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0 ]
+}
 
 [sub_resource type="Animation" id=5]
 length = 0.001
 tracks/0/type = "value"
-tracks/0/path = NodePath("Spatial/Y/Sprite:modulate")
+tracks/0/path = NodePath("Spatial/Y/Sprite:opacity")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -254,7 +254,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 0 ) ]
+"values": [ 1.0 ]
 }
 
 [sub_resource type="Animation" id=10]
@@ -368,7 +368,6 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0 )
 
 [node name="Sprite" type="Sprite3D" parent="Spatial/Y"]
 cast_shadow = 0
-modulate = Color( 1, 1, 1, 0 )
 pixel_size = 0.0625
 axis = 1
 alpha_cut = 2

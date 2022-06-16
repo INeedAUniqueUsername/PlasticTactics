@@ -270,21 +270,44 @@ func _process(delta):
 			selectedChar.attack("Stab")
 		if Input.is_key_pressed(KEY_ENTER):
 			play_enemy_turn()
-	if Input.is_key_pressed(KEY_A):
-		if turning:
+	var shift = Input.is_key_pressed(KEY_SHIFT)
+	if !cameraMoving:
+			
+		if Input.is_key_pressed(KEY_W):
+			cameraMoving = true
+			if shift:
+				if $CameraPivot.rotation_degrees.x > -60:
+					yield(Helper.tween_rotate($CameraPivot, Vector3(-PI/36, 0, 0), 0.3, Tween.TRANS_QUAD, Tween.EASE_OUT), "completed")
+			else:
+				yield(Helper.tween_move($CameraPivot, Vector3(0, 0, -1), 0.2, Tween.TRANS_QUAD, Tween.EASE_OUT), "completed")
+			cameraMoving = false
 			return
-		turning = true
-		yield(Helper.tween_rotate($CameraPivot, Vector3(0, -PI/6, 0), 0.3, Tween.TRANS_QUAD, Tween.EASE_OUT), "completed")
-		turning = false
-		return
-	if Input.is_key_pressed(KEY_D):
-		if turning:
+		elif Input.is_key_pressed(KEY_S):
+			cameraMoving = true
+			if shift:
+				if $CameraPivot.rotation_degrees.x < -30:
+					yield(Helper.tween_rotate($CameraPivot, Vector3(PI/36, 0, 0), 0.3, Tween.TRANS_QUAD, Tween.EASE_OUT), "completed")
+			else:
+				yield(Helper.tween_move($CameraPivot, Vector3(0, 0, 1), 0.2, Tween.TRANS_QUAD, Tween.EASE_OUT), "completed")
+			cameraMoving = false
 			return
-		turning = true
-		yield(Helper.tween_rotate($CameraPivot, Vector3(0, PI/6, 0), 0.3, Tween.TRANS_QUAD, Tween.EASE_OUT), "completed")
-		turning = false
-		return
-var turning = false
+		elif Input.is_key_pressed(KEY_A):
+			cameraMoving = true
+			if shift:
+				yield(Helper.tween_rotate($CameraPivot, Vector3(0, -PI/6, 0), 0.3, Tween.TRANS_QUAD, Tween.EASE_OUT), "completed")
+			else:
+				yield(Helper.tween_move($CameraPivot, Vector3(-1, 0, 0), 0.2, Tween.TRANS_QUAD, Tween.EASE_OUT), "completed")
+			cameraMoving = false
+			return
+		elif Input.is_key_pressed(KEY_D):
+			cameraMoving = true
+			if shift:
+				yield(Helper.tween_rotate($CameraPivot, Vector3(0, PI/6, 0), 0.3, Tween.TRANS_QUAD, Tween.EASE_OUT), "completed")
+			else:
+				yield(Helper.tween_move($CameraPivot, Vector3(1, 0, 0), 0.2, Tween.TRANS_QUAD, Tween.EASE_OUT), "completed")
+			cameraMoving = false
+			return
+var cameraMoving = false
 
 func get_areas(pos: Vector3, ignore: Array = []):
 	var d = get_world().get_direct_space_state().intersect_point(pos + Vector3(0, 1.0, 0), 32, ignore, 2147483647, false, true)                                                                   
@@ -311,4 +334,22 @@ func is_open(pos: Vector3, ignore: Array = []):
 	
 func has_ground(pos: Vector3, ignore: Array = []):
 	var d = get_world().get_direct_space_state().intersect_point(pos + Vector3(0, -0.5, 0), 32, ignore, 2147483647, false, true)                                                                   
-	return d.size() > 0
+	for other in d:
+		var col = other.collider
+		if col.is_in_group("Ground"):
+			return true
+	return false
+func get_ground(pos: Vector3, ignore: Array = []):
+	var d = get_world().get_direct_space_state().intersect_point(pos + Vector3(0, -0.5, 0), 32, ignore, 2147483647, false, true)                                                                   
+	for other in d:
+		var col = other.collider
+		if col.is_in_group("Ground"):
+			return col
+	return null
+func get_ground_y(pos: Vector3, ignore: Array = []):                                                                   
+	var st = get_world().get_direct_space_state()
+	for other in st.intersect_point(pos + Vector3(0, -0.5, 0), 32, ignore, 2147483647, false, true):
+		var col = other.collider
+		if col.is_in_group("Ground"):
+			return col.get_global_transform().origin.y
+	return null

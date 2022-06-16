@@ -19,9 +19,13 @@ func start_turn():
 #func _process(delta):
 #	pass
 
-
+var destroyed = false
 func _on_area_entered(area):
 	if area.is_in_group("Water"):
+		print("Fire extinguished by " + Helper.get_actor(area).name)
+		if destroyed:
+			return
+		destroyed = true
 		destroy()		
 func destroy():
 	$Tile/Area.queue_free()

@@ -5,16 +5,59 @@
 [sub_resource type="BoxShape" id=1]
 extents = Vector3( 0.5, 0.5, 0.5 )
 
-[node name="RiverTile" type="Sprite3D" groups=["Ground"]]
+[node name="RiverTile" type="Sprite3D" groups=["River"]]
 cast_shadow = 0
 pixel_size = 0.0625
 axis = 1
+shaded = true
 alpha_cut = 2
 texture = ExtResource( 1 )
+hframes = 2
 
-[node name="Area" type="Area" parent="."]
+[node name="Area" type="Area" parent="." groups=["Ground", "Water"]]
 input_ray_pickable = false
+monitoring = false
 
 [node name="Shape" type="CollisionShape" parent="Area"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0 )
 shape = SubResource( 1 )
+
+[node name="E" type="Sprite3D" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, -0.5, 0 )
+cast_shadow = 0
+pixel_size = 0.0625
+axis = 0
+alpha_cut = 2
+texture = ExtResource( 1 )
+hframes = 2
+frame = 1
+
+[node name="N" type="Sprite3D" parent="."]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, -0.5, -0.5 )
+cast_shadow = 0
+pixel_size = 0.0625
+axis = 0
+alpha_cut = 2
+texture = ExtResource( 1 )
+hframes = 2
+frame = 1
+
+[node name="S" type="Sprite3D" parent="."]
+transform = Transform( 1.19249e-08, 0, -1, 0, 1, 0, 1, 0, 1.19249e-08, 0, -0.5, 0.5 )
+cast_shadow = 0
+pixel_size = 0.0625
+axis = 0
+alpha_cut = 2
+texture = ExtResource( 1 )
+hframes = 2
+frame = 1
+
+[node name="W" type="Sprite3D" parent="."]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -0.5, -0.5, 0 )
+cast_shadow = 0
+pixel_size = 0.0625
+axis = 0
+alpha_cut = 2
+texture = ExtResource( 1 )
+hframes = 2
+frame = 1
