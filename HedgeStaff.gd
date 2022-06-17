@@ -13,9 +13,11 @@ func do(a, b):
 	emit_signal("attack_ended")
 func cast_wind():
 	
-	var tr = $Pages.get_global_transform()
+	var tr = $Staff.get_global_transform()
 	var origin = tr.origin
+	origin.x = round(tr.origin.x)
 	origin.y = floor(tr.origin.y)
+	origin.z = round(tr.origin.z)
 	var tries = 10
 	var world = Helper.get_world(self)
 	while !world.has_ground(origin):
