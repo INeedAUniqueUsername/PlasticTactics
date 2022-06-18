@@ -79,6 +79,10 @@ func check_standing_areas():
 			hp = max(0, hp - 10)
 			emit_signal("damaged")
 			$Hurt.play("Hurt")
+		elif a.is_in_group("Hail"):
+			hp = max(0, hp - 10)
+			emit_signal("damaged")
+			$Hurt.play("Hurt")
 var inTurn = false
 func start_turn():
 	refresh_move()
@@ -91,17 +95,17 @@ func refresh_move():
 	movePoints = 5
 	attackPoints = 1
 	updateButtons()
-func walk(steps):
-	if len(steps) == 0:
+func walk(pathPanels):
+	if len(pathPanels) == 0:
 		return
 	walking = true
-	for s in steps:
+	for panel in pathPanels:
 		var g = Helper.get_world(self).get_ground(get_global_transform().origin)
 		var time = 0.3
 		#print(g.name)
 		if g.get_parent().is_in_group("River"):
 			time = 0.9
-		yield(Helper.tween_move(self, Helper.directions[s], time, Tween.TRANS_QUAD, Tween.EASE_OUT), "completed")
+		yield(Helper.tween_move(self, panel.get_global_transform().origin - get_global_transform().origin, time, Tween.TRANS_QUAD, Tween.EASE_OUT), "completed")
 		check_standing_areas()
 	walking = false
 var shielding = false

@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://GrassTile.png" type="Texture" id=1]
+[ext_resource path="res://GroundTile.gd" type="Script" id=2]
 
 [sub_resource type="BoxShape" id=1]
 extents = Vector3( 0.5, 0.5, 0.5 )
@@ -13,6 +14,7 @@ shaded = true
 alpha_cut = 2
 texture = ExtResource( 1 )
 hframes = 2
+script = ExtResource( 2 )
 
 [node name="Area" type="Area" parent="." groups=["Ground"]]
 input_ray_pickable = false

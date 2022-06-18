@@ -20,13 +20,16 @@ func cast_wind():
 	origin.z = round(tr.origin.z)
 	var tries = 10
 	var world = Helper.get_world(self)
-	while !world.has_ground(origin):
-		origin += Vector3(0, -1, 0)
-		tries -= 1
-		if tries == 0:
-			return
 	var x = 1
 	for z in [-2, -1, 0, 1, 2]:
+		
 		tr.origin = origin + z * tr.basis.z + x * tr.basis.x
+		
+		var y = world.get_ground_y(tr.origin, [], false)
+		if y == null:
+			continue
+		tr.origin.y = y
+		if !world.is_open(tr.origin):
+			continue
 		Helper.add_to_world(self, Hedge.instance(), tr)
 const Hedge = preload("res://Hedge.tscn")

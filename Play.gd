@@ -1,7 +1,6 @@
 extends Spatial
 
-var panels = {}
-var directionToPos = {}
+var gridPanels = {}
 var chars = []
 func _ready():
 	for c in get_children():
@@ -99,17 +98,16 @@ func play_enemy_turn():
 
 const PANEL = preload("res://Panel.tscn")
 func clear_panels():
-	directionToPos.clear()
 	
 	for panel in get_children():
-		if panel.is_in_group("Panel") and !panels.keys().has(panel):
+		if panel.is_in_group("Panel") and !gridPanels.keys().has(panel):
 			panel.get_node("Fade").play("Exit")
-	for pos in panels.keys():
-		var p = panels[pos]
+	for pos in gridPanels.keys():
+		var p = gridPanels[pos].panel
 		#p.queue_free()
 		p.get_node("Fade").play("Exit")
 		p.disconnect("clicked", self, "on_panel_clicked")
-	panels.clear()
+	gridPanels.clear()
 	
 var selectedChar
 var freeMove = false
@@ -124,6 +122,19 @@ func select_char(subject):
 	else:
 		place_panels_slow()
 		
+class GridEntry:
+	var panel
+	var prevPanel
+	var distance
+	
+	var pos
+	var prevPos
+	func _init(panel: Spatial, pos = null, prevPanel: Spatial = null, prevPos = null, distance: float = 0):
+		self.panel = panel
+		self.pos = pos
+		self.prevPanel = prevPanel
+		self.prevPos = prevPos
+		self.distance = distance
 var panelsReset = false
 func place_panels_slow():
 	panelsReset = true
@@ -131,7 +142,8 @@ func place_panels_slow():
 	var start = tr.origin
 	var p = PANEL.instance()
 	p.set_global_transform(tr)
-	panels[start] = p
+	gridPanels[start] = GridEntry.new(p, start)
+	
 	call_deferred("add_child", p)
 	p.connect("clicked", self, "on_panel_clicked", [p, selectedChar])
 	var placed = [p]
@@ -143,23 +155,17 @@ func place_panels_slow():
 			break
 		var next = []
 		while i < len(placed):
-			var adjacent = get_surrounding_squares(placed[i].get_global_transform().origin)
+			var current = placed[i]
+			var adjacent = get_surrounding_squares(current.get_global_transform().origin)
 			for direction in adjacent.keys():
 				var dest = adjacent[direction]
-				if panels.keys().has(dest):
+				
+				var entry = get_ground_panel(current, dest)
+				if entry == null:
 					continue
-				if (dest - start).length() > selectedChar.movePoints:
-					continue
-				if !has_ground(dest):
-					continue
-				if !is_open(dest):
-					continue
-				directionToPos[dest] = direction
-				var p2 = PANEL.instance()
-				tr.origin = dest
-				p2.set_global_transform(tr)
+				gridPanels[entry.pos] = entry
+				var p2 = entry.panel
 				p2.get_node("Anim").play("FlipTo" + direction)
-				panels[dest] = p2
 				next.append(p2)
 				call_deferred("add_child", p2)
 				p2.connect("clicked", self, "on_panel_clicked", [p2, selectedChar])
@@ -172,7 +178,7 @@ func place_panels_quick():
 	var start = tr.origin
 	var p = PANEL.instance()
 	p.set_global_transform(tr)
-	panels[start] = p
+	gridPanels[start] = GridEntry.new(p, start)
 	call_deferred("add_child", p)
 	p.connect("clicked", self, "on_panel_clicked", [p, selectedChar])
 	
@@ -183,23 +189,15 @@ func place_panels_quick():
 	while i < len(placed):
 		var next = []
 		while i < len(placed):
-			var adjacent = get_surrounding_squares(placed[i].get_global_transform().origin)
+			var current = placed[i]
+			var adjacent = get_surrounding_squares(current.get_global_transform().origin)
 			for direction in adjacent.keys():
 				var dest = adjacent[direction]
-				if panels.keys().has(dest):
+				var entry = get_ground_panel(current, dest)
+				if entry == null:
 					continue
-				if (dest - start).length() > selectedChar.movePoints:
-					continue
-				if !has_ground(dest):
-					continue
-				if !is_open(dest):
-					continue
-				directionToPos[dest] = direction
-				var p2 = PANEL.instance()
-				tr.origin = dest
-				p2.set_global_transform(tr)
-				#p2.get_node("Anim").play("FlipTo" + direction)
-				panels[dest] = p2
+				gridPanels[entry.pos] = entry
+				var p2 = entry.panel
 				next.append(p2)
 				call_deferred("add_child", p2)
 				p2.connect("clicked", self, "on_panel_clicked", [p2, selectedChar])
@@ -208,26 +206,55 @@ func place_panels_quick():
 			placed.append(panel)
 			#need to wait for this to enter the tree so that transform origins work properly
 			yield(panel, "tree_entered")
-func on_panel_clicked(panel, ownerChar):
-	var steps = []
-	var walked = []
-	var pos = panel.get_global_transform().origin
-	ownerChar.movePoints -= (pos - ownerChar.get_global_transform().origin).length()
-	while directionToPos.keys().has(pos):
-		steps.append(directionToPos[pos])
-		walked.append(pos)
-		pos -= directions[directionToPos[pos]]
-	walked.append(pos)
-	if len(steps) == 0:
+func get_ground_panel(prevPanel: Spatial, pos: Vector3):
+	var y = get_ground_y(pos)
+	if y == null:
+		return null
+	pos = Vector3(pos.x, y, pos.z)
+	
+	if gridPanels.keys().has(pos):
+		return null
+		
+	if !is_open(pos):
+		return null
+		
+	var prevPos = prevPanel.get_global_transform().origin
+	var distance = 1 + gridPanels[prevPos].distance
+	if distance > selectedChar.movePoints:
+		return null
+	
+	
+	var panel = PANEL.instance()
+	
+	var tr = panel.get_global_transform()
+	tr.origin = pos
+	panel.set_global_transform(tr)
+	
+	
+	return GridEntry.new(panel, pos, prevPanel, prevPos, distance)
+	
+func on_panel_clicked(clickedPanel, ownerChar):
+	#var dest = clickedPanel.get_global_transform().origin
+	#ownerChar.movePoints -= (dest - ownerChar.get_global_transform().origin).length()
+	var destPanel = clickedPanel
+	var destPos = destPanel.get_global_transform().origin
+	ownerChar.movePoints -= gridPanels[destPos].distance
+	var pathPanels = []
+	while destPanel:
+		pathPanels.append(destPanel)
+		destPanel = gridPanels[destPanel.get_global_transform().origin].prevPanel
+	pathPanels.invert()
+	if len(pathPanels) == 1:
 		return
-	for p in panels.keys():
-		panels[p].disconnect("clicked", self, "on_panel_clicked")
-		if p in walked:
+	for pos in gridPanels.keys():
+		var panel = gridPanels[pos].panel
+		panel.disconnect("clicked", self, "on_panel_clicked")
+		if panel in pathPanels:
 			continue
-		panels[p].get_node("Fade").play("Exit")
-		panels.erase(p)
-	steps.invert()
-	yield(ownerChar.walk(steps), "completed")
+		panel.get_node("Fade").play("Exit")
+		gridPanels.erase(pos)
+	pathPanels.remove(0)
+	yield(ownerChar.walk(pathPanels), "completed")
 	refresh_panels()
 func refresh_panels():
 	clear_panels()
@@ -257,7 +284,7 @@ func _process(delta):
 			var dir = keyDirections[k]
 			if Input.is_key_pressed(k):
 				var dest = pos + directions[dir]
-				if panels.keys().has(dest) and selectedChar.movePoints >= 1.0:
+				if gridPanels.keys().has(dest) and selectedChar.movePoints >= 1.0:
 					
 					selectedChar.movePoints -= 1
 					yield(selectedChar.walk([dir]), "completed")
@@ -346,10 +373,14 @@ func get_ground(pos: Vector3, ignore: Array = []):
 		if col.is_in_group("Ground"):
 			return col
 	return null
-func get_ground_y(pos: Vector3, ignore: Array = []):                                                                   
+func get_ground_y(pos: Vector3, ignore: Array = [], allowWater = true):                                                                   
 	var st = get_world().get_direct_space_state()
-	for other in st.intersect_point(pos + Vector3(0, -0.5, 0), 32, ignore, 2147483647, false, true):
-		var col = other.collider
-		if col.is_in_group("Ground"):
-			return col.get_global_transform().origin.y
+	
+	for i in range(5):
+		for other in st.intersect_point(pos + Vector3(0, -0.5 - i, 0), 32, ignore, 2147483647, false, true):
+			var col = other.collider
+			if col.is_in_group("Water") and !allowWater:
+				continue
+			if col.is_in_group("Ground"):
+				return col.get_global_transform().origin.y
 	return null

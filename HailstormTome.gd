@@ -1,6 +1,5 @@
 extends Spatial
 var actions = ["Cast"]
-const a = preload("res://SlipstreamWind.tscn")
 
 signal attack_ended()
 var current_attack = null
@@ -14,7 +13,6 @@ func do(a, b):
 	yield($Anim, "animation_finished")
 	emit_signal("attack_ended")
 func cast_wind():
-	
 	var tr = $Pages.get_global_transform()
 	var origin = tr.origin
 	origin.y = round(origin.y)
@@ -26,6 +24,6 @@ func cast_wind():
 			if y == null:
 				continue
 			tr.origin.y = y
-			Helper.add_to_world(self, Fog.instance(), tr)
+			Helper.add_to_world(self, Cloud.instance(), tr)
 	yield(get_tree().create_timer(1.8), "timeout")
-const Fog = preload("res://ScaldFog.tscn")
+const Cloud = preload("res://HailstormCloud.tscn")

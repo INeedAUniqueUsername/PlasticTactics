@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://SplashRing.png" type="Texture" id=1]
 [ext_resource path="res://Damage.gd" type="Script" id=2]
@@ -30,13 +30,31 @@ emission_on_uv2 = false
 [sub_resource type="QuadMesh" id=11]
 material = SubResource( 9 )
 
+[sub_resource type="ParticlesMaterial" id=15]
+direction = Vector3( 0, 1, 0 )
+spread = 180.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 6.0
+linear_accel = -6.0
+scale = 0.25
+color_ramp = SubResource( 7 )
+
+[sub_resource type="SpatialMaterial" id=16]
+flags_transparent = true
+vertex_color_use_as_albedo = true
+params_cull_mode = 2
+albedo_color = Color( 0.615686, 0.615686, 0.615686, 1 )
+
+[sub_resource type="QuadMesh" id=17]
+material = SubResource( 16 )
+
 [sub_resource type="SphereShape" id=14]
 radius = 4.0
 
 [sub_resource type="Animation" id=12]
 resource_name = "Explode"
 tracks/0/type = "value"
-tracks/0/path = NodePath("Particles:emitting")
+tracks/0/path = NodePath("Blast:emitting")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -97,11 +115,23 @@ tracks/4/keys = {
 "update": 0,
 "values": [ 0.0001, 1.0 ]
 }
+tracks/5/type = "value"
+tracks/5/path = NodePath("Smoke:emitting")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
 
 [sub_resource type="Animation" id=13]
 length = 0.001
 tracks/0/type = "value"
-tracks/0/path = NodePath("Particles:emitting")
+tracks/0/path = NodePath("Blast:emitting")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -148,18 +178,40 @@ tracks/3/keys = {
 "update": 0,
 "values": [ 0.0001 ]
 }
+tracks/4/type = "value"
+tracks/4/path = NodePath("Smoke:emitting")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ true ]
+}
 
 [node name="Explosion" type="Spatial" groups=["Actor", "Explosion"]]
 script = ExtResource( 2 )
 damage = 40
 
-[node name="Particles" type="Particles" parent="."]
-amount = 90
+[node name="Blast" type="Particles" parent="."]
+amount = 60
 lifetime = 0.4
 one_shot = true
 explosiveness = 1.0
+visibility_aabb = AABB( -2, -2, -2, 4, 4, 4 )
 process_material = SubResource( 10 )
 draw_pass_1 = SubResource( 11 )
+
+[node name="Smoke" type="Particles" parent="."]
+visible = false
+amount = 30
+one_shot = true
+explosiveness = 1.0
+visibility_aabb = AABB( -2, -2, -2, 4, 4, 4 )
+process_material = SubResource( 15 )
+draw_pass_1 = SubResource( 17 )
 
 [node name="Area" type="Area" parent="." groups=["Damage"]]
 
