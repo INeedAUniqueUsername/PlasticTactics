@@ -2,7 +2,7 @@
 
 [ext_resource path="res://SplashRing.png" type="Texture" id=1]
 [ext_resource path="res://SunsetSwordSplash.gd" type="Script" id=2]
-[ext_resource path="res://SplashTile.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/Tiles/SplashTile.png" type="Texture" id=3]
 
 [sub_resource type="Animation" id=1]
 length = 0.001

@@ -1,0 +1,89 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://Damage.gd" type="Script" id=2]
+
+[sub_resource type="Gradient" id=6]
+colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0 )
+
+[sub_resource type="GradientTexture" id=7]
+gradient = SubResource( 6 )
+
+[sub_resource type="ParticlesMaterial" id=18]
+direction = Vector3( 0, 1, 0 )
+spread = 90.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 3.0
+linear_accel = -6.0
+scale = 0.2
+color_ramp = SubResource( 7 )
+
+[sub_resource type="SpatialMaterial" id=16]
+flags_transparent = true
+vertex_color_use_as_albedo = true
+params_cull_mode = 2
+albedo_color = Color( 0.615686, 0.615686, 0.615686, 1 )
+
+[sub_resource type="QuadMesh" id=17]
+material = SubResource( 16 )
+
+[sub_resource type="Animation" id=12]
+resource_name = "Explode"
+tracks/0/type = "method"
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 1 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "queue_free"
+} ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Smoke:emitting")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+
+[sub_resource type="Animation" id=13]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Smoke:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ true ]
+}
+
+[node name="EruptSmoke" type="Spatial"]
+script = ExtResource( 2 )
+damage = 10
+
+[node name="Smoke" type="Particles" parent="."]
+amount = 15
+lifetime = 2.0
+one_shot = true
+explosiveness = 1.0
+visibility_aabb = AABB( -2, -2, -2, 4, 4, 4 )
+process_material = SubResource( 18 )
+draw_pass_1 = SubResource( 17 )
+
+[node name="Anim" type="AnimationPlayer" parent="."]
+autoplay = "Explode"
+anims/Explode = SubResource( 12 )
+anims/RESET = SubResource( 13 )

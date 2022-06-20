@@ -15,7 +15,7 @@ func _ready():
 		tr.origin += Vector3(cos(elevation) * cos(azimuth) * length, 0.5 + sin(elevation) * length, cos(elevation) * cos(azimuth) * length)
 		d.set_global_transform(tr)
 	var tile = $Tile
-	
+	tile.opacity = 0
 	var tr = tile.get_global_transform()
 	tween_tile(tile)
 	
@@ -23,6 +23,7 @@ func _ready():
 	yield(get_tree().create_timer(0.25), "timeout")
 	for v in [Vector3(0, 0, 1), Vector3(1, 0, 1), Vector3(1, 0, 0), Vector3(1, 0, -1), Vector3(0, 0, -1), Vector3(-1, 0, -1), Vector3(-1, 0, 0), Vector3(-1, 0, 1)]:
 		var t = tile.duplicate()
+		t.opacity = 0
 		add_child(t)
 		t.transform.origin += v
 		tween_tile(t)

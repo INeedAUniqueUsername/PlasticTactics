@@ -33,7 +33,7 @@ func cast_fire():
 		place_fire_tile(tr)
 		yield(get_tree().create_timer(0.25), "timeout")
 		
-const Tile = preload("res://FireTile.tscn")
+const Tile = preload("res://SmolderTile.tscn")
 func place_fire_tile(tr):
 	var tile = Tile.instance()
 	tile.set_global_transform(tr)

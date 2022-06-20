@@ -181,7 +181,7 @@ extents = Vector3( 0.5, 0.8, 0.5 )
 [sub_resource type="BoxShape" id=6]
 extents = Vector3( 0.95, 0.8, 0.95 )
 
-[node name="Hedge" type="Spatial" groups=["Actor", "Plant"]]
+[node name="Hedge" type="Spatial" groups=["Actor", "Hedge", "Plant"]]
 script = ExtResource( 2 )
 
 [node name="Anim" type="AnimationPlayer" parent="."]
@@ -262,8 +262,9 @@ texture = ExtResource( 1 )
 hframes = 3
 frame = 2
 
-[node name="Area" type="Area" parent="Center" groups=["BlockWind"]]
+[node name="Area" type="Area" parent="Center" groups=["BlockWind", "StopAttack"]]
 input_ray_pickable = false
+priority = 10.0
 
 [node name="Shape" type="CollisionShape" parent="Center/Area"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0 )

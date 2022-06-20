@@ -1,7 +1,6 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=11 format=2]
 
-[ext_resource path="res://SunsetSword.png" type="Texture" id=1]
-[ext_resource path="res://SunsetSword.gd" type="Script" id=2]
+[ext_resource path="res://CommonMelee.gd" type="Script" id=1]
 [ext_resource path="res://VolcanicSword.png" type="Texture" id=3]
 
 [sub_resource type="Animation" id=1]
@@ -121,7 +120,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.2 ),
 "transitions": PoolRealArray( 0.5, 1 ),
 "update": 0,
-"values": [ Vector3( 0, 0, 0 ), Vector3( 1, -0.1, 0 ) ]
+"values": [ Vector3( 0, 0, 0 ), Vector3( 1, 0.2, 0 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("Pivot/Copper:rotation_degrees")
@@ -138,6 +137,8 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id=4]
 resource_name = "Slash"
+length = 1.1
+step = 0.05
 tracks/0/type = "value"
 tracks/0/path = NodePath("Pivot:rotation_degrees")
 tracks/0/interp = 1
@@ -145,7 +146,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.2, 0.4, 0.5, 1 ),
+"times": PoolRealArray( 0, 0.3, 0.5, 0.6, 1.1 ),
 "transitions": PoolRealArray( 0.5, 0.5, 1, 0.5, 1 ),
 "update": 0,
 "values": [ Vector3( 0, 0, 0 ), Vector3( -90, 60, -45 ), Vector3( -90, -60, -45 ), Vector3( -90, -60, -45 ), Vector3( 0, 0, 0 ) ]
@@ -157,10 +158,10 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.2, 0.5, 1 ),
+"times": PoolRealArray( 0, 0.3, 0.6, 1.1 ),
 "transitions": PoolRealArray( 0.5, 1, 0.5, 1 ),
 "update": 0,
-"values": [ Vector3( 0, 0, 0 ), Vector3( 3, 3, 0 ), Vector3( 3, 3, 0 ), Vector3( 0, 0, 0 ) ]
+"values": [ Vector3( 0, 0, 0 ), Vector3( 1.75, 1.75, 0 ), Vector3( 1.75, 1.75, 0 ), Vector3( 0, 0, 0 ) ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath(".:active")
@@ -169,7 +170,7 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0.2, 0.5 ),
+"times": PoolRealArray( 0.3, 0.6 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ true, false ]
@@ -181,7 +182,7 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0.2 ),
+"times": PoolRealArray( 0.3 ),
 "transitions": PoolRealArray( 1 ),
 "values": [ {
 "args": [  ],
@@ -195,7 +196,7 @@ tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"times": PoolRealArray( 0, 0.2 ),
+"times": PoolRealArray( 0, 0.3 ),
 "transitions": PoolRealArray( 1, 1 ),
 "values": [ {
 "args": [  ],
@@ -212,7 +213,7 @@ tracks/5/loop_wrap = true
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/keys = {
-"times": PoolRealArray( 0, 0.2 ),
+"times": PoolRealArray( 0, 0.3 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ 0.0, 1.0 ]
@@ -421,7 +422,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.2, 0.4 ),
 "transitions": PoolRealArray( 0.5, 0.5, 0.5 ),
 "update": 0,
-"values": [ Vector3( 1, -0.1, 0 ), Vector3( 1, -0.1, 0 ), Vector3( 0, 0, 0 ) ]
+"values": [ Vector3( 1, 0.2, 0 ), Vector3( 1, 0.2, 0 ), Vector3( 0, 0, 0 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("Pivot/Copper:rotation_degrees")
@@ -437,12 +438,12 @@ tracks/1/keys = {
 }
 
 [sub_resource type="BoxShape" id=10]
-extents = Vector3( 0.2, 1, 0.05 )
+extents = Vector3( 0.2, 1.2, 0.05 )
 
-[node name="VolcanicSword" type="Spatial" groups=["Actor"]]
-script = ExtResource( 2 )
-damage = 10
+[node name="VolcanicSword" type="Spatial" groups=["Actor", "Sword"]]
+script = ExtResource( 1 )
 active = false
+boostGlow = NodePath("Pivot/Copper/Glow")
 
 [node name="Anim" type="AnimationPlayer" parent="."]
 playback_speed = 0.5
@@ -458,19 +459,18 @@ next/Float = "Float"
 [node name="Pivot" type="Spatial" parent="."]
 
 [node name="Copper" type="Sprite3D" parent="Pivot"]
-pixel_size = 0.0625
+pixel_size = 0.0417
 alpha_cut = 1
 texture = ExtResource( 3 )
 hframes = 2
 
 [node name="Glow" type="Sprite3D" parent="Pivot/Copper"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.05 )
 opacity = 0.0
-pixel_size = 0.0625
+pixel_size = 0.0417
 alpha_cut = 2
-texture = ExtResource( 1 )
-hframes = 3
-frame = 2
+texture = ExtResource( 3 )
+hframes = 2
+frame = 1
 
 [node name="Area" type="Area" parent="Pivot/Copper" groups=["Damage"]]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3, 0.3, 0 )

@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://HPBar.gd" type="Script" id=1]
-[ext_resource path="res://HPBar.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/UI/HPBar.png" type="Texture" id=2]
 
 [node name="HPBar" type="Sprite3D"]
 cast_shadow = 0

@@ -2,7 +2,7 @@
 
 [ext_resource path="res://SunsetHammer.png" type="Texture" id=1]
 [ext_resource path="res://SunsetHammer.gd" type="Script" id=2]
-[ext_resource path="res://StabRay.gd" type="Script" id=3]
+[ext_resource path="res://CommonMelee.gd" type="Script" id=3]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Float"
@@ -169,20 +169,6 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0.2 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [  ],
-"method": "make_wave"
-} ]
-}
-tracks/4/type = "method"
-tracks/4/path = NodePath(".")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/keys = {
 "times": PoolRealArray( 0, 0.2 ),
 "transitions": PoolRealArray( 1, 1 ),
 "values": [ {
@@ -193,13 +179,13 @@ tracks/4/keys = {
 "method": "end_boost"
 } ]
 }
-tracks/5/type = "value"
-tracks/5/path = NodePath("Pivot/Copper/Glow:opacity")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/keys = {
+tracks/4/type = "value"
+tracks/4/path = NodePath("Pivot/Copper/Glow:opacity")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
 "times": PoolRealArray( 0, 0.2 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
@@ -276,20 +262,6 @@ tracks/5/loop_wrap = true
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/keys = {
-"times": PoolRealArray( 0.3 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [  ],
-"method": "make_splash"
-} ]
-}
-tracks/6/type = "method"
-tracks/6/path = NodePath(".")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/keys = {
 "times": PoolRealArray( 0, 0.2 ),
 "transitions": PoolRealArray( 1, 1 ),
 "values": [ {
@@ -300,17 +272,31 @@ tracks/6/keys = {
 "method": "end_boost"
 } ]
 }
-tracks/7/type = "value"
-tracks/7/path = NodePath("Pivot/Copper/Glow:opacity")
+tracks/6/type = "value"
+tracks/6/path = NodePath("Pivot/Copper/Glow:opacity")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 1.0 ]
+}
+tracks/7/type = "method"
+tracks/7/path = NodePath("Pivot/Copper/Tip")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/imported = false
 tracks/7/enabled = true
 tracks/7/keys = {
-"times": PoolRealArray( 0, 0.2 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ 0.0, 1.0 ]
+"times": PoolRealArray( 0.3 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "make_splash"
+} ]
 }
 
 [sub_resource type="Animation" id=5]
@@ -359,20 +345,6 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0.3 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [  ],
-"method": "fire_beam"
-} ]
-}
-tracks/4/type = "method"
-tracks/4/path = NodePath(".")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/keys = {
 "times": PoolRealArray( 0, 0.2 ),
 "transitions": PoolRealArray( 1, 1 ),
 "values": [ {
@@ -383,13 +355,13 @@ tracks/4/keys = {
 "method": "end_boost"
 } ]
 }
-tracks/5/type = "value"
-tracks/5/path = NodePath("Pivot/Copper/Glow:opacity")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/keys = {
+tracks/4/type = "value"
+tracks/4/path = NodePath("Pivot/Copper/Glow:opacity")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
 "times": PoolRealArray( 0, 0.2 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
@@ -427,10 +399,10 @@ tracks/1/keys = {
 [sub_resource type="BoxShape" id=10]
 extents = Vector3( 0.5, 0.5, 0.1 )
 
-[node name="SunsetHammer" type="Spatial" groups=["Actor"]]
-script = ExtResource( 2 )
-damage = 20
+[node name="SunsetHammer" type="Spatial" groups=["Actor", "Hammer"]]
+script = ExtResource( 3 )
 active = false
+boostGlow = NodePath("Pivot/Copper/Glow")
 
 [node name="Anim" type="AnimationPlayer" parent="."]
 playback_speed = 0.5
@@ -468,6 +440,6 @@ shape = SubResource( 10 )
 
 [node name="Tip" type="Spatial" parent="Pivot/Copper"]
 transform = Transform( 0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0, 0, 1, 0.75, -0.063, 0 )
-script = ExtResource( 3 )
+script = ExtResource( 2 )
 
 [connection signal="area_entered" from="Pivot/Copper/Area" to="." method="_on_area_entered"]

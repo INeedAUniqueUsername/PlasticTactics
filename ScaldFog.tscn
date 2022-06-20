@@ -170,7 +170,7 @@ tracks/1/keys = {
 "values": [ true ]
 }
 
-[node name="ScaldFog" type="Spatial" groups=["Actor"]]
+[node name="ScaldFog" type="Spatial" groups=["Actor", "Fog"]]
 script = ExtResource( 2 )
 
 [node name="Area" type="Area" parent="." groups=["Burning", "Fog", "Water"]]
@@ -182,7 +182,7 @@ shape = SubResource( 7 )
 
 [node name="NS" type="Particles" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0 )
-amount = 4
+amount = 2
 lifetime = 6.0
 visibility_aabb = AABB( -1, -1.5, -0.05, 2, 3, 0.1 )
 process_material = ExtResource( 3 )
@@ -199,7 +199,7 @@ draw_pass_1 = SubResource( 20 )
 
 [node name="EW" type="Particles" parent="."]
 transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 1.25, 0 )
-amount = 4
+amount = 2
 lifetime = 6.0
 visibility_aabb = AABB( -1, -1.5, -0.05, 2, 3, 0.1 )
 process_material = ExtResource( 3 )

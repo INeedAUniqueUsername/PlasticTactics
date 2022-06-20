@@ -374,6 +374,11 @@ func get_ground(pos: Vector3, ignore: Array = []):
 			return col
 	return null
 func get_ground_y(pos: Vector3, ignore: Array = [], allowWater = true):                                                                   
+	var origin = get_ground_origin(pos, ignore, allowWater)
+	if origin:
+		return origin.y
+	return null
+func get_ground_origin(pos: Vector3, ignore: Array = [], allowWater = true):                                                                   
 	var st = get_world().get_direct_space_state()
 	
 	for i in range(5):
@@ -382,5 +387,5 @@ func get_ground_y(pos: Vector3, ignore: Array = [], allowWater = true):
 			if col.is_in_group("Water") and !allowWater:
 				continue
 			if col.is_in_group("Ground"):
-				return col.get_global_transform().origin.y
+				return col.get_global_transform().origin
 	return null

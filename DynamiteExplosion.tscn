@@ -30,12 +30,12 @@ emission_on_uv2 = false
 [sub_resource type="QuadMesh" id=11]
 material = SubResource( 9 )
 
-[sub_resource type="ParticlesMaterial" id=15]
+[sub_resource type="ParticlesMaterial" id=19]
 direction = Vector3( 0, 1, 0 )
 spread = 180.0
 gravity = Vector3( 0, 0, 0 )
 initial_velocity = 6.0
-linear_accel = -6.0
+linear_accel = -9.0
 scale = 0.25
 color_ramp = SubResource( 7 )
 
@@ -48,8 +48,8 @@ albedo_color = Color( 0.615686, 0.615686, 0.615686, 1 )
 [sub_resource type="QuadMesh" id=17]
 material = SubResource( 16 )
 
-[sub_resource type="SphereShape" id=14]
-radius = 4.0
+[sub_resource type="SphereShape" id=18]
+radius = 3.0
 
 [sub_resource type="Animation" id=12]
 resource_name = "Explode"
@@ -60,7 +60,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1 ),
+"times": PoolRealArray( 0, 0.2 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ true, false ]
@@ -113,7 +113,7 @@ tracks/4/keys = {
 "times": PoolRealArray( 0, 0.3 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ 0.0001, 1.0 ]
+"values": [ 0.0001, 0.5 ]
 }
 tracks/5/type = "value"
 tracks/5/path = NodePath("Smoke:emitting")
@@ -122,7 +122,7 @@ tracks/5/loop_wrap = true
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/keys = {
-"times": PoolRealArray( 0, 0.1 ),
+"times": PoolRealArray( 0, 0.2 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ true, false ]
@@ -205,18 +205,18 @@ process_material = SubResource( 10 )
 draw_pass_1 = SubResource( 11 )
 
 [node name="Smoke" type="Particles" parent="."]
-visible = false
-amount = 30
+amount = 60
+lifetime = 2.0
 one_shot = true
 explosiveness = 1.0
 visibility_aabb = AABB( -2, -2, -2, 4, 4, 4 )
-process_material = SubResource( 15 )
+process_material = SubResource( 19 )
 draw_pass_1 = SubResource( 17 )
 
 [node name="Area" type="Area" parent="." groups=["Damage"]]
 
 [node name="Shape" type="CollisionShape" parent="Area"]
-shape = SubResource( 14 )
+shape = SubResource( 18 )
 
 [node name="Anim" type="AnimationPlayer" parent="."]
 autoplay = "Explode"
