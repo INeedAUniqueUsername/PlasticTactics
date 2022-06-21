@@ -73,7 +73,7 @@ func play_enemy_turn():
 	
 	
 	
-	if !selectedChar.walking:
+	if selectedChar and !selectedChar.walking:
 		clear_panels()
 		place_panels_quick()
 		
@@ -112,8 +112,14 @@ func clear_panels():
 var selectedChar
 var freeMove = false
 func select_char(subject):
-	if selectedChar and selectedChar.walking:
-		return
+	if selectedChar:
+		if selectedChar.walking:
+			return
+		selectedChar.deselected()
+		if selectedChar == subject:
+			selectedChar = null
+			clear_panels()
+			return
 	selectedChar = subject
 	selectedChar.selected()
 	clear_panels()
@@ -151,7 +157,7 @@ func place_panels_slow():
 	panelsReset = false
 	var i = 0
 	while i < len(placed):
-		if selectedChar.walking or panelsReset:
+		if !selectedChar or selectedChar.walking or panelsReset:
 			break
 		var next = []
 		while i < len(placed):

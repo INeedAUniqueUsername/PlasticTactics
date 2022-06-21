@@ -1,19 +1,17 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://GrassTile.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Sunset Soldier.tscn" type="PackedScene" id=2]
+[ext_resource path="res://SunsetSoldier.tscn" type="PackedScene" id=2]
 [ext_resource path="res://TurnBanner.tres" type="Theme" id=3]
 [ext_resource path="res://EndTurn.png" type="Texture" id=4]
 [ext_resource path="res://TurnBanner.png" type="Texture" id=5]
-[ext_resource path="res://ThundersnowHammer.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Play.gd" type="Script" id=7]
 [ext_resource path="res://Grass.tscn" type="PackedScene" id=8]
 [ext_resource path="res://RiverTile.tscn" type="PackedScene" id=9]
-[ext_resource path="res://Dynamite.tscn" type="PackedScene" id=10]
 [ext_resource path="res://Hedge.tscn" type="PackedScene" id=11]
 [ext_resource path="res://ScaldFog.tscn" type="PackedScene" id=12]
 [ext_resource path="res://EruptVent.tscn" type="PackedScene" id=13]
-[ext_resource path="res://ThunderstormTome.tscn" type="PackedScene" id=16]
+[ext_resource path="res://SmolderTome.tscn" type="PackedScene" id=14]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Enemy"
@@ -169,9 +167,6 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 5 )
 [node name="ScaldFog5" parent="." instance=ExtResource( 12 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 6 )
 
-[node name="Dynamite" parent="." instance=ExtResource( 10 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2 )
-
 [node name="Hedge" parent="." instance=ExtResource( 11 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4 )
 
@@ -180,17 +175,17 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5 )
 
 [node name="SunsetSoldier" parent="." instance=ExtResource( 2 )]
 
-[node name="ThunderstormTome" parent="SunsetSoldier/Sprite/WeaponEquip" index="0" instance=ExtResource( 16 )]
+[node name="WeaponEquip" parent="SunsetSoldier/Sprite" index="2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.5, -0.1 )
 
-[node name="ThundersnowHammer" parent="SunsetSoldier/Sprite/WeaponEquip" index="1" instance=ExtResource( 6 )]
+[node name="SmolderTome" parent="SunsetSoldier/Sprite/WeaponEquip" index="0" instance=ExtResource( 14 )]
 
 [node name="CameraPivot" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 0, 0 )
 
 [node name="Camera" type="Camera" parent="CameraPivot"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10 )
-projection = 1
-size = 12.0
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 8 )
+size = 8.0
 far = 400.0
 
 [node name="Control" type="Control" parent="CameraPivot/Camera"]
@@ -326,6 +321,69 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 0 )
 [node name="GrassTile33" parent="Ground" instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 0 )
 
+[node name="GrassTile95" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1 )
+
+[node name="GrassTile96" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -1 )
+
+[node name="GrassTile97" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -1 )
+
+[node name="GrassTile98" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -1 )
+
+[node name="GrassTile99" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -1 )
+
+[node name="GrassTile100" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -1 )
+
+[node name="GrassTile101" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -1 )
+
+[node name="GrassTile102" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0, -1 )
+
+[node name="GrassTile103" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -1 )
+
+[node name="GrassTile104" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, -1 )
+
+[node name="GrassTile105" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -1 )
+
+[node name="GrassTile106" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, -1 )
+
+[node name="GrassTile107" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, -1 )
+
+[node name="GrassTile108" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 0, -1 )
+
+[node name="GrassTile109" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, -1 )
+
+[node name="GrassTile110" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 0, -1 )
+
+[node name="GrassTile111" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, -1 )
+
+[node name="GrassTile112" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, -1 )
+
+[node name="GrassTile115" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0, -1 )
+
+[node name="GrassTile117" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0, -1 )
+
+[node name="GrassTile118" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0, -1 )
+
 [node name="GrassTile34" parent="Ground" instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 1 )
 
@@ -410,6 +468,9 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 6 )
 [node name="GrassTile63" parent="Ground" instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 7 )
 
+[node name="GrassTile149" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 8 )
+
 [node name="GrassTile64" parent="Ground" instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0, 4 )
 
@@ -461,6 +522,54 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 9 )
 [node name="GrassTile80" parent="Ground" instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, 9 )
 
+[node name="GrassTile129" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 10 )
+
+[node name="GrassTile130" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, 10 )
+
+[node name="GrassTile131" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 11 )
+
+[node name="GrassTile132" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, 11 )
+
+[node name="GrassTile133" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 11 )
+
+[node name="GrassTile134" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 0, 11 )
+
+[node name="GrassTile135" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 10 )
+
+[node name="GrassTile136" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 0, 10 )
+
+[node name="GrassTile137" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 9 )
+
+[node name="GrassTile138" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 0, 9 )
+
+[node name="GrassTile142" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 9 )
+
+[node name="GrassTile143" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 9 )
+
+[node name="GrassTile144" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 9 )
+
+[node name="GrassTile145" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0, 9 )
+
+[node name="GrassTile150" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 10 )
+
+[node name="GrassTile151" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0, 10 )
+
 [node name="GrassTile85" parent="Ground" instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 4 )
 
@@ -485,6 +594,30 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 7 )
 [node name="GrassTile92" parent="Ground" instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 0, 7 )
 
+[node name="GrassTile113" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 0, 0 )
+
+[node name="GrassTile114" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 0, 1 )
+
+[node name="GrassTile116" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 0, 2 )
+
+[node name="GrassTile119" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 0, 3 )
+
+[node name="GrassTile120" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 0 )
+
+[node name="GrassTile121" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 1 )
+
+[node name="GrassTile122" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 2 )
+
+[node name="GrassTile123" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 3 )
+
 [node name="GrassTile93" parent="Ground" instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 8 )
 
@@ -493,6 +626,24 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 0, 8 )
 
 [node name="GrassTile58" parent="Ground" instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 7 )
+
+[node name="GrassTile139" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 7 )
+
+[node name="GrassTile140" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 8 )
+
+[node name="GrassTile146" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 9 )
+
+[node name="GrassTile141" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 8 )
+
+[node name="GrassTile147" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 8 )
+
+[node name="GrassTile148" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 8 )
 
 [node name="GrassTile16" parent="Ground" instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 4 )
@@ -520,6 +671,15 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 3 )
 
 [node name="GrassTile13" parent="Ground" instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, 3 )
+
+[node name="GrassTile124" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, 1 )
+
+[node name="GrassTile125" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, 2 )
+
+[node name="GrassTile126" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, 0 )
 
 [node name="RiverTile" parent="Ground" instance=ExtResource( 9 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, -0.25, 2 )
@@ -602,9 +762,6 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, -0.25, 6 )
 [node name="RiverTile14" parent="Ground" instance=ExtResource( 9 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3, -0.25, 6 )
 
-[node name="RiverTile19" parent="Ground" instance=ExtResource( 9 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3, -0.25, 7 )
-
 [node name="RiverTile15" parent="Ground" instance=ExtResource( 9 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, -0.25, 6 )
 
@@ -616,21 +773,6 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, -0.25, 7 )
 
 [node name="RiverTile35" parent="Ground" instance=ExtResource( 9 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, -0.25, 8 )
-
-[node name="RiverTile36" parent="Ground" instance=ExtResource( 9 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, -0.25, 8 )
-
-[node name="RiverTile37" parent="Ground" instance=ExtResource( 9 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3, -0.25, 8 )
-
-[node name="RiverTile38" parent="Ground" instance=ExtResource( 9 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, -0.25, 8 )
-
-[node name="RiverTile39" parent="Ground" instance=ExtResource( 9 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5, -0.25, 8 )
-
-[node name="RiverTile40" parent="Ground" instance=ExtResource( 9 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, -0.25, 8 )
 
 [node name="RiverTile41" parent="Ground" instance=ExtResource( 9 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1, -0.25, 8 )
@@ -656,20 +798,371 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, -0.25, 9 )
 [node name="RiverTile48" parent="Ground" instance=ExtResource( 9 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, -0.25, 9 )
 
-[node name="RiverTile49" parent="Ground" instance=ExtResource( 9 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3, -0.25, 9 )
+[node name="GrassTile127" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 10 )
 
-[node name="RiverTile50" parent="Ground" instance=ExtResource( 9 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, -0.25, 9 )
+[node name="RiverTile54" parent="Ground" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3, -0.25, 10 )
 
-[node name="RiverTile51" parent="Ground" instance=ExtResource( 9 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5, -0.25, 9 )
+[node name="RiverTile55" parent="Ground" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, -0.25, 10 )
 
-[node name="RiverTile52" parent="Ground" instance=ExtResource( 9 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, -0.25, 9 )
+[node name="RiverTile56" parent="Ground" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1, -0.25, 10 )
 
-[node name="RiverTile53" parent="Ground" instance=ExtResource( 9 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7, -0.25, 9 )
+[node name="RiverTile57" parent="Ground" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 10 )
+
+[node name="RiverTile58" parent="Ground" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, -0.25, 10 )
+
+[node name="RiverTile59" parent="Ground" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, -0.25, 10 )
+
+[node name="RiverTile60" parent="Ground" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3, -0.25, 10 )
+
+[node name="GrassTile128" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 11 )
+
+[node name="GrassTile152" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 0 )
+
+[node name="GrassTile153" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, -1 )
+
+[node name="GrassTile154" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 1 )
+
+[node name="GrassTile155" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 2 )
+
+[node name="GrassTile156" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 3 )
+
+[node name="GrassTile157" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 4 )
+
+[node name="GrassTile158" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 5 )
+
+[node name="GrassTile159" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 6 )
+
+[node name="GrassTile160" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 7 )
+
+[node name="GrassTile161" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 8 )
+
+[node name="GrassTile162" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 9 )
+
+[node name="GrassTile163" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 10 )
+
+[node name="GrassTile164" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 11 )
+
+[node name="GrassTile165" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 0 )
+
+[node name="GrassTile166" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -1 )
+
+[node name="GrassTile167" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 1 )
+
+[node name="GrassTile168" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 2 )
+
+[node name="GrassTile169" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 3 )
+
+[node name="GrassTile170" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 4 )
+
+[node name="GrassTile171" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 5 )
+
+[node name="GrassTile172" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 6 )
+
+[node name="GrassTile173" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 7 )
+
+[node name="GrassTile174" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 8 )
+
+[node name="GrassTile175" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 9 )
+
+[node name="GrassTile176" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 10 )
+
+[node name="GrassTile177" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 11 )
+
+[node name="GrassTile178" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, 0 )
+
+[node name="GrassTile179" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, -1 )
+
+[node name="GrassTile180" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, 1 )
+
+[node name="GrassTile181" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, 2 )
+
+[node name="GrassTile182" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, 3 )
+
+[node name="GrassTile183" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, 4 )
+
+[node name="GrassTile184" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, 5 )
+
+[node name="GrassTile185" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, 6 )
+
+[node name="GrassTile186" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, 7 )
+
+[node name="GrassTile187" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, 8 )
+
+[node name="GrassTile188" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, 9 )
+
+[node name="GrassTile189" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, 10 )
+
+[node name="GrassTile190" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, 11 )
+
+[node name="RiverTile61" parent="Ground" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3, -0.25, 11 )
+
+[node name="RiverTile62" parent="Ground" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, -0.25, 11 )
+
+[node name="RiverTile63" parent="Ground" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1, -0.25, 11 )
+
+[node name="RiverTile64" parent="Ground" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 11 )
+
+[node name="RiverTile65" parent="Ground" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, -0.25, 11 )
+
+[node name="RiverTile66" parent="Ground" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, -0.25, 11 )
+
+[node name="RiverTile67" parent="Ground" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3, -0.25, 11 )
+
+[node name="RiverTile68" parent="Ground" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, -0.25, 10 )
+
+[node name="RiverTile69" parent="Ground" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5, -0.25, 10 )
+
+[node name="RiverTile72" parent="Ground" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, -0.25, 11 )
+
+[node name="RiverTile73" parent="Ground" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5, -0.25, 11 )
+
+[node name="RiverTile74" parent="Ground" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, -0.25, 11 )
+
+[node name="RiverTile75" parent="Ground" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7, -0.25, 11 )
+
+[node name="GrassTile191" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 12 )
+
+[node name="GrassTile192" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, 12 )
+
+[node name="GrassTile193" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 13 )
+
+[node name="GrassTile194" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, 13 )
+
+[node name="GrassTile195" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 13 )
+
+[node name="GrassTile196" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 0, 13 )
+
+[node name="GrassTile197" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 12 )
+
+[node name="GrassTile198" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 0, 12 )
+
+[node name="GrassTile199" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 12 )
+
+[node name="GrassTile200" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0, 12 )
+
+[node name="GrassTile201" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 12 )
+
+[node name="RiverTile70" parent="Ground" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3, -0.25, 12 )
+
+[node name="RiverTile71" parent="Ground" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, -0.25, 12 )
+
+[node name="RiverTile76" parent="Ground" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1, -0.25, 12 )
+
+[node name="RiverTile77" parent="Ground" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 12 )
+
+[node name="RiverTile78" parent="Ground" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, -0.25, 12 )
+
+[node name="RiverTile79" parent="Ground" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, -0.25, 12 )
+
+[node name="RiverTile80" parent="Ground" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3, -0.25, 12 )
+
+[node name="GrassTile202" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 13 )
+
+[node name="GrassTile203" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 12 )
+
+[node name="GrassTile204" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 13 )
+
+[node name="GrassTile205" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 12 )
+
+[node name="GrassTile206" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 13 )
+
+[node name="GrassTile207" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, 12 )
+
+[node name="GrassTile208" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, 13 )
+
+[node name="RiverTile81" parent="Ground" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3, -0.25, 13 )
+
+[node name="RiverTile82" parent="Ground" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, -0.25, 13 )
+
+[node name="RiverTile83" parent="Ground" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1, -0.25, 13 )
+
+[node name="RiverTile84" parent="Ground" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 13 )
+
+[node name="RiverTile85" parent="Ground" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, -0.25, 13 )
+
+[node name="RiverTile86" parent="Ground" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, -0.25, 13 )
+
+[node name="RiverTile87" parent="Ground" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3, -0.25, 13 )
+
+[node name="RiverTile88" parent="Ground" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, -0.25, 12 )
+
+[node name="RiverTile89" parent="Ground" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5, -0.25, 12 )
+
+[node name="RiverTile90" parent="Ground" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, -0.25, 13 )
+
+[node name="RiverTile91" parent="Ground" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5, -0.25, 13 )
+
+[node name="RiverTile92" parent="Ground" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, -0.25, 13 )
+
+[node name="RiverTile93" parent="Ground" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7, -0.25, 13 )
+
+[node name="GrassTile209" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 14 )
+
+[node name="GrassTile210" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, 14 )
+
+[node name="GrassTile211" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 14 )
+
+[node name="GrassTile212" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 0, 14 )
+
+[node name="GrassTile213" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 13 )
+
+[node name="GrassTile214" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 14 )
+
+[node name="GrassTile215" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 13 )
+
+[node name="GrassTile216" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 14 )
+
+[node name="GrassTile217" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 13 )
+
+[node name="GrassTile218" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 14 )
+
+[node name="GrassTile219" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, 13 )
+
+[node name="GrassTile220" parent="Ground" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, 14 )
+
+[node name="RiverTile94" parent="Ground" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3, -0.25, 14 )
+
+[node name="RiverTile95" parent="Ground" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, -0.25, 14 )
+
+[node name="RiverTile96" parent="Ground" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1, -0.25, 14 )
+
+[node name="RiverTile97" parent="Ground" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 14 )
+
+[node name="RiverTile98" parent="Ground" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, -0.25, 14 )
+
+[node name="RiverTile99" parent="Ground" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, -0.25, 14 )
+
+[node name="RiverTile100" parent="Ground" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3, -0.25, 14 )
+
+[node name="RiverTile101" parent="Ground" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, -0.25, 14 )
+
+[node name="RiverTile102" parent="Ground" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5, -0.25, 14 )
+
+[node name="RiverTile103" parent="Ground" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, -0.25, 14 )
+
+[node name="RiverTile104" parent="Ground" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7, -0.25, 14 )
 
 [node name="RiverTile18" parent="Ground" instance=ExtResource( 9 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5, -0.25, 7 )
