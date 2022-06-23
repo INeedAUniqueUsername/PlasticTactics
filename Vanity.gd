@@ -211,9 +211,20 @@ func stalagmite_attack():
 	
 	var world = Helper.get_world(self)
 	for i in range(8):
-		var p = origin + Vector3(randi()%16 - 8, 0, randi()%16 - 8)
-		while placed.has(p) or !world.has_ground(p) or !world.is_open(p):
-			p = origin + Vector3(randi()%16 - 8, 0, randi()%16 - 8)
+		var p = origin + int(rand_range(2, 8)) * tr.basis.x + int(rand_range(-8, 9)) * tr.basis.z
+		var tries = 10
+		while tries > 0:
+			if placed.has(p) or !world.is_open(p):
+				tries -= 1
+				continue
+			var ground = world.get_ground_origin(p)
+			if ground == null:
+				tries -= 1
+				continue
+			p = ground
+			tries = -1
+		if tries == 0:
+			continue
 		placed.append(p)
 		
 		var s = Stalagmite.instance()

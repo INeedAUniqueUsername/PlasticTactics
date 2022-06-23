@@ -1,5 +1,5 @@
 extends Spatial
-func start_turn():
+func end_turn():
 	detonate()
 const Explosion = preload("res://DynamiteExplosion.tscn")
 func detonate():

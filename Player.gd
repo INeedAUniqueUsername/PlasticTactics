@@ -8,6 +8,7 @@ class DashState:
 	var actor = null
 	var panels = []
 	var dest_panel = null
+	var freeMovePoints = 4
 	func _init(actor):
 		self.actor = actor
 		actor.connect("started_moving", self, "clear_panels")
@@ -31,15 +32,22 @@ class DashState:
 			return
 		if len(panels) > 0:
 			clear_panels()
+			#actor.move.refresh_panels()
 			return
+			
+		#actor.move.clear_panels()
 		var world = Helper.get_world(actor)
 		
+		if world.get_ground_origin(actor.get_global_transform().origin, [], false) == null:
+			return
+		
+		var radius = actor.movePoints + freeMovePoints #actor.movePoints * 2
 		var start = actor.get_global_transform().origin
-		for x in range(-7, 8, 1):
-			for y in range(-7, 8, 1):
+		for x in range(-radius, radius + 1, 1):
+			for y in range(-radius, radius + 1, 1):
 				var off = Vector3(x, 0, y)
-				var dist = off.length()
-				if dist > 7:
+				var dist = abs(off.x) + abs(off.z)
+				if dist > radius:
 					continue
 				var ground = world.get_ground_origin(start + off, [], false)
 				if ground == null:
@@ -63,32 +71,26 @@ class DashState:
 				tr.origin = ground
 				p.set_global_transform(tr)
 				panels.append(p)
-		if false:
-			for a in world.get_enemy_chars():
-				var off = a.get_global_transform().origin - actor.get_global_transform().origin
-				if off.length() > 6:
-					continue
-				var p = AttackPanel.instance()
-				p.connect("clicked", self, "set_dest_panel", [p])
-				world.add_child(p)
-				p.set_global_transform(a.get_global_transform())
-				panels.append(p)
 	var off = null
-	func start_attack():
+	func start_action():
 		if dest_panel and actor.inTurn:
-			actor.movePoints = 0
-			
+			actor.move.clear_panels()
 			off = dest_panel.get_global_transform().origin - actor.get_global_transform().origin
-			yield(Helper.tween_move(actor, off, 0.5, Tween.TRANS_QUAD, Tween.EASE_OUT), "completed")
+			var cost = abs(off.x) + abs(off.z) - freeMovePoints
+			actor.movePoints -= clamp(cost, 0, actor.movePoints)
+			yield(Helper.tween_move(actor, off, off.length()/10.0, Tween.TRANS_LINEAR), "completed")
 			return
 		yield(actor.get_tree(), "idle_frame")
-	func end_attack():
+	func end_action():
 		clear_panels()
 		if off:
-			yield(Helper.tween_move(actor, -off, 0.5, Tween.TRANS_QUAD, Tween.EASE_OUT), "completed")
+			yield(Helper.tween_move(actor, -off, off.length()/10.0, Tween.TRANS_LINEAR), "completed")
 			off = null
+			actor.move.refresh_panels()
 			return
 		yield(actor.get_tree(), "idle_frame")
+			
+			
 
 class MoveState:
 	var actor
@@ -103,8 +105,9 @@ class MoveState:
 	func _init(actor):
 		self.actor = actor
 		actor.connect("selected", self, "on_actor_selected")
-		actor.connect("deselected", self, "on_actor_deselected")
+		actor.connect("deselected", self, "clear_panels")
 		actor.connect("turn_ended", self, "on_actor_turn_ended")
+		actor.connect("moved", self, "refresh_panels")
 	func process():
 		var keyDirections = {
 			KEY_UP: 'N',
@@ -133,15 +136,13 @@ class MoveState:
 			place_panels_slow()
 		else:
 			place_panels_quick()
-	func on_actor_deselected():
-		panelsReset = true
-		clear_panels()
 	func on_actor_turn_ended():
 		if !actor.walking:
 			clear_panels()
 			place_panels_quick()
 	const PANEL = preload("res://Panel.tscn")
 	func clear_panels():
+		panelsReset = true
 		for entry in gridPanels.values():
 			var p = entry.panel
 			p.dismiss()
@@ -154,16 +155,17 @@ class MoveState:
 		var tr = actor.get_global_transform()
 		var start = tr.origin
 		var p = PANEL.instance()
+		gridPanels[start] = GridEntry.new(p, start)
 		p.set_global_transform(tr)
 		w.call_deferred("add_child", p)
 		p.connect("clicked", self, "on_panel_clicked", [p])
 		var placed = [p]
 		yield(p.get_node("Fade"), "animation_finished")
-		gridPanels[start] = GridEntry.new(p, start)
 		panelsReset = false
 		var i = 0
 		while i < len(placed):
-			if actor.walking or panelsReset or gridPanels.empty():
+			if !actor.selected or actor.walking or panelsReset:
+				#clear_panels()
 				return
 			var next = []
 			while i < len(placed):
@@ -174,7 +176,7 @@ class MoveState:
 				for direction in adjacent.keys():
 					var dest = adjacent[direction]
 					
-					var entry = get_ground_panel(current, dest)
+					var entry = get_ground_panel(w, current, dest)
 					if entry == null:
 						continue
 					gridPanels[entry.pos] = entry
@@ -208,7 +210,7 @@ class MoveState:
 				var adjacent = w.get_surrounding_squares(current.get_global_transform().origin)
 				for direction in adjacent.keys():
 					var dest = adjacent[direction]
-					var entry = get_ground_panel(current, dest)
+					var entry = get_ground_panel(w, current, dest)
 					if entry == null:
 						continue
 					gridPanels[entry.pos] = entry
@@ -223,11 +225,11 @@ class MoveState:
 				yield(panel, "tree_entered")
 
 	func refresh_panels():
+		panelsReset = true
 		clear_panels()
 		place_panels_quick()
-	func get_ground_panel(prevPanel: Spatial, pos: Vector3):
-		var w = Helper.get_world(actor)
-		var y = w.get_ground_y(pos)
+	func get_ground_panel(world, prevPanel: Spatial, pos: Vector3):
+		var y = world.get_ground_y(pos)
 		if y == null:
 			return null
 		pos = Vector3(pos.x, y, pos.z)
@@ -235,7 +237,7 @@ class MoveState:
 		if gridPanels.keys().has(pos):
 			return null
 			
-		if !w.is_open(pos):
+		if !world.is_open(pos):
 			return null
 			
 		var prevPos = prevPanel.get_global_transform().origin
@@ -275,7 +277,6 @@ class MoveState:
 			gridPanels.erase(pos)
 		pathPanels.remove(0)
 		yield(actor.walk(pathPanels), "completed")
-		refresh_panels()
 	class GridEntry:
 		var panel
 		var prevPanel
@@ -328,6 +329,8 @@ func _ready():
 	for b in otherButtons:
 		b.connect("clicked", self, otherButtons[b])
 	$Dash.connect("clicked", dash, "clicked")
+	for e in ["selected", "deselected", "moved", "turn_started", "turn_ended"]:
+		connect(e, self, "updateButtons")
 	updateButtons()
 var selected = false
 signal selected()
@@ -335,11 +338,9 @@ signal deselected()
 func selected():
 	selected = true
 	emit_signal("selected")
-	updateButtons()
 func deselected():
 	selected = false
 	emit_signal("deselected")
-	updateButtons()
 func updateButtons():
 	var y = 0
 	
@@ -356,7 +357,7 @@ func updateButtons():
 		$Item: !sword.current_attack,
 		$Switch: !sword.current_attack,
 		$Jump: true,
-		$Dash: inTurn and attackPoints > 0
+		$Dash: inTurn and attackPoints > 0 #and movePoints > 0
 	}
 	for b in otherButtons.keys():
 		b.set_appearance(selected, otherButtons[b])
@@ -391,18 +392,15 @@ var inTurn = false
 func start_turn():
 	refresh_move()
 	inTurn = true
-	emit_signal("turn_started")
 	check_standing_areas()
-	updateButtons()
+	emit_signal("turn_started")
 func end_turn():
 	inTurn = false
-	emit_signal("turn_ended")
 	check_standing_areas()
-	updateButtons()
+	emit_signal("turn_ended")
 func refresh_move():
 	movePoints = 4
 	attackPoints = 1
-	updateButtons()
 signal started_moving()
 signal moved()
 func walk(pathPanels):
@@ -432,11 +430,11 @@ func attack(move):
 				shielding = false
 				yield(sword.do("Unshield"), "completed")
 		attackPoints -= 1
-		yield(dash.start_attack(), "completed")
+		updateButtons()
+		yield(dash.start_action(), "completed")
 		sword.do(move, inTurn)
 		yield(sword, "attack_ended")
-		yield(dash.end_attack(), "completed")
-	updateButtons()
+		yield(dash.end_action(), "completed")
 func jump():
 	$Anim.play("Jump")
 func switch_weapon():
@@ -484,6 +482,11 @@ func toggle_item_menu(vis = null):
 const Oasisphere = preload("res://Oasisphere.tscn")
 func use_item(index):
 	var item = inventory[index]
+	inventory.remove(index)
+	attackPoints -= 1
+	updateButtons()
+	
+	yield(dash.start_action(), "completed")
 	match item:
 		ItemTypes.Oasisphere:
 			var s = Oasisphere.instance()
@@ -496,9 +499,8 @@ func use_item(index):
 			var tr = get_global_transform()
 			tr.origin += tr.basis.x
 			Helper.add_to_world(self, s, tr)
+	yield(dash.end_action(), "completed")
 			
-	inventory.remove(index)
-	toggle_item_menu(true)
 func get_actor(node):
 	while node and !node.is_in_group("Actor"):
 		node = node.get_parent()

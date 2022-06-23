@@ -23,7 +23,7 @@ func try_lightning_target(hammer):
 		var actor = Helper.get_actor(area)
 		if !actor:
 			continue
-		if actor == hammer or actor.is_in_group("Hedge") or actor.is_in_group("Tree") or actor.is_in_group("Player") or actor.is_in_group("Enemy"):
+		if actor == hammer or actor.is_in_group("Char") or actor.is_in_group("Hedge") or actor.is_in_group("Tree") or actor.is_in_group("Player") or actor.is_in_group("Enemy"):
 			fire_lightning()
 func fire_lightning():
 	Helper.add_to_world(self, Lightning.instance(), get_global_transform())

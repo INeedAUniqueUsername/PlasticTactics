@@ -1,5 +1,4 @@
 extends Spatial
-
 var chars = []
 func _ready():
 	for c in get_children():

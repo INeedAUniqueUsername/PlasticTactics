@@ -18,12 +18,14 @@ func _ready():
 	#tile.queue_free()
 	yield(get_tree().create_timer(0.5), "timeout")
 	var plant = $Plant
+	
 	for angle in [0, PI/2, PI, 3 * PI / 2]:
 		for z in [-1, 0, 1]:
 			var p = plant.duplicate()
 			p.transform.origin = Vector3(1.5, 0.5 - 1, z).rotated(Vector3(0, 1, 0), angle)
 			add_child(p)
 			p.rotation = Vector3(0, angle, 0)
+			p.show()
 			show_plant(p)
 			plants.append(p)
 	plant.queue_free()
