@@ -89,8 +89,208 @@ class DashState:
 			off = null
 			return
 		yield(actor.get_tree(), "idle_frame")
-onready var dash = DashState.new(self)
 
+class MoveState:
+	var actor
+	var gridPanels = {}
+	
+	const directions = {
+		'N': Vector3(0, 0, -1),
+		'E': Vector3(1, 0, 0),
+		'S': Vector3(0, 0, 1),
+		'W': Vector3(-1, 0, 0),
+	}
+	func _init(actor):
+		self.actor = actor
+		actor.connect("selected", self, "on_actor_selected")
+		actor.connect("deselected", self, "on_actor_deselected")
+		actor.connect("turn_ended", self, "on_actor_turn_ended")
+	func process():
+		var keyDirections = {
+			KEY_UP: 'N',
+			KEY_RIGHT: 'E',
+			KEY_DOWN: 'S',
+			KEY_LEFT: 'W'
+		}
+		
+		if !actor.walking:
+			var pos = actor.get_global_transform().origin
+			for k in keyDirections.keys():
+				var dir = keyDirections[k]
+				if Input.is_key_pressed(k):
+					var dest = pos + directions[dir]
+					if gridPanels.keys().has(dest) and actor.movePoints >= 1.0:
+						
+						actor.movePoints -= 1
+						yield(actor.walk([gridPanels[dest].panel]), "completed")
+						refresh_panels()
+						return
+	func on_actor_selected():
+		if actor.walking:
+			return
+		clear_panels()
+		if actor.inTurn:
+			place_panels_slow()
+		else:
+			place_panels_quick()
+	func on_actor_deselected():
+		panelsReset = true
+		clear_panels()
+	func on_actor_turn_ended():
+		if !actor.walking:
+			clear_panels()
+			place_panels_quick()
+	const PANEL = preload("res://Panel.tscn")
+	func clear_panels():
+		for entry in gridPanels.values():
+			var p = entry.panel
+			p.dismiss()
+			p.disconnect("clicked", self, "on_panel_clicked")
+		gridPanels.clear()
+		
+	var panelsReset = false
+	func place_panels_slow():
+		var w = Helper.get_world(actor)
+		var tr = actor.get_global_transform()
+		var start = tr.origin
+		var p = PANEL.instance()
+		p.set_global_transform(tr)
+		w.call_deferred("add_child", p)
+		p.connect("clicked", self, "on_panel_clicked", [p])
+		var placed = [p]
+		yield(p.get_node("Fade"), "animation_finished")
+		gridPanels[start] = GridEntry.new(p, start)
+		panelsReset = false
+		var i = 0
+		while i < len(placed):
+			if actor.walking or panelsReset or gridPanels.empty():
+				return
+			var next = []
+			while i < len(placed):
+				var current = placed[i]
+				if current.dismissed:
+					return
+				var adjacent = w.get_surrounding_squares(current.get_global_transform().origin)
+				for direction in adjacent.keys():
+					var dest = adjacent[direction]
+					
+					var entry = get_ground_panel(current, dest)
+					if entry == null:
+						continue
+					gridPanels[entry.pos] = entry
+					p = entry.panel
+					p.get_node("Anim").play("FlipTo" + direction)
+					next.append(p)
+					w.call_deferred("add_child", p)
+					p.connect("clicked", self, "on_panel_clicked", [p])
+				i += 1
+			for panel in next:
+				placed.append(panel)
+				yield(panel.get_node("Anim"), "animation_finished")
+	func place_panels_quick():
+		var w = Helper.get_world(actor)
+		var tr = actor.get_global_transform()
+		var start = tr.origin
+		var p = PANEL.instance()
+		p.set_global_transform(tr)
+		gridPanels[start] = GridEntry.new(p, start)
+		w.call_deferred("add_child", p)
+		p.connect("clicked", self, "on_panel_clicked", [p])
+		
+		yield(p, "tree_entered")
+		
+		var placed = [p]
+		var i = 0
+		while i < len(placed):
+			var next = []
+			while i < len(placed):
+				var current = placed[i]
+				var adjacent = w.get_surrounding_squares(current.get_global_transform().origin)
+				for direction in adjacent.keys():
+					var dest = adjacent[direction]
+					var entry = get_ground_panel(current, dest)
+					if entry == null:
+						continue
+					gridPanels[entry.pos] = entry
+					p = entry.panel
+					next.append(p)
+					w.call_deferred("add_child", p)
+					p.connect("clicked", self, "on_panel_clicked", [p])
+				i += 1
+			for panel in next:
+				placed.append(panel)
+				#need to wait for this to enter the tree so that transform origins work properly
+				yield(panel, "tree_entered")
+
+	func refresh_panels():
+		clear_panels()
+		place_panels_quick()
+	func get_ground_panel(prevPanel: Spatial, pos: Vector3):
+		var w = Helper.get_world(actor)
+		var y = w.get_ground_y(pos)
+		if y == null:
+			return null
+		pos = Vector3(pos.x, y, pos.z)
+		
+		if gridPanels.keys().has(pos):
+			return null
+			
+		if !w.is_open(pos):
+			return null
+			
+		var prevPos = prevPanel.get_global_transform().origin
+		var distance = 1 + gridPanels[prevPos].distance
+		if distance > actor.movePoints:
+			return null
+		
+		
+		var panel = PANEL.instance()
+		
+		var tr = panel.get_global_transform()
+		tr.origin = pos
+		panel.set_global_transform(tr)
+		
+		
+		return GridEntry.new(panel, pos, prevPanel, prevPos, distance)
+		
+	func on_panel_clicked(clickedPanel):
+		#var dest = clickedPanel.get_global_transform().origin
+		#ownerChar.movePoints -= (dest - ownerChar.get_global_transform().origin).length()
+		var destPanel = clickedPanel
+		var destPos = destPanel.get_global_transform().origin
+		actor.movePoints -= gridPanels[destPos].distance
+		var pathPanels = []
+		while destPanel:
+			pathPanels.append(destPanel)
+			destPanel = gridPanels[destPanel.get_global_transform().origin].prevPanel
+		pathPanels.invert()
+		if len(pathPanels) == 1:
+			return
+		for pos in gridPanels.keys():
+			var panel = gridPanels[pos].panel
+			panel.disconnect("clicked", self, "on_panel_clicked")
+			if panel in pathPanels:
+				continue
+			panel.dismiss()
+			gridPanels.erase(pos)
+		pathPanels.remove(0)
+		yield(actor.walk(pathPanels), "completed")
+		refresh_panels()
+	class GridEntry:
+		var panel
+		var prevPanel
+		var distance
+		
+		var pos
+		var prevPos
+		func _init(panel: Spatial, pos = null, prevPanel: Spatial = null, prevPos = null, distance: float = 0):
+			self.panel = panel
+			self.pos = pos
+			self.prevPanel = prevPanel
+			self.prevPos = prevPos
+			self.distance = distance
+onready var dash = DashState.new(self)
+onready var move = MoveState.new(self)
 var actButtons = {
 	"Cast": null,
 	"Slash": null,
