@@ -210,7 +210,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 1 ),
 "transitions": PoolRealArray( -2, 1 ),
 "update": 0,
-"values": [ 0.0, 1.0 ]
+"values": [ 0.0, 0.6 ]
 }
 
 [sub_resource type="Animation" id=9]
@@ -239,7 +239,7 @@ tracks/1/keys = {
 "times": PoolRealArray( 0, 1 ),
 "transitions": PoolRealArray( -2, 1 ),
 "update": 0,
-"values": [ 1.0, 0.0 ]
+"values": [ 0.6, 0.0 ]
 }
 
 [sub_resource type="Animation" id=5]
@@ -380,6 +380,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0 )
 [node name="CollisionShape" type="CollisionShape" parent="Spatial/Area"]
 shape = SubResource( 8 )
 
+[connection signal="dismissed" from="." to="Fade" method="play" binds= [ "Exit" ]]
 [connection signal="input_event" from="Spatial/Area" to="." method="_on_mouse_input"]
 [connection signal="mouse_entered" from="Spatial/Area" to="Color" method="play" binds= [ "Hover" ]]
 [connection signal="mouse_exited" from="Spatial/Area" to="Color" method="play" binds= [ "Regular" ]]

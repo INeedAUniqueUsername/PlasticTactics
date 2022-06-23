@@ -14,9 +14,10 @@ const Splash = preload("res://SunsetSwordSplash.tscn")
 func smash():
 	var world = Helper.get_world(self)
 	var tr = get_global_transform()
-	tr.origin.y = round(tr.origin.y)
-	if !world.has_ground(tr.origin):
+	var origin = world.get_ground_origin(tr.origin)
+	if origin == null:
 		return
+	tr.origin = origin
 	var s = Splash.instance()
 	s.damageBonus = sword.boost
 	world.call_deferred("add_child", s)

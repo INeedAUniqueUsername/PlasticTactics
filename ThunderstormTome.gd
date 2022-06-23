@@ -12,8 +12,8 @@ func do(a, b):
 	$Anim.play(a)
 	yield($Anim, "animation_finished")
 	emit_signal("attack_ended")
-func cast_wind():
-	var tr = $Pages.get_global_transform()
+func cast():
+	var tr = $Spine.get_global_transform()
 	var origin = tr.origin
 	origin.y = round(origin.y)
 	var world = Helper.get_world(self)

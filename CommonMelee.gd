@@ -5,7 +5,7 @@ signal boost_started()
 signal boost_ended()
 var boost = 0
 
-export(NodePath) var boostGlow
+export(NodePath) var boostGlow = "Pivot/Sprite/Glow"
 var current_attack = null
 func _ready():
 	boostGlow = get_node(boostGlow)
@@ -76,8 +76,8 @@ func _on_area_entered(area):
 		var t = Tween.new()
 		t.interpolate_property($Pivot, "rotation", $Pivot.rotation, Vector3(0, 0, 0), 0.5, Tween.TRANS_QUAD, Tween.EASE_OUT)
 		t.interpolate_property($Pivot, "translation", $Pivot.translation, Vector3(0, 0, 0), 0.5, Tween.TRANS_QUAD, Tween.EASE_OUT)
-		t.interpolate_property($Pivot/Copper, "rotation", $Pivot/Copper.rotation, Vector3(0, 0, 0), 0.5, Tween.TRANS_QUAD, Tween.EASE_OUT)
-		t.interpolate_property($Pivot/Copper, "translation", $Pivot/Copper.translation, Vector3(0, 0, 0), 0.5, Tween.TRANS_QUAD, Tween.EASE_OUT)
+		t.interpolate_property($Pivot/Sprite, "rotation", $Pivot/Sprite.rotation, Vector3(0, 0, 0), 0.5, Tween.TRANS_QUAD, Tween.EASE_OUT)
+		t.interpolate_property($Pivot/Sprite, "translation", $Pivot/Sprite.translation, Vector3(0, 0, 0), 0.5, Tween.TRANS_QUAD, Tween.EASE_OUT)
 		add_child(t)
 		t.start()
 		yield(t, "tween_all_completed")

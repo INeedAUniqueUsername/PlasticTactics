@@ -1,7 +1,95 @@
 extends "res://Clickable.gd"
 var walking = false
-var movePoints = 5
+var movePoints = 4
 var attackPoints = 1
+
+
+class DashState:
+	var actor = null
+	var panels = []
+	var dest_panel = null
+	func _init(actor):
+		self.actor = actor
+		actor.connect("started_moving", self, "clear_panels")
+		actor.connect("deselected", self, "clear_panels")
+		actor.connect("turn_ended", self, "clear_panels")
+	func clear_panels():
+		dest_panel = null
+		for p in panels:
+			p.dismiss()
+		panels.clear()
+	func set_dest_panel(dest_panel):
+		self.dest_panel = dest_panel
+		panels.erase(dest_panel)
+		for p in panels:
+			p.dismiss()
+		panels.clear()
+		panels = [dest_panel]
+	const AttackPanel = preload("res://AttackPanel.tscn")
+	func clicked():
+		if !actor.inTurn:
+			return
+		if len(panels) > 0:
+			clear_panels()
+			return
+		var world = Helper.get_world(actor)
+		
+		var start = actor.get_global_transform().origin
+		for x in range(-7, 8, 1):
+			for y in range(-7, 8, 1):
+				var off = Vector3(x, 0, y)
+				var dist = off.length()
+				if dist > 7:
+					continue
+				var ground = world.get_ground_origin(start + off, [], false)
+				if ground == null:
+					continue
+				
+				var open = true	
+				var normal = off.normalized()
+				for i in range(off.length()):
+					var p = world.get_ground_origin(start + normal * (i + 1), [], false)
+					var good = p != null and world.is_open(p)
+					if !good:
+						open = false
+						break
+				if !open:
+					continue
+				
+				var p = AttackPanel.instance()
+				p.connect("clicked", self, "set_dest_panel", [p])
+				world.add_child(p)
+				var tr = p.get_global_transform()
+				tr.origin = ground
+				p.set_global_transform(tr)
+				panels.append(p)
+		if false:
+			for a in world.get_enemy_chars():
+				var off = a.get_global_transform().origin - actor.get_global_transform().origin
+				if off.length() > 6:
+					continue
+				var p = AttackPanel.instance()
+				p.connect("clicked", self, "set_dest_panel", [p])
+				world.add_child(p)
+				p.set_global_transform(a.get_global_transform())
+				panels.append(p)
+	var off = null
+	func start_attack():
+		if dest_panel and actor.inTurn:
+			actor.movePoints = 0
+			
+			off = dest_panel.get_global_transform().origin - actor.get_global_transform().origin
+			yield(Helper.tween_move(actor, off, 0.5, Tween.TRANS_QUAD, Tween.EASE_OUT), "completed")
+			return
+		yield(actor.get_tree(), "idle_frame")
+	func end_attack():
+		clear_panels()
+		if off:
+			yield(Helper.tween_move(actor, -off, 0.5, Tween.TRANS_QUAD, Tween.EASE_OUT), "completed")
+			off = null
+			return
+		yield(actor.get_tree(), "idle_frame")
+onready var dash = DashState.new(self)
 
 var actButtons = {
 	"Cast": null,
@@ -26,38 +114,52 @@ func _ready():
 		var button = $AttackButtons.get_node(act)
 		button.connect("clicked", self, "attack", [act])
 		actButtons[act] = button
-	for act in actButtons.keys():
-		var button = actButtons[act].get_node("Boost")
+		
+		button = button.get_node("Boost")
 		button.set_appearance(false, false)
 		button.connect("clicked", button, "set_appearance", [false, false])
 		boostButtons[act] = button
-	$Jump.connect("clicked", self, "jump")
-	$Item.connect("clicked", self, "toggle_item_menu")
-	$Switch.connect("clicked", self, "switch_weapon")
+		
+	var otherButtons = {
+		$Jump: "jump",
+		$Item: "toggle_item_menu",
+		$Switch: "switch_weapon"
+	}
+	for b in otherButtons:
+		b.connect("clicked", self, otherButtons[b])
+	$Dash.connect("clicked", dash, "clicked")
 	updateButtons()
 var selected = false
+signal selected()
+signal deselected()
 func selected():
 	selected = true
+	emit_signal("selected")
 	updateButtons()
 func deselected():
 	selected = false
+	emit_signal("deselected")
 	updateButtons()
 func updateButtons():
 	var y = 0
+	
+	var canAttack = attackPoints > 0
 	for action in actButtons.keys():
 		var vis = selected and action in sword.actions
-		var enabled = attackPoints > 0
 		var b = actButtons[action]
-		b.set_appearance(vis, enabled)
+		b.set_appearance(vis, canAttack)
 		if vis:
 			b.transform.origin = Vector3(0, y, 0)
 			y += 0.5
-	actButtons["Shield"].set_appearance(selected and "Shield" in sword.actions, attackPoints > 0 and !shielding)
 	
-	
-	$Item.set_appearance(selected, !sword.current_attack)
-	$Switch.set_appearance(selected, !sword.current_attack)
-	$Jump.set_appearance(selected, true)
+	var otherButtons = {
+		$Item: !sword.current_attack,
+		$Switch: !sword.current_attack,
+		$Jump: true,
+		$Dash: inTurn and attackPoints > 0
+	}
+	for b in otherButtons.keys():
+		b.set_appearance(selected, otherButtons[b])
 	
 	toggle_item_menu(!itemButtons.keys().empty())
 func set_boost_button():
@@ -83,22 +185,31 @@ func check_standing_areas():
 			hp = max(0, hp - 10)
 			emit_signal("damaged")
 			$Hurt.play("Hurt")
+signal turn_started()
+signal turn_ended()
 var inTurn = false
 func start_turn():
 	refresh_move()
 	inTurn = true
+	emit_signal("turn_started")
 	check_standing_areas()
+	updateButtons()
 func end_turn():
 	inTurn = false
+	emit_signal("turn_ended")
 	check_standing_areas()
+	updateButtons()
 func refresh_move():
-	movePoints = 5
+	movePoints = 4
 	attackPoints = 1
 	updateButtons()
+signal started_moving()
+signal moved()
 func walk(pathPanels):
 	if len(pathPanels) == 0:
 		return
 	walking = true
+	emit_signal("started_moving")
 	for panel in pathPanels:
 		var g = Helper.get_world(self).get_ground(get_global_transform().origin)
 		var time = 0.3
@@ -108,6 +219,7 @@ func walk(pathPanels):
 		yield(Helper.tween_move(self, panel.get_global_transform().origin - get_global_transform().origin, time, Tween.TRANS_QUAD, Tween.EASE_OUT), "completed")
 		check_standing_areas()
 	walking = false
+	emit_signal("moved")
 var shielding = false
 func attack(move):
 	if attackPoints > 0:
@@ -120,7 +232,10 @@ func attack(move):
 				shielding = false
 				yield(sword.do("Unshield"), "completed")
 		attackPoints -= 1
+		yield(dash.start_attack(), "completed")
 		sword.do(move, inTurn)
+		yield(sword, "attack_ended")
+		yield(dash.end_attack(), "completed")
 	updateButtons()
 func jump():
 	$Anim.play("Jump")
@@ -150,6 +265,7 @@ func toggle_item_menu(vis = null):
 		itemButtons.erase(i)
 	if vis:
 		var i = 0
+		var canAttack = attackPoints > 0
 		for item in inventory:
 			var b = SpriteButton.instance()
 			itemButtons[i] = b
@@ -157,7 +273,7 @@ func toggle_item_menu(vis = null):
 			b.transform.origin = Vector3(-0.5, i * 0.5, 0)
 			b.connect("clicked", self, "use_item", [i])
 			
-			b.set_appearance(selected, attackPoints > 0)
+			b.set_appearance(selected, canAttack)
 			
 			var s = StdSprite.instance()
 			s.texture = item.sprite
@@ -194,7 +310,6 @@ func _on_area_entered(area):
 	if !area.is_in_group("Damage"):
 		return
 	var actor = get_actor(area)
-	
 	if actor == sword:
 		return
 	hp = max(0, hp - actor.damage)

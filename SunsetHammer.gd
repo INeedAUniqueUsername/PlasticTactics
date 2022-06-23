@@ -1,7 +1,7 @@
 extends Spatial
 const Splash = preload("res://SunsetSwordSplash.tscn")
 onready var sword = Helper.get_actor(self)
-func make_splash():
+func smash():
 	var world = Helper.get_world(self)
 	var tr = get_global_transform()
 	

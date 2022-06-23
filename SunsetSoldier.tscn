@@ -1,7 +1,8 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://SunsetSoldier.png" type="Texture" id=1]
 [ext_resource path="res://Player.gd" type="Script" id=2]
+[ext_resource path="res://DashSymbol.png" type="Texture" id=3]
 [ext_resource path="res://HPBar.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Sprites/UI/StabSymbol.png" type="Texture" id=5]
 [ext_resource path="res://Sprites/UI/SlashSymbol.png" type="Texture" id=6]
@@ -140,7 +141,7 @@ frame = 1
 shape = SubResource( 1 )
 
 [node name="WeaponEquip" type="Spatial" parent="Sprite"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.1 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, -0.1 )
 
 [node name="Anim" type="AnimationPlayer" parent="."]
 anims/Jump = SubResource( 2 )
@@ -151,8 +152,12 @@ anims/Hurt = SubResource( 4 )
 anims/RESET = SubResource( 5 )
 
 [node name="Jump" parent="." instance=ExtResource( 8 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 1.5, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 2, 0 )
 texture = ExtResource( 9 )
+
+[node name="Dash" parent="." instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 1.5, 0 )
+texture = ExtResource( 3 )
 
 [node name="Item" parent="." instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 1, 0 )

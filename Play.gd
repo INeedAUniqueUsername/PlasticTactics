@@ -38,11 +38,15 @@ func get_misc_actors():
 			continue
 		r.append(c)
 	return r
+signal player_turn_started()
+signal player_turn_ended()
 func play_player_turn():
 	
 	var an = $CameraPivot/Camera/Control/Anim
 	an.play("Player")
 	yield(an, "animation_finished")
+	
+	emit_signal("player_turn_started")
 	
 	for c in get_misc_actors():
 		if c.has_method("start_turn"):
@@ -58,6 +62,8 @@ func play_enemy_turn():
 	if enemyMove:
 		return
 		
+	
+	emit_signal("player_turn_ended")
 	
 	for c in get_player_chars():
 		c.end_turn()
@@ -98,14 +104,15 @@ func play_enemy_turn():
 
 const PANEL = preload("res://Panel.tscn")
 func clear_panels():
-	
-	for panel in get_children():
-		if panel.is_in_group("Panel") and !gridPanels.keys().has(panel):
-			panel.get_node("Fade").play("Exit")
+	if false:
+		for panel in get_children():
+			if panel.is_in_group("Panel") and !gridPanels.keys().has(panel):
+				panel.dismiss()
+			
 	for pos in gridPanels.keys():
 		var p = gridPanels[pos].panel
 		#p.queue_free()
-		p.get_node("Fade").play("Exit")
+		p.dismiss()
 		p.disconnect("clicked", self, "on_panel_clicked")
 	gridPanels.clear()
 	
@@ -293,7 +300,7 @@ func _process(delta):
 				if gridPanels.keys().has(dest) and selectedChar.movePoints >= 1.0:
 					
 					selectedChar.movePoints -= 1
-					yield(selectedChar.walk([dir]), "completed")
+					yield(selectedChar.walk([gridPanels[dest].panel]), "completed")
 					refresh_panels()
 					return
 	if selectedChar:
@@ -310,7 +317,7 @@ func _process(delta):
 			cameraMoving = true
 			if shift:
 				if $CameraPivot.rotation_degrees.x > -60:
-					yield(Helper.tween_rotate($CameraPivot, Vector3(-PI/36, 0, 0), 0.3, Tween.TRANS_QUAD, Tween.EASE_OUT), "completed")
+					yield(Helper.tween_rotate($CameraPivot, Vector3(-PI/72, 0, 0), 0.3, Tween.TRANS_QUAD, Tween.EASE_OUT), "completed")
 			else:
 				yield(Helper.tween_move($CameraPivot, Vector3(0, 0, -1), 0.2, Tween.TRANS_QUAD, Tween.EASE_OUT), "completed")
 			cameraMoving = false
@@ -318,8 +325,8 @@ func _process(delta):
 		elif Input.is_key_pressed(KEY_S):
 			cameraMoving = true
 			if shift:
-				if $CameraPivot.rotation_degrees.x < -30:
-					yield(Helper.tween_rotate($CameraPivot, Vector3(PI/36, 0, 0), 0.3, Tween.TRANS_QUAD, Tween.EASE_OUT), "completed")
+				if $CameraPivot.rotation_degrees.x < -15:
+					yield(Helper.tween_rotate($CameraPivot, Vector3(PI/72, 0, 0), 0.3, Tween.TRANS_QUAD, Tween.EASE_OUT), "completed")
 			else:
 				yield(Helper.tween_move($CameraPivot, Vector3(0, 0, 1), 0.2, Tween.TRANS_QUAD, Tween.EASE_OUT), "completed")
 			cameraMoving = false

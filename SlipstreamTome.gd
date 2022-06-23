@@ -13,14 +13,16 @@ func do(a, b):
 	$Anim.play(a)
 	yield($Anim, "animation_finished")
 	emit_signal("attack_ended")
-func cast_wind():
-	for i in [-2, -1, 0, 1, 2]:
-		cast_wind_particle(i)
+func cast():
+	for n in range(16):
+		for i in [-2, -1, 0, 1, 2]:
+			cast_wind_particle(i)
+		yield(get_tree().create_timer(0.1), "timeout")
 func cast_wind_particle(z):
 	var wind = a.instance()
 	var world = Helper.get_world(self)
 	world.add_child(wind)
-	var tr = $Pages.get_global_transform()
+	var tr = $Spine.get_global_transform()
 	tr.origin += z * tr.basis.z + 0.5 * tr.basis.x
 	wind.set_global_transform(tr)
 	var t = Tween.new()
