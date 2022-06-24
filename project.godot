@@ -11,13 +11,14 @@ config_version=4
 [application]
 
 config/name="Plastic Tactics"
-run/main_scene="res://MarshLevel.tscn"
+run/main_scene="res://WarMap.tscn"
 config/icon="res://icon.png"
 
 [autoload]
 
 Helper="*res://Helper.tscn"
 ItemTypes="*res://ItemTypes.tscn"
+Game="*res://Game.tscn"
 
 [display]
 

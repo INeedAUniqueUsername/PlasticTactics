@@ -15,22 +15,17 @@ func do(a, b):
 func cast():
 	var tr = $Spine.get_global_transform()
 	var forward = tr.basis.x
-	
-	tr.origin.y = floor(tr.origin.y)
 	var world = Helper.get_world(self)
-	
-	var tries = 10
-	while !world.has_ground(tr.origin):
-		tr.origin += Vector3(0, -1, 0)
-		tries -= 1
-		if tries == 0:
-			return
+	var origin = world.get_ground_origin(tr.origin)
+	if origin == null:
+		return
+	tr.origin = origin
 	for i in range(10):
 		tr.origin += forward
 		var gr = world.get_ground(tr.origin)
 		if !gr or gr.is_in_group("Water"):
 			return
-		place_fire_tile(tr)
+		place_fire_tile(gr.get_global_transform())
 		yield(get_tree().create_timer(0.25), "timeout")
 		
 const Tile = preload("res://SmolderTile.tscn")

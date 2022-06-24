@@ -1,6 +1,6 @@
 extends "res://Damage.gd"
 
-var turnsLeft = 6
+var turnsLeft = 4
 func end_turn():
 	turnsLeft -= 1
 	if turnsLeft == 0:

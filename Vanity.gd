@@ -50,7 +50,7 @@ func play_move():
 					break
 				
 				var dp = Vector3(0, 0, sign(off.z))
-				if !world.has_ground(get_global_transform().origin + dp):
+				if !world.get_ground(get_global_transform().origin + dp):
 					break
 				yield(walk(dp), "completed")
 				movePoints -= 1
@@ -62,7 +62,7 @@ func play_move():
 						yield(get_tree().create_timer(0.3), "timeout")
 					break
 				var dp = Vector3(sign(off.x), 0, 0)
-				if !world.has_ground(get_global_transform().origin + dp):
+				if !world.get_ground(get_global_transform().origin + dp):
 					break
 				yield(walk(dp), "completed")
 				movePoints -= 1
@@ -143,11 +143,13 @@ func prepared_spike_attack():
 		placed.append(tr.origin)
 		
 		var world = Helper.get_world(self)
-		if !world.has_ground(tr.origin):
+		if !world.get_ground(tr.origin):
 			continue
-		if !world.is_open(tr.origin):
+		var g = world.get_ground_origin(tr.origin)
+		if g == null or !world.is_open(tr.origin):
 			yield(get_tree().create_timer(0.125), "timeout")
 			continue
+		tr.origin = g
 		var s = DelayedSpike.instance()
 		world.add_child(s)
 		s.set_global_transform(tr)
@@ -190,11 +192,12 @@ func spike_attack():
 			continue
 		placed.append(tr.origin)
 		var world = Helper.get_world(self)
-		if !world.has_ground(tr.origin):
-			continue
-		if !world.is_open(tr.origin):
+		
+		var g = world.get_ground_origin(tr.origin)
+		if g == null or !world.is_open(tr.origin):
 			yield(get_tree().create_timer(0.125), "timeout")
 			continue
+		tr.origin = g
 		var m = Mirror.instance()
 		world.add_child(m)
 		m.set_global_transform(tr)
@@ -214,14 +217,14 @@ func stalagmite_attack():
 		var p = origin + int(rand_range(2, 8)) * tr.basis.x + int(rand_range(-8, 9)) * tr.basis.z
 		var tries = 10
 		while tries > 0:
-			if placed.has(p) or !world.is_open(p):
-				tries -= 1
-				continue
 			var ground = world.get_ground_origin(p)
 			if ground == null:
 				tries -= 1
 				continue
 			p = ground
+			if placed.has(p) or !world.is_open(p):
+				tries -= 1
+				continue
 			tries = -1
 		if tries == 0:
 			continue
@@ -260,7 +263,7 @@ func _on_area_entered(area):
 	
 	var world = Helper.get_world(self)
 	var dest = get_global_transform().origin + back
-	if world.has_ground(dest) and world.is_open(dest, [$NoMove]):
+	if world.get_ground(dest) and world.is_open(dest, [$NoMove]):
 		Helper.tween_move(self, back, 0.3, Tween.TRANS_QUAD, Tween.EASE_OUT)
 	
 	$Hurt.play("Hurt")

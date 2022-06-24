@@ -1,6 +1,6 @@
 extends Spatial
 
-var turnsLeft = 6
+var turnsLeft = 4
 func start_turn():
 	if turnsLeft > 0:
 		turnsLeft -= 1

@@ -20,10 +20,10 @@ func cast():
 	for x in [1, 2, 3, 4, 5]:
 		for z in [-2, -1, 0, 1, 2]:
 			tr.origin = origin + z * tr.basis.z + x * tr.basis.x
-			var y = world.get_ground_y(tr.origin)
-			if y == null:
+			var g = world.get_ground_origin(tr.origin)
+			if g == null:
 				continue
-			tr.origin.y = y + 5
+			tr.origin.y = g.y + 5
 			drop_hail(tr)
 	yield(get_tree().create_timer(1.8), "timeout")
 const Stone = preload("res://HailStone.tscn")

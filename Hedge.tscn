@@ -142,7 +142,7 @@ tracks/2/keys = {
 offsets = PoolRealArray( 0, 0.544379, 1 )
 colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 )
 
-[sub_resource type="GradientTexture" id=16]
+[sub_resource type="GradientTexture" id=23]
 gradient = SubResource( 18 )
 
 [sub_resource type="ParticlesMaterial" id=19]
@@ -154,16 +154,16 @@ spread = 0.0
 gravity = Vector3( 0, 4.9, 0 )
 angle = -90.0
 scale = 0.1
-color_ramp = SubResource( 16 )
+color_ramp = SubResource( 23 )
 
-[sub_resource type="SpatialMaterial" id=17]
+[sub_resource type="SpatialMaterial" id=24]
 flags_transparent = true
 vertex_color_use_as_albedo = true
 params_cull_mode = 2
 albedo_color = Color( 0.337255, 0.337255, 0.337255, 1 )
 
 [sub_resource type="QuadMesh" id=20]
-material = SubResource( 17 )
+material = SubResource( 24 )
 
 [sub_resource type="ParticlesMaterial" id=22]
 emission_shape = 2
@@ -173,7 +173,7 @@ direction = Vector3( 0, 0, 0 )
 spread = 0.0
 gravity = Vector3( 0, 4.9, 0 )
 scale = 0.1
-color_ramp = SubResource( 16 )
+color_ramp = SubResource( 23 )
 
 [sub_resource type="BoxShape" id=5]
 extents = Vector3( 0.5, 0.8, 0.5 )

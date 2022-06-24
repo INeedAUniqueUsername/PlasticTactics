@@ -1,0 +1,179 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://TurnBanner.tres" type="Theme" id=3]
+[ext_resource path="res://EndTurn.png" type="Texture" id=4]
+[ext_resource path="res://TurnBanner.png" type="Texture" id=5]
+[ext_resource path="res://Battle.gd" type="Script" id=7]
+
+[sub_resource type="Animation" id=1]
+resource_name = "Enemy"
+length = 1.6
+tracks/0/type = "value"
+tracks/0/path = NodePath("Turn:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.4, 1.2, 1.6 ),
+"transitions": PoolRealArray( 0.5, 1, 1, 0.5 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Turn:percent_visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.4, 0.8 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 0.0, 1.0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Turn:text")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ "Enemy Turn" ]
+}
+
+[sub_resource type="Animation" id=2]
+length = 1.6
+tracks/0/type = "value"
+tracks/0/path = NodePath("Turn:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.4, 1.2, 1.6 ),
+"transitions": PoolRealArray( 0.5, 1, 1, 0.5 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Turn:percent_visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.4, 0.8 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 0.0, 1.0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Turn:text")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ "Player Turn" ]
+}
+
+[sub_resource type="Animation" id=3]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Turn:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Turn:percent_visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Turn:text")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ "Player Turn" ]
+}
+
+[node name="Battle" type="Spatial" groups=["World"]]
+script = ExtResource( 7 )
+
+[node name="CameraPivot" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 0.866026, 0.5, 0, -0.5, 0.866026, 4, 0, 7 )
+
+[node name="Camera" type="Camera" parent="CameraPivot"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10 )
+size = 8.0
+far = 400.0
+
+[node name="Control" type="Control" parent="CameraPivot/Camera"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="Anim" type="AnimationPlayer" parent="CameraPivot/Camera/Control"]
+autoplay = "Player"
+anims/Enemy = SubResource( 1 )
+anims/Player = SubResource( 2 )
+anims/RESET = SubResource( 3 )
+
+[node name="Turn" type="Label" parent="CameraPivot/Camera/Control"]
+modulate = Color( 1, 1, 1, 0 )
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -512.0
+margin_top = 64.0
+margin_right = 512.0
+margin_bottom = 205.0
+theme = ExtResource( 3 )
+text = "Player Turn"
+align = 1
+percent_visible = 0.0
+
+[node name="Sprite" type="Sprite" parent="CameraPivot/Camera/Control/Turn"]
+position = Vector2( 512, 64 )
+scale = Vector2( 16, 16 )
+z_index = -5
+texture = ExtResource( 5 )
+
+[node name="TextureButton" type="TextureButton" parent="CameraPivot/Camera/Control"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -64.0
+rect_scale = Vector2( 4, 4 )
+texture_normal = ExtResource( 4 )
+
+[node name="DirectionalLight" type="DirectionalLight" parent="."]
+transform = Transform( -0.965926, 0.25, -0.0669873, 0, 0.258819, 0.965926, 0.258819, 0.933013, -0.25, 0, 5, 3 )
+light_energy = 0.5
+shadow_enabled = true
+
+[node name="Ground" type="Spatial" parent="."]

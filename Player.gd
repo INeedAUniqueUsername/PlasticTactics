@@ -229,10 +229,10 @@ class MoveState:
 		clear_panels()
 		place_panels_quick()
 	func get_ground_panel(world, prevPanel: Spatial, pos: Vector3):
-		var y = world.get_ground_y(pos)
-		if y == null:
+		var g = world.get_ground_origin(pos)
+		if g == null:
 			return null
-		pos = Vector3(pos.x, y, pos.z)
+		pos = Vector3(pos.x, g.y, pos.z)
 		
 		if gridPanels.keys().has(pos):
 			return null

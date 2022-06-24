@@ -25,10 +25,10 @@ func cast_wind():
 		
 		tr.origin = origin + z * tr.basis.z + x * tr.basis.x
 		
-		var y = world.get_ground_y(tr.origin, [], false)
-		if y == null:
+		var g = world.get_ground_origin(tr.origin, [], false)
+		if g == null:
 			continue
-		tr.origin.y = y
+		tr.origin.y = g.y
 		if !world.is_open(tr.origin):
 			continue
 		Helper.add_to_world(self, Hedge.instance(), tr)

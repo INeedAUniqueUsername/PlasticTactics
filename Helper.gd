@@ -48,3 +48,6 @@ const directions = {
 	'S': Vector3(0, 0, 1),
 	'W': Vector3(-1, 0, 0),
 }
+
+func pos_to_region_code(pos):
+	return "%s%s" % [["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N"][pos.x], pos.y]

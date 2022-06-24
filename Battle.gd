@@ -1,6 +1,18 @@
 extends Spatial
 var chars = []
 func _ready():
+	if Game.region_code:
+		var ground = load("res://Region%s.tscn" % Game.region_code).instance()
+		#ground.name = "Ground"
+		#add_child(ground)
+		for c in ground.get_children():
+			var origin = c.transform.origin
+			ground.remove_child(c)
+			$Ground.add_child(c)
+			c.transform.origin = origin
+		
+	
+	
 	for c in get_children():
 		if !c.is_in_group("Char"):
 			continue
@@ -11,6 +23,7 @@ func _ready():
 		if c.is_in_group("Player"):
 			selectedChar = c
 	play_player_turn()
+	call_deferred("register_ground")
 	$CameraPivot/Camera/Control/TextureButton.connect("pressed", self, "play_enemy_turn")
 func remove_char(c):
 	chars.erase(c)
@@ -167,7 +180,6 @@ func _process(delta):
 			cameraMoving = false
 			return
 var cameraMoving = false
-
 func get_areas(pos: Vector3, ignore: Array = []):
 	var d = get_world().get_direct_space_state().intersect_point(pos + Vector3(0, 1.0, 0), 32, ignore, 2147483647, false, true)                                                                   
 	var result = []
@@ -175,29 +187,18 @@ func get_areas(pos: Vector3, ignore: Array = []):
 		var col = other.collider
 		result.append(col)
 	return result
-func get_heal(pos: Vector3, ignore: Array = []):
-	var d = get_world().get_direct_space_state().intersect_point(pos + Vector3(0, 1.0, 0), 32, ignore, 2147483647, false, true)                                                                   
-	var result = []
-	for other in d:
-		var col = other.collider
-		if col.is_in_group("Heal"):
-			result.append(col)
-	return result
 func is_open(pos: Vector3, ignore: Array = []):
-	var d = get_world().get_direct_space_state().intersect_point(pos + Vector3(0, 1.0, 0), 32, ignore, 2147483647, false, true)                                                                   
-	for other in d:
-		var col = other.collider
+	for col in get_areas(pos, ignore):
 		if col.is_in_group("NoMove"):
 			return false
 	return true
-	
-func has_ground(pos: Vector3, ignore: Array = []):
-	var d = get_world().get_direct_space_state().intersect_point(pos + Vector3(0, -0.5, 0), 32, ignore, 2147483647, false, true)                                                                   
-	for other in d:
-		var col = other.collider
-		if col.is_in_group("Ground"):
-			return true
-	return false
+var ground = {}
+func register_ground():
+	for c in $Ground.get_children():
+		if !c.is_in_group("Ground"):
+			continue
+		var origin = c.get_global_transform().origin
+		ground[Vector2(origin.x, origin.z)] = c
 func get_ground(pos: Vector3, ignore: Array = []):
 	var d = get_world().get_direct_space_state().intersect_point(pos + Vector3(0, -0.5, 0), 32, ignore, 2147483647, false, true)                                                                   
 	for other in d:
@@ -205,12 +206,11 @@ func get_ground(pos: Vector3, ignore: Array = []):
 		if col.is_in_group("Ground"):
 			return col
 	return null
-func get_ground_y(pos: Vector3, ignore: Array = [], allowWater = true):                                                                   
-	var origin = get_ground_origin(pos, ignore, allowWater)
-	if origin:
-		return origin.y
-	return null
 func get_ground_origin(pos: Vector3, ignore: Array = [], allowWater = true):                                                                   
+	var p = Vector2(pos.x, pos.z)
+	if p in ground:
+		return ground[p].get_global_transform().origin
+	
 	var st = get_world().get_direct_space_state()
 	
 	for i in range(5):

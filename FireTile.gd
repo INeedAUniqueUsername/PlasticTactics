@@ -10,7 +10,7 @@ extends Spatial
 func _ready():
 	pass # Replace with function body.
 
-var turns_left = 6
+var turns_left = 2
 func start_turn():
 	turns_left -= 1
 	if turns_left == 0:

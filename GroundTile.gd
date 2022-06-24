@@ -13,7 +13,7 @@ func check_sides():
 	}
 	var pos = get_global_transform().origin
 	for dir in directions.keys():
-		var y = world.get_ground_y(pos + directions[dir])
-		if y == null or y < pos.y:
+		var g = world.get_ground_origin(pos + directions[dir])
+		if g == null or g.y < pos.y:
 			continue
 		get_node(dir).queue_free()
