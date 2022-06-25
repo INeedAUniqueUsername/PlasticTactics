@@ -236,33 +236,33 @@ margin_top = 240.0
 margin_bottom = 16.0
 
 [node name="Sunset" type="Sprite" parent="P2"]
-position = Vector2( -600, 0 )
-scale = Vector2( 4, 4 )
+position = Vector2( -640, 0 )
+scale = Vector2( 3, 3 )
 texture = ExtResource( 4 )
 
 [node name="Marsh" type="Sprite" parent="P2"]
-position = Vector2( -360, 0 )
-scale = Vector2( 4, 4 )
+position = Vector2( -384, 0 )
+scale = Vector2( 3, 3 )
 texture = ExtResource( 5 )
 
 [node name="Volcanic" type="Sprite" parent="P2"]
-position = Vector2( -120, 0 )
-scale = Vector2( 2, 2 )
+position = Vector2( -128, 0 )
+scale = Vector2( 3, 3 )
 texture = ExtResource( 6 )
 
 [node name="Thundersnow" type="Sprite" parent="P2"]
-position = Vector2( 120, 0 )
-scale = Vector2( 4, 4 )
+position = Vector2( 128, 0 )
+scale = Vector2( 3, 3 )
 texture = ExtResource( 7 )
 
 [node name="Mechanical" type="Sprite" parent="P2"]
-position = Vector2( 360, 0 )
-scale = Vector2( 4, 4 )
+position = Vector2( 384, 0 )
+scale = Vector2( 3, 3 )
 texture = ExtResource( 8 )
 
 [node name="Industrial" type="Sprite" parent="P2"]
-position = Vector2( 600, 0 )
-scale = Vector2( 4, 4 )
+position = Vector2( 640, 0 )
+scale = Vector2( 3, 3 )
 texture = ExtResource( 9 )
 
 [node name="Label" type="Label" parent="P2"]

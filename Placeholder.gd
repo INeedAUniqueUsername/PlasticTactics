@@ -30,7 +30,6 @@ var info = {
 }
 func _ready():
 	if Engine.editor_hint:
-		queue_free()
 		return
 	if !visible:
 		queue_free()

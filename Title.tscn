@@ -61,9 +61,9 @@ align = 1
 [node name="Play" type="Button" parent="."]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -96.0
+margin_left = -160.0
 margin_top = 320.0
-margin_right = 96.0
+margin_right = 160.0
 margin_bottom = 410.0
 theme = ExtResource( 1 )
 custom_colors/font_color = Color( 0.996078, 1, 1, 1 )
@@ -72,6 +72,40 @@ custom_fonts/font = SubResource( 1 )
 custom_styles/hover = SubResource( 2 )
 custom_styles/pressed = SubResource( 3 )
 custom_styles/normal = SubResource( 4 )
-text = "Play"
+text = "New Game"
+
+[node name="Play2" type="Button" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -160.0
+margin_top = 400.0
+margin_right = 160.0
+margin_bottom = 490.0
+theme = ExtResource( 1 )
+custom_colors/font_color = Color( 0.996078, 1, 1, 1 )
+custom_colors/font_color_hover = Color( 0.996078, 1, 0.772549, 1 )
+custom_fonts/font = SubResource( 1 )
+custom_styles/hover = SubResource( 2 )
+custom_styles/pressed = SubResource( 3 )
+custom_styles/normal = SubResource( 4 )
+text = "Continue"
+
+[node name="Play3" type="Button" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -160.0
+margin_top = 480.0
+margin_right = 160.0
+margin_bottom = 570.0
+theme = ExtResource( 1 )
+custom_colors/font_color = Color( 0.996078, 1, 1, 1 )
+custom_colors/font_color_hover = Color( 0.996078, 1, 0.772549, 1 )
+custom_fonts/font = SubResource( 1 )
+custom_styles/hover = SubResource( 2 )
+custom_styles/pressed = SubResource( 3 )
+custom_styles/normal = SubResource( 4 )
+text = "Quit"
 
 [connection signal="pressed" from="Play" to="." method="play"]
+[connection signal="pressed" from="Play2" to="." method="play"]
+[connection signal="pressed" from="Play3" to="." method="play"]
