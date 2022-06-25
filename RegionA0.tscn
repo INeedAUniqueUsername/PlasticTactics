@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://PlaceholderTile.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Sprites/Tiles/GrassTile.png" type="Texture" id=2]
+[ext_resource path="res://PlaceGrass.gd" type="Script" id=3]
 [ext_resource path="res://GroundEditor.gd" type="Script" id=4]
 
 [node name="RegionA0" type="Spatial"]
@@ -3980,3 +3981,6 @@ type = 0
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 31, 0, -31 )
 texture = ExtResource( 2 )
 type = 0
+
+[node name="PlaceGrass" type="Node" parent="." groups=["Placeholder"]]
+script = ExtResource( 3 )

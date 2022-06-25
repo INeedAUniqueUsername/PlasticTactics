@@ -48,6 +48,8 @@ func redraw():
 			for c in g.get_children():
 				if !c.is_in_group("Placeholder"):
 					continue
+				if !(c is Spatial):
+					continue
 				var p = c.transform.origin
 				c = {
 					Type.Grass: color_grass,

@@ -6,10 +6,17 @@ func _ready():
 		#ground.name = "Ground"
 		#add_child(ground)
 		for c in ground.get_children():
-			var origin = c.transform.origin
+			var origin = null
+			if c is Spatial:
+				origin = c.transform.origin
 			ground.remove_child(c)
-			$Ground.add_child(c)
-			c.transform.origin = origin
+			if c.is_in_group("Placeholder"):
+				$Ground.add_child(c)
+			else:
+				add_child(c)
+			
+			if origin:
+				c.transform.origin = origin
 		
 	
 	
