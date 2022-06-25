@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://EndTurn.png" type="Texture" id=1]
 [ext_resource path="res://TurnBanner.png" type="Texture" id=2]
@@ -7,6 +7,8 @@
 [ext_resource path="res://MapSelect.gd" type="Script" id=5]
 [ext_resource path="res://WarMapSelect.png" type="Texture" id=6]
 [ext_resource path="res://WarMap.gd" type="Script" id=7]
+[ext_resource path="res://WarMapTerrain.png" type="Texture" id=8]
+[ext_resource path="res://DrawTerrain.gd" type="Script" id=9]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Enemy"
@@ -190,6 +192,7 @@ script = ExtResource( 5 )
 
 [node name="Area" type="Area" parent="Map"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 0.05, 7 )
+visible = false
 
 [node name="CollisionShape" type="CollisionShape" parent="Map/Area"]
 shape = SubResource( 4 )
@@ -203,3 +206,10 @@ axis = 1
 double_sided = false
 alpha_cut = 2
 texture = ExtResource( 6 )
+
+[node name="Terrain" type="Sprite3D" parent="Map"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, 0 )
+pixel_size = 0.125
+axis = 1
+texture = ExtResource( 8 )
+script = ExtResource( 9 )
