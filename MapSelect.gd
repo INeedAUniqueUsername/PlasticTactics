@@ -10,7 +10,7 @@ func _ready():
 			var pos = Vector2(x, y)
 			add_child(a)
 			a.show()
-			a.transform.origin = start + 2 * Vector3(x, 0, -y)
+			a.transform.origin = start + Vector3(x, 0, -y)
 			a.connect("mouse_entered", $Select, "show")
 			a.connect("mouse_entered", self, "emit_signal", ["hovered", pos])
 			a.connect("mouse_entered", $Select, "set_global_transform", [a.get_global_transform()])

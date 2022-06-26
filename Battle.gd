@@ -1,23 +1,34 @@
 extends Spatial
 var chars = []
+
+func add_region(offset = null):
+	if !offset:
+		offset = Vector2(0, 0)
+	var ground = Game.get_region(Game.region_pos + offset)
+	if !ground:
+		return
+	offset = Helper.extrude_2d(offset, 0) * 32
+	ground = ground.instance()
+	#ground.name = "Ground"
+	#add_child(ground)
+	for c in ground.get_children():
+		var origin = null
+		if 'transform' in c:
+			origin = c.transform.origin + offset
+		ground.remove_child(c)
+		if c.is_in_group("Placeholder"):
+			$Ground.add_child(c)
+		else:
+			add_child(c)
+		if origin:
+			c.transform.origin = origin
+	
 func _ready():
-	if Game.region_code:
-		var ground = load("res://Region%s.tscn" % Game.region_code).instance()
-		#ground.name = "Ground"
-		#add_child(ground)
-		for c in ground.get_children():
-			var origin = null
-			if c is Spatial:
-				origin = c.transform.origin
-			ground.remove_child(c)
-			if c.is_in_group("Placeholder"):
-				$Ground.add_child(c)
-			else:
-				add_child(c)
-			
-			if origin:
-				c.transform.origin = origin
-		
+	if Game.region_pos != null:
+		add_region()
+		for off in [Vector2(0, -1), Vector2(0, 1), Vector2(-1, 0), Vector2(1, 0)]:
+			continue
+			add_region(off)
 	
 	
 	for c in get_children():

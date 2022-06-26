@@ -51,3 +51,7 @@ const directions = {
 
 func pos_to_region_code(pos):
 	return "%s%s" % [["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N"][pos.x], pos.y]
+func flatten_3d(v : Vector3) -> Vector2:
+	return Vector2(v.x, v.z)
+func extrude_2d(v: Vector2, y: float) -> Vector3:
+	return Vector3(v.x, y, v.y)

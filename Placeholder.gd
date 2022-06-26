@@ -36,5 +36,5 @@ func _ready():
 		return
 	var a = scene.instance()
 	get_parent().call_deferred("add_child", a)
-	a.set_global_transform(get_global_transform())
+	a.transform.origin = transform.origin
 	queue_free()
