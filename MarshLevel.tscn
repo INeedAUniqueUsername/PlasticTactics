@@ -5,6 +5,7 @@
 [ext_resource path="res://TurnBanner.tres" type="Theme" id=3]
 [ext_resource path="res://EndTurn.png" type="Texture" id=4]
 [ext_resource path="res://TurnBanner.png" type="Texture" id=5]
+[ext_resource path="res://CraterTome.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Battle.gd" type="Script" id=7]
 [ext_resource path="res://PlaceGrass.gd" type="Script" id=8]
 [ext_resource path="res://RiverTile.tscn" type="PackedScene" id=9]
@@ -12,7 +13,6 @@
 [ext_resource path="res://Vanity.tscn" type="PackedScene" id=11]
 [ext_resource path="res://HeightNoise.gd" type="Script" id=12]
 [ext_resource path="res://SmolderTome.tscn" type="PackedScene" id=14]
-[ext_resource path="res://EruptTome.tscn" type="PackedScene" id=15]
 [ext_resource path="res://ThunderstormTome.tscn" type="PackedScene" id=16]
 [ext_resource path="res://ScaldTome.tscn" type="PackedScene" id=18]
 [ext_resource path="res://SlipstreamTome.tscn" type="PackedScene" id=19]
@@ -151,7 +151,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 4 )
 
 [node name="SunsetHammer" parent="SunsetSoldier/Sprite/WeaponEquip" index="1" instance=ExtResource( 23 )]
 
-[node name="EruptTome" parent="SunsetSoldier/Sprite/WeaponEquip" index="2" instance=ExtResource( 15 )]
+[node name="CraterTome" parent="SunsetSoldier/Sprite/WeaponEquip" index="2" instance=ExtResource( 6 )]
 
 [node name="HailstormTome" parent="SunsetSoldier/Sprite/WeaponEquip" index="3" instance=ExtResource( 22 )]
 

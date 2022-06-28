@@ -11,7 +11,8 @@ func _ready():
 	boostGlow = get_node(boostGlow)
 	connect("attack_ended", self, "set", ["current_attack", null])
 var shielding = false
-func do(action, boostable = false):
+func do(action, attacker):
+	var boostable = attacker.inTurn
 	boostGlow.visible = boostable
 	
 	if action in ["Shield", "Unshield"]:

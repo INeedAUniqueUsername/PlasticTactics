@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://HailTome.png" type="Texture" id=1]
 [ext_resource path="res://HailTome.gd" type="Script" id=2]
+[ext_resource path="res://CommonMagic.gd" type="Script" id=3]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Cast"
@@ -18,22 +19,20 @@ tracks/0/keys = {
 "update": 0,
 "values": [ Vector3( 0, 0, 0 ), Vector3( 1, 0, 0 ), Vector3( 1, 0, 0 ), Vector3( 1, -0.2, 0 ), Vector3( 1, 0, 0 ), Vector3( 1, -0.2, 0 ), Vector3( 1, 0, 0 ), Vector3( 1, -0.2, 0 ), Vector3( 1, 0, 0 ), Vector3( 1, -0.2, 0 ), Vector3( 1, 0, 0 ), Vector3( 1, -0.2, 0 ), Vector3( 1, 0, 0 ), Vector3( 1, -0.2, 0 ), Vector3( 1, 0, 0 ), Vector3( 1, -0.2, 0 ), Vector3( 1, 0, 0 ), Vector3( 1, -0.2, 0 ), Vector3( 1, 0, 0 ), Vector3( 1, 0, 0 ), Vector3( 0, 0, 0 ) ]
 }
-tracks/1/type = "method"
-tracks/1/path = NodePath(".")
+tracks/1/type = "value"
+tracks/1/path = NodePath("Spine/Front:rotation_degrees")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0.5 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [  ],
-"method": "cast"
-} ]
+"times": PoolRealArray( 0, 0.4, 2.2, 2.5 ),
+"transitions": PoolRealArray( 0.5, 0.5, 0.5, 0.5 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ), Vector3( 0, -60, 0 ), Vector3( 0, -60, 0 ), Vector3( 0, 0, 0 ) ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("Spine/Front:rotation_degrees")
+tracks/2/path = NodePath("Spine/Back:rotation_degrees")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -42,19 +41,21 @@ tracks/2/keys = {
 "times": PoolRealArray( 0, 0.4, 2.2, 2.5 ),
 "transitions": PoolRealArray( 0.5, 0.5, 0.5, 0.5 ),
 "update": 0,
-"values": [ Vector3( 0, 0, 0 ), Vector3( 0, -60, 0 ), Vector3( 0, -60, 0 ), Vector3( 0, 0, 0 ) ]
+"values": [ Vector3( 0, 0, 0 ), Vector3( 0, 60, 0 ), Vector3( 0, 60, 0 ), Vector3( 0, 0, 0 ) ]
 }
-tracks/3/type = "value"
-tracks/3/path = NodePath("Spine/Back:rotation_degrees")
+tracks/3/type = "method"
+tracks/3/path = NodePath("Spine")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0, 0.4, 2.2, 2.5 ),
-"transitions": PoolRealArray( 0.5, 0.5, 0.5, 0.5 ),
-"update": 0,
-"values": [ Vector3( 0, 0, 0 ), Vector3( 0, 60, 0 ), Vector3( 0, 60, 0 ), Vector3( 0, 0, 0 ) ]
+"times": PoolRealArray( 0.5 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "cast"
+} ]
 }
 
 [sub_resource type="Animation" id=2]
@@ -97,7 +98,7 @@ tracks/2/keys = {
 }
 
 [node name="HailTome" type="Spatial" groups=["Actor"]]
-script = ExtResource( 2 )
+script = ExtResource( 3 )
 
 [node name="Spine" type="Sprite3D" parent="."]
 pixel_size = 0.0313
@@ -106,6 +107,7 @@ alpha_cut = 2
 texture = ExtResource( 1 )
 hframes = 4
 frame = 3
+script = ExtResource( 2 )
 
 [node name="Front" type="Sprite3D" parent="Spine"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.06 )

@@ -1,19 +1,6 @@
 extends Spatial
-var actions = ["Cast"]
-
-signal attack_ended()
-var current_attack = null
-
-func _ready():
-	connect("attack_ended", self, "set", ["current_attack", null])
-func do(a, b):
-	a = "Cast"
-	current_attack = a
-	$Anim.play(a)
-	yield($Anim, "animation_finished")
-	emit_signal("attack_ended")
 func cast():
-	var tr = $Spine.get_global_transform()
+	var tr = get_global_transform()
 	var forward = tr.basis.x
 	var world = Helper.get_world(self)
 	var origin = world.get_ground_origin(tr.origin)

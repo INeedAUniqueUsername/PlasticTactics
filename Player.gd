@@ -2,8 +2,6 @@ extends "res://Clickable.gd"
 var walking = false
 var movePoints = 4
 var attackPoints = 1
-
-
 class DashState:
 	var actor = null
 	var panels = []
@@ -19,8 +17,10 @@ class DashState:
 		for p in panels:
 			p.dismiss()
 		panels.clear()
+	signal dest_selected()
 	func set_dest_panel(dest_panel):
 		self.dest_panel = dest_panel
+		emit_signal("dest_selected")
 		panels.erase(dest_panel)
 		for p in panels:
 			p.dismiss()
@@ -418,21 +418,24 @@ func walk(pathPanels):
 		check_standing_areas()
 	walking = false
 	emit_signal("moved")
-var shielding = false
 func attack(move):
 	if attackPoints > 0:
-		if move == "Shield":
-			if shielding:
+		var targeting = null
+		if 'targeting' in sword:
+			targeting = sword.targeting
+		if targeting and !targeting.target:
+			var pos = get_global_transform().origin
+			if dash.dest_panel:
+				pos = dash.dest_panel.get_global_transform().origin
+			targeting.activate(self, pos)
+			yield(targeting, "target_selected")
+			if !(attackPoints > 0):
 				return
-			shielding = true
-		else:
-			if shielding:
-				shielding = false
-				yield(sword.do("Unshield"), "completed")
+			
 		attackPoints -= 1
 		updateButtons()
 		yield(dash.start_action(), "completed")
-		sword.do(move, inTurn)
+		sword.do(move, self)
 		yield(sword, "attack_ended")
 		yield(dash.end_action(), "completed")
 func jump():
