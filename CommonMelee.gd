@@ -10,6 +10,7 @@ var current_attack = null
 func _ready():
 	boostGlow = get_node(boostGlow)
 	connect("attack_ended", self, "set", ["current_attack", null])
+	$Pivot/Sprite/Area.connect("area_entered", self, "_on_area_entered")
 var shielding = false
 func do(action, attacker):
 	var boostable = attacker.inTurn

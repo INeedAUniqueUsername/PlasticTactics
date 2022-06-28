@@ -419,7 +419,7 @@ tracks/1/keys = {
 }
 
 [sub_resource type="BoxShape" id=7]
-extents = Vector3( 0.35, 1, 0.05 )
+extents = Vector3( 0.35, 1.4, 0.05 )
 
 [node name="VolcanicSword" type="Spatial" groups=["Actor", "Sword"]]
 script = ExtResource( 1 )
@@ -455,7 +455,7 @@ hframes = 2
 frame = 1
 
 [node name="Area" type="Area" parent="Pivot/Sprite" groups=["Damage"]]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9, 0.9, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 1.5, 0 )
 
 [node name="Poly" type="CollisionShape" parent="Pivot/Sprite/Area"]
 transform = Transform( 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 0, 0, 1, 0, 0, 0 )
