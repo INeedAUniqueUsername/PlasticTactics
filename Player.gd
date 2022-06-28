@@ -324,7 +324,7 @@ class Targeter:
 		match targeting.targetType:
 			TargetType.LOCATION:
 				
-				var radius = 6 #actor.movePoints * 2
+				var radius = 12 #actor.movePoints * 2
 				var start = actor.get_global_transform().origin
 				for x in range(-radius, radius + 1, 1):
 					for y in range(-radius, radius + 1, 1):
@@ -332,7 +332,7 @@ class Targeter:
 						var dist = abs(off.x) + abs(off.z)
 						if dist > radius:
 							continue
-						var ground = world.get_ground_origin(start + off, [], false)
+						var ground = world.get_ground_origin(start + off, [], true)
 						if ground == null:
 							continue
 						var ap = AP.instance()
