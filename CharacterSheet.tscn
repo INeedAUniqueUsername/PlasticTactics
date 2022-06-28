@@ -1,0 +1,151 @@
+[gd_scene load_steps=18 format=2]
+
+[ext_resource path="res://IndustrialSoldier.png" type="Texture" id=1]
+[ext_resource path="res://SunsetSoldier.png" type="Texture" id=2]
+[ext_resource path="res://IntroBackground.png" type="Texture" id=3]
+[ext_resource path="res://SunsetIcon.png" type="Texture" id=4]
+[ext_resource path="res://MarshIcon.png" type="Texture" id=5]
+[ext_resource path="res://VolcanoIcon.png" type="Texture" id=6]
+[ext_resource path="res://ThundersnowIcon.png" type="Texture" id=7]
+[ext_resource path="res://MechanicalIcon.png" type="Texture" id=8]
+[ext_resource path="res://IndustrialIcon.png" type="Texture" id=9]
+[ext_resource path="res://VolcanicSoldier.png" type="Texture" id=10]
+[ext_resource path="res://MechanicalSoldier.png" type="Texture" id=11]
+[ext_resource path="res://VolcanicSword.png" type="Texture" id=12]
+[ext_resource path="res://SunsetSword.png" type="Texture" id=13]
+[ext_resource path="res://ThundersnowSword.png" type="Texture" id=14]
+[ext_resource path="res://MechanicalSword.png" type="Texture" id=15]
+[ext_resource path="res://IndustrialSword.png" type="Texture" id=16]
+[ext_resource path="res://ThundersnowSoldier.png" type="Texture" id=17]
+
+[node name="Node2D" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Back" type="Control" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+
+[node name="Sprite" type="Sprite" parent="Back"]
+texture = ExtResource( 3 )
+
+[node name="Symbols" type="Control" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_top = 240.0
+margin_bottom = 16.0
+
+[node name="Sunset" type="Sprite" parent="Symbols"]
+position = Vector2( -640, -32 )
+scale = Vector2( 3, 3 )
+texture = ExtResource( 4 )
+
+[node name="Marsh" type="Sprite" parent="Symbols"]
+position = Vector2( -384, -32 )
+scale = Vector2( 3, 3 )
+texture = ExtResource( 5 )
+
+[node name="Volcanic" type="Sprite" parent="Symbols"]
+position = Vector2( -128, -32 )
+scale = Vector2( 3, 3 )
+texture = ExtResource( 6 )
+
+[node name="Thundersnow" type="Sprite" parent="Symbols"]
+position = Vector2( 128, -32 )
+scale = Vector2( 3, 3 )
+texture = ExtResource( 7 )
+
+[node name="Mechanical" type="Sprite" parent="Symbols"]
+position = Vector2( 384, -32 )
+scale = Vector2( 3, 3 )
+texture = ExtResource( 8 )
+
+[node name="Industrial" type="Sprite" parent="Symbols"]
+position = Vector2( 640, -32 )
+scale = Vector2( 3, 3 )
+texture = ExtResource( 9 )
+
+[node name="Soldiers" type="Control" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_top = 384.0
+margin_bottom = 384.0
+
+[node name="Sunset" type="Sprite" parent="Soldiers"]
+position = Vector2( -640, 64 )
+scale = Vector2( 8, 8 )
+texture = ExtResource( 2 )
+hframes = 2
+
+[node name="Marsh" type="Sprite" parent="Soldiers"]
+position = Vector2( -384, 64 )
+scale = Vector2( 8, 8 )
+texture = ExtResource( 17 )
+hframes = 2
+
+[node name="Volcanic" type="Sprite" parent="Soldiers"]
+position = Vector2( -128, 64 )
+scale = Vector2( 8, 8 )
+texture = ExtResource( 10 )
+hframes = 2
+
+[node name="Thundersnow" type="Sprite" parent="Soldiers"]
+position = Vector2( 128, 64 )
+scale = Vector2( 8, 8 )
+texture = ExtResource( 17 )
+hframes = 2
+
+[node name="Mechanical" type="Sprite" parent="Soldiers"]
+position = Vector2( 384, 64 )
+scale = Vector2( 8, 8 )
+texture = ExtResource( 11 )
+hframes = 2
+
+[node name="Industrial" type="Sprite" parent="Soldiers"]
+position = Vector2( 640, 64 )
+scale = Vector2( 8, 8 )
+texture = ExtResource( 1 )
+hframes = 2
+
+[node name="Weapons" type="Control" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_top = 624.0
+margin_bottom = 624.0
+
+[node name="Sunset" type="Sprite" parent="Weapons"]
+position = Vector2( -640, 168 )
+scale = Vector2( 6, 6 )
+texture = ExtResource( 13 )
+hframes = 3
+frame = 1
+
+[node name="Marsh" type="Sprite" parent="Weapons"]
+visible = false
+position = Vector2( -384, 0 )
+scale = Vector2( 4, 4 )
+texture = ExtResource( 5 )
+
+[node name="Volcanic" type="Sprite" parent="Weapons"]
+position = Vector2( -128, 168 )
+scale = Vector2( 6, 6 )
+texture = ExtResource( 12 )
+hframes = 2
+
+[node name="Thundersnow" type="Sprite" parent="Weapons"]
+position = Vector2( 128, 168 )
+scale = Vector2( 6, 6 )
+texture = ExtResource( 14 )
+hframes = 2
+
+[node name="Mechanical" type="Sprite" parent="Weapons"]
+position = Vector2( 384, 168 )
+scale = Vector2( 4, 4 )
+texture = ExtResource( 15 )
+
+[node name="Industrial" type="Sprite" parent="Weapons"]
+position = Vector2( 640, 168 )
+scale = Vector2( 4, 4 )
+texture = ExtResource( 16 )
