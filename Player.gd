@@ -12,15 +12,16 @@ class DashState:
 		actor.connect("started_moving", self, "clear_panels")
 		actor.connect("deselected", self, "clear_panels")
 		actor.connect("turn_ended", self, "clear_panels")
+	signal dest_changed()
 	func clear_panels():
 		dest_panel = null
+		emit_signal("dest_changed")
 		for p in panels:
 			p.dismiss()
 		panels.clear()
-	signal dest_selected()
 	func set_dest_panel(dest_panel):
 		self.dest_panel = dest_panel
-		emit_signal("dest_selected")
+		emit_signal("dest_changed")
 		panels.erase(dest_panel)
 		for p in panels:
 			p.dismiss()
@@ -290,8 +291,70 @@ class MoveState:
 			self.prevPanel = prevPanel
 			self.prevPos = prevPos
 			self.distance = distance
+class Targeter:
+	const AP = preload("res://AttackPanel.tscn")
+	signal targeting_activated()
+	signal target_selected()
+	var panels = []
+	var actor
+	func _init(actor):
+		self.actor = actor
+		actor.connect("started_moving", self, "clear_panels")
+		actor.connect("deselected", self, "clear_panels")
+	func clear_panels():
+		for p in panels:
+			p.dismiss()
+		panels.clear()
+	func selected_char(targeting, target):
+		clear_panels()
+		targeting.target = target
+		emit_signal("target_selected")
+	func selected_location(targeting, target):
+		clear_panels()
+		targeting.target = target
+		emit_signal("target_selected")
+	const TargetType = preload("res://Targeting.gd").TargetType
+	func activate(targeting, attackPos = null):
+		emit_signal("targeting_activated")
+		clear_panels()
+		if !attackPos:
+			attackPos = actor.get_global_transform().origin
+		var world = Helper.get_world(actor)
+		
+		match targeting.targetType:
+			TargetType.LOCATION:
+				
+				var radius = 6 #actor.movePoints * 2
+				var start = actor.get_global_transform().origin
+				for x in range(-radius, radius + 1, 1):
+					for y in range(-radius, radius + 1, 1):
+						var off = Vector3(x, 0, y)
+						var dist = abs(off.x) + abs(off.z)
+						if dist > radius:
+							continue
+						var ground = world.get_ground_origin(start + off, [], false)
+						if ground == null:
+							continue
+						var ap = AP.instance()
+						world.add_child(ap)
+						ap.transform.origin = ground
+						ap.connect("clicked", self, "selected_location", [targeting, ground])
+						panels.append(ap)
+			TargetType.CHAR:
+				for c in world.get_children():
+					if !c.is_in_group("Char"):
+						continue
+					var ap = AP.instance()
+					world.add_child(ap)
+					ap.transform.origin = c.get_global_transform().origin
+					ap.connect("clicked", self, "selected_char", [targeting, c])
+					#ap.connect("clicked", self, "set", ["target", ap.transform.origin])
+					#ap.connect("clicked", self, "clear_panels", [panels])
+					#ap.connect("clicked", self, "emit_signal", ["target_selected"])
+					panels.append(ap)
 onready var dash = DashState.new(self)
 onready var move = MoveState.new(self)
+onready var targeter = Targeter.new(self)
 var actButtons = {
 	"Cast": null,
 	"Slash": null,
@@ -420,17 +483,16 @@ func walk(pathPanels):
 	emit_signal("moved")
 func attack(move):
 	if attackPoints > 0:
-		var targeting = null
 		if 'targeting' in sword:
-			targeting = sword.targeting
-		if targeting and !targeting.target:
-			var pos = get_global_transform().origin
-			if dash.dest_panel:
-				pos = dash.dest_panel.get_global_transform().origin
-			targeting.activate(self, pos)
-			yield(targeting, "target_selected")
-			if !(attackPoints > 0):
-				return
+			var targeting = sword.targeting
+			if targeting and !targeting.target:
+				var pos = get_global_transform().origin
+				if dash.dest_panel:
+					pos = dash.dest_panel.get_global_transform().origin
+				targeter.activate(targeting, pos)
+				yield(targeter, "target_selected")
+				if !(attackPoints > 0):
+					return
 			
 		attackPoints -= 1
 		updateButtons()

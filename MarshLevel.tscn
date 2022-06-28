@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://GrassTile.tscn" type="PackedScene" id=1]
 [ext_resource path="res://SunsetSoldier.tscn" type="PackedScene" id=2]
@@ -20,6 +20,7 @@
 [ext_resource path="res://ScaldTome.tscn" type="PackedScene" id=18]
 [ext_resource path="res://SlipstreamTome.tscn" type="PackedScene" id=19]
 [ext_resource path="res://VolcanicSword.tscn" type="PackedScene" id=20]
+[ext_resource path="res://DiamondSword.tscn" type="PackedScene" id=21]
 [ext_resource path="res://HailstormTome.tscn" type="PackedScene" id=22]
 [ext_resource path="res://SunsetHammer.tscn" type="PackedScene" id=23]
 [ext_resource path="res://SunsetSword.tscn" type="PackedScene" id=25]
@@ -151,15 +152,17 @@ transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 10, 0, 
 [node name="SunsetSoldier2" parent="." instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 6 )
 
-[node name="ThundersnowSword" parent="SunsetSoldier2/Sprite/WeaponEquip" index="0" instance=ExtResource( 17 )]
+[node name="DiamondSword" parent="SunsetSoldier2/Sprite/WeaponEquip" index="0" instance=ExtResource( 21 )]
 
-[node name="ThundersnowHammer" parent="SunsetSoldier2/Sprite/WeaponEquip" index="1" instance=ExtResource( 15 )]
+[node name="ThundersnowSword" parent="SunsetSoldier2/Sprite/WeaponEquip" index="1" instance=ExtResource( 17 )]
 
-[node name="CraterTome" parent="SunsetSoldier2/Sprite/WeaponEquip" index="2" instance=ExtResource( 6 )]
+[node name="ThundersnowHammer" parent="SunsetSoldier2/Sprite/WeaponEquip" index="2" instance=ExtResource( 15 )]
 
-[node name="HailstormTome" parent="SunsetSoldier2/Sprite/WeaponEquip" index="3" instance=ExtResource( 22 )]
+[node name="CraterTome" parent="SunsetSoldier2/Sprite/WeaponEquip" index="3" instance=ExtResource( 6 )]
 
-[node name="HailTome" parent="SunsetSoldier2/Sprite/WeaponEquip" index="4" instance=ExtResource( 10 )]
+[node name="HailstormTome" parent="SunsetSoldier2/Sprite/WeaponEquip" index="4" instance=ExtResource( 22 )]
+
+[node name="HailTome" parent="SunsetSoldier2/Sprite/WeaponEquip" index="5" instance=ExtResource( 10 )]
 
 [node name="SunsetSoldier" parent="." instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 4 )
