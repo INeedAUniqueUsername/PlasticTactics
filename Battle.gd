@@ -84,6 +84,7 @@ func play_player_turn():
 		c.start_turn()
 	if selectedChar:
 		selectedChar.selected()
+const MultiSignal = preload("res://MultiSignal.gd").MultiSignal
 func play_enemy_turn():
 	if enemyMove:
 		return
@@ -115,17 +116,14 @@ func play_enemy_turn():
 		c.start_turn()
 	for c in get_enemy_chars():
 		c.play_move()
-		yield(c, "moved")
+		yield(MultiSignal.new(c, ["moved", "tree_exited"]), "done")
 	for c in get_enemy_chars():
 		c.end_turn()
 	enemyMove=false
 	for c in get_misc_actors():
 		if c.has_method("end_turn"):
 			c.end_turn()
-	
 	play_player_turn()
-
-	
 var selectedChar
 var freeMove = false
 func select_char(subject):

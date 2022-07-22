@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://IndustrialSoldier.png" type="Texture" id=1]
 [ext_resource path="res://SunsetSoldier.png" type="Texture" id=2]
@@ -17,6 +17,8 @@
 [ext_resource path="res://MechanicalSword.png" type="Texture" id=15]
 [ext_resource path="res://IndustrialSword.png" type="Texture" id=16]
 [ext_resource path="res://ThundersnowSoldier.png" type="Texture" id=17]
+[ext_resource path="res://MarshSword.png" type="Texture" id=18]
+[ext_resource path="res://MarshSoldier.png" type="Texture" id=19]
 
 [node name="Node2D" type="Control"]
 anchor_right = 1.0
@@ -82,7 +84,7 @@ hframes = 2
 [node name="Marsh" type="Sprite" parent="Soldiers"]
 position = Vector2( -384, 64 )
 scale = Vector2( 8, 8 )
-texture = ExtResource( 17 )
+texture = ExtResource( 19 )
 hframes = 2
 
 [node name="Volcanic" type="Sprite" parent="Soldiers"]
@@ -123,10 +125,10 @@ hframes = 3
 frame = 1
 
 [node name="Marsh" type="Sprite" parent="Weapons"]
-visible = false
-position = Vector2( -384, 0 )
-scale = Vector2( 4, 4 )
-texture = ExtResource( 5 )
+position = Vector2( -384, 168 )
+scale = Vector2( 6, 6 )
+texture = ExtResource( 18 )
+hframes = 2
 
 [node name="Volcanic" type="Sprite" parent="Weapons"]
 position = Vector2( -128, 168 )
@@ -142,10 +144,12 @@ hframes = 2
 
 [node name="Mechanical" type="Sprite" parent="Weapons"]
 position = Vector2( 384, 168 )
-scale = Vector2( 4, 4 )
+scale = Vector2( 6, 6 )
 texture = ExtResource( 15 )
+hframes = 2
 
 [node name="Industrial" type="Sprite" parent="Weapons"]
 position = Vector2( 640, 168 )
-scale = Vector2( 4, 4 )
+scale = Vector2( 6, 6 )
 texture = ExtResource( 16 )
+hframes = 2

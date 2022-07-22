@@ -419,7 +419,7 @@ tracks/1/keys = {
 }
 
 [sub_resource type="BoxShape" id=7]
-extents = Vector3( 0.35, 1, 0.05 )
+extents = Vector3( 0.35, 1.25, 0.05 )
 
 [node name="ThundersnowSword" type="Spatial" groups=["Actor", "Sword"]]
 script = ExtResource( 3 )
@@ -437,14 +437,16 @@ anims/Unshield = SubResource( 6 )
 [node name="Pivot" type="Spatial" parent="."]
 
 [node name="Sprite" type="Sprite3D" parent="Pivot"]
-offset = Vector2( 9, 9 )
+centered = false
+offset = Vector2( -15, -15 )
 pixel_size = 0.0625
 alpha_cut = 1
 texture = ExtResource( 1 )
 hframes = 2
 
 [node name="Glow" type="Sprite3D" parent="Pivot/Sprite"]
-offset = Vector2( 9, 9 )
+centered = false
+offset = Vector2( -15, -15 )
 opacity = 0.0
 pixel_size = 0.0625
 alpha_cut = 2
@@ -452,7 +454,7 @@ texture = ExtResource( 1 )
 hframes = 2
 
 [node name="Area" type="Area" parent="Pivot/Sprite" groups=["Damage"]]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1, 1.1, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 1.5, 0 )
 
 [node name="Poly" type="CollisionShape" parent="Pivot/Sprite/Area"]
 transform = Transform( 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 0, 0, 1, 0, 0, 0 )

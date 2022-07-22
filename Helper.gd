@@ -55,3 +55,9 @@ func flatten_3d(v : Vector3) -> Vector2:
 	return Vector2(v.x, v.z)
 func extrude_2d(v: Vector2, y: float) -> Vector3:
 	return Vector3(v.x, y, v.y)
+
+const MultiSignal = preload("res://MultiSignal.gd").MultiSignal
+func multi_yield(signals):
+	var m = MultiSignal.new(signals)
+	yield(m, "done")
+	

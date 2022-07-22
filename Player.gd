@@ -140,7 +140,8 @@ class MoveState:
 	func on_actor_turn_ended():
 		if !actor.walking:
 			clear_panels()
-			place_panels_quick()
+			if actor.selected:
+				place_panels_quick()
 	const PANEL = preload("res://Panel.tscn")
 	func clear_panels():
 		panelsReset = true
@@ -578,6 +579,8 @@ func _on_area_entered(area):
 		return
 	var actor = get_actor(area)
 	if actor == sword:
+		return
+	if 'active' in actor and !actor.active:
 		return
 	hp = max(0, hp - actor.damage)
 	emit_signal("damaged")

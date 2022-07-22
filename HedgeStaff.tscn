@@ -84,4 +84,3 @@ transform = Transform( 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 0, 0, 1, 0
 pixel_size = 0.0313
 alpha_cut = 2
 texture = ExtResource( 1 )
-frame = 2

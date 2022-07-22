@@ -13,7 +13,7 @@ func _ready():
 	$Pivot/Sprite/Area.connect("area_entered", self, "_on_area_entered")
 var shielding = false
 func do(action, attacker):
-	var boostable = attacker.inTurn
+	var boostable = 'inTurn' in attacker and attacker.inTurn
 	boostGlow.visible = boostable
 	
 	if action in ["Shield", "Unshield"]:
