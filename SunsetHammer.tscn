@@ -1,8 +1,9 @@
 [gd_scene load_steps=11 format=2]
 
-[ext_resource path="res://SunsetHammer.png" type="Texture" id=1]
+[ext_resource path="res://Sprites/Weapons/SunsetHammer.png" type="Texture" id=1]
 [ext_resource path="res://SunsetHammer.gd" type="Script" id=2]
 [ext_resource path="res://CommonMelee.gd" type="Script" id=3]
+
 
 [sub_resource type="Animation" id=1]
 length = 0.001

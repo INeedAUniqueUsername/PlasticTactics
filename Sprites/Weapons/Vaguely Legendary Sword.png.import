@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/ThundersnowHammer.png-7ef066e94f5a74b522ac1739d7c7de3a.stex"
+path="res://.import/Vaguely Legendary Sword.png-7077c146d55d485f44f9b31ff3d64f94.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://ThundersnowHammer.png"
-dest_files=[ "res://.import/ThundersnowHammer.png-7ef066e94f5a74b522ac1739d7c7de3a.stex" ]
+source_file="res://Sprites/Weapons/Vaguely Legendary Sword.png"
+dest_files=[ "res://.import/Vaguely Legendary Sword.png-7077c146d55d485f44f9b31ff3d64f94.stex" ]
 
 [params]
 

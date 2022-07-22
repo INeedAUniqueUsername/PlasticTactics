@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/VolcanicSword.png-1fcb9e240a568bf3b72e183d93f0eff2.stex"
+path="res://.import/Sunset Sword.png-2f6ebabdb6f7d4e1a1663567ec8fbee3.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://VolcanicSword.png"
-dest_files=[ "res://.import/VolcanicSword.png-1fcb9e240a568bf3b72e183d93f0eff2.stex" ]
+source_file="res://Sprites/Weapons/Sunset Sword.png"
+dest_files=[ "res://.import/Sunset Sword.png-2f6ebabdb6f7d4e1a1663567ec8fbee3.stex" ]
 
 [params]
 

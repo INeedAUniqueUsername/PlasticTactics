@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/ThundersnowSword.png-340be6505808fcd7f2f280652e28ff0c.stex"
+path="res://.import/MarshSword.png-fb94372f337fc02973889ad83ea99d1e.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://ThundersnowSword.png"
-dest_files=[ "res://.import/ThundersnowSword.png-340be6505808fcd7f2f280652e28ff0c.stex" ]
+source_file="res://Sprites/Weapons/MarshSword.png"
+dest_files=[ "res://.import/MarshSword.png-fb94372f337fc02973889ad83ea99d1e.stex" ]
 
 [params]
 

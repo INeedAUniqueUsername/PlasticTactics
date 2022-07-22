@@ -1,6 +1,6 @@
 [gd_scene load_steps=10 format=2]
 
-[ext_resource path="res://MechanicalSword.png" type="Texture" id=1]
+[ext_resource path="res://Sprites/Weapons/MechanicalSword.png" type="Texture" id=1]
 [ext_resource path="res://CommonMelee.gd" type="Script" id=3]
 
 [sub_resource type="Animation" id=2]

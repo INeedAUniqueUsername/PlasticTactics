@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/MechanicalSword.png-fe107e762ca07e461f26673889e31707.stex"
+path="res://.import/MechanicalSword.png-920e4136edb31deecae2ec6a5e0150b4.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://MechanicalSword.png"
-dest_files=[ "res://.import/MechanicalSword.png-fe107e762ca07e461f26673889e31707.stex" ]
+source_file="res://Sprites/Weapons/MechanicalSword.png"
+dest_files=[ "res://.import/MechanicalSword.png-920e4136edb31deecae2ec6a5e0150b4.stex" ]
 
 [params]
 

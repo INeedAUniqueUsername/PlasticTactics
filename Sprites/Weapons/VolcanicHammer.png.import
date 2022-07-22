@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/SunsetSwordBronze.png-6aa1522addb26b802eeb0ff3c3afec43.stex"
+path="res://.import/VolcanicHammer.png-57429fe392fb09c75c31121100671fa0.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://SunsetSwordBronze.png"
-dest_files=[ "res://.import/SunsetSwordBronze.png-6aa1522addb26b802eeb0ff3c3afec43.stex" ]
+source_file="res://Sprites/Weapons/VolcanicHammer.png"
+dest_files=[ "res://.import/VolcanicHammer.png-57429fe392fb09c75c31121100671fa0.stex" ]
 
 [params]
 

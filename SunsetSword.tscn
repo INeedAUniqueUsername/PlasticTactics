@@ -1,6 +1,6 @@
 [gd_scene load_steps=11 format=2]
 
-[ext_resource path="res://SunsetSword.png" type="Texture" id=1]
+[ext_resource path="res://Sprites/Weapons/SunsetSword.png" type="Texture" id=1]
 [ext_resource path="res://SunsetSword.gd" type="Script" id=2]
 [ext_resource path="res://CommonMelee.gd" type="Script" id=3]
 

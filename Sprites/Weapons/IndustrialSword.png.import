@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/VolcanicHammer.png-0ff4ee776e4256a01941ab80541511c2.stex"
+path="res://.import/IndustrialSword.png-f2252487c2f00599c4398f64bf7a5b26.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://VolcanicHammer.png"
-dest_files=[ "res://.import/VolcanicHammer.png-0ff4ee776e4256a01941ab80541511c2.stex" ]
+source_file="res://Sprites/Weapons/IndustrialSword.png"
+dest_files=[ "res://.import/IndustrialSword.png-f2252487c2f00599c4398f64bf7a5b26.stex" ]
 
 [params]
 

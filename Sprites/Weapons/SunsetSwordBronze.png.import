@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Vaguely Legendary Sword.png-73ea818b249222a0fd67238ed71dd16f.stex"
+path="res://.import/SunsetSwordBronze.png-0b00e22c575d737ec8027b0abd1435ee.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Vaguely Legendary Sword.png"
-dest_files=[ "res://.import/Vaguely Legendary Sword.png-73ea818b249222a0fd67238ed71dd16f.stex" ]
+source_file="res://Sprites/Weapons/SunsetSwordBronze.png"
+dest_files=[ "res://.import/SunsetSwordBronze.png-0b00e22c575d737ec8027b0abd1435ee.stex" ]
 
 [params]
 
